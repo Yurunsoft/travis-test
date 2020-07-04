@@ -2,6 +2,7 @@
 namespace Imi\Test\Component\Tests\Util;
 
 use Imi\Test\BaseTest;
+use Swoole\Coroutine;
 use Swoole\Timer;
 
 /**
@@ -12,6 +13,7 @@ class ArgsTest extends BaseTest
     public function testArgs1()
     {
         $timer = Timer::after(3000, function(){
+            var_dump(Coroutine::stats());
             throw new \RuntimeException('GG');
         });
         $this->assertEquals(<<<ASSERT
@@ -29,6 +31,7 @@ ASSERT
     public function testArgs2()
     {
         $timer = Timer::after(3000, function(){
+            var_dump(Coroutine::stats());
             throw new \RuntimeException('GG');
         });
         $this->assertEquals(<<<ASSERT
@@ -52,6 +55,7 @@ ASSERT
     public function testArgs3()
     {
         $timer = Timer::after(3000, function(){
+            var_dump(Coroutine::stats());
             throw new \RuntimeException('GG');
         });
         $this->assertEquals(<<<ASSERT
@@ -69,6 +73,7 @@ ASSERT
     public function testArgs4()
     {
         $timer = Timer::after(3000, function(){
+            var_dump(Coroutine::stats());
             throw new \RuntimeException('GG');
         });
         $this->assertEquals(<<<ASSERT
@@ -92,6 +97,7 @@ ASSERT
     public function testArgs5()
     {
         $timer = Timer::after(3000, function(){
+            var_dump(Coroutine::stats());
             throw new \RuntimeException('GG');
         });
         $this->assertEquals(<<<ASSERT
