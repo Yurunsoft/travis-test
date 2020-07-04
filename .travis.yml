@@ -5,37 +5,37 @@ dist: bionic
 matrix:
   include:
   - php: '7.1'
-    env: SWOOLE_VERSION="v4.5.2"
+    env: SWOOLE_VERSION="fix-issue-3444"
   - php: '7.2'
-    env: SWOOLE_VERSION="v4.5.2"
+    env: SWOOLE_VERSION="fix-issue-3444"
   - php: '7.3'
-    env: SWOOLE_VERSION="v4.5.2"
+    env: SWOOLE_VERSION="fix-issue-3444"
   - php: '7.4'
-    env: SWOOLE_VERSION="v4.5.2"
-  - php: '7.1'
-    env: SWOOLE_VERSION="v4.4.19"
-  - php: '7.2'
-    env: SWOOLE_VERSION="v4.4.19"
-  - php: '7.3'
-    env: SWOOLE_VERSION="v4.4.19"
-  - php: '7.4'
-    env: SWOOLE_VERSION="v4.4.19"
-  - php: '7.1'
-    env: SWOOLE_VERSION="v4.3.6"
-  - php: '7.2'
-    env: SWOOLE_VERSION="v4.3.6"
-  - php: '7.3'
-    env: SWOOLE_VERSION="v4.3.6"
-  - php: '7.1'
-    env: SWOOLE_VERSION="master"
-  - php: '7.2'
-    env: SWOOLE_VERSION="master"
-  - php: '7.3'
-    env: SWOOLE_VERSION="master"
-  - php: '7.4'
-    env: SWOOLE_VERSION="master"
-  - php: 'nightly'
-    env: SWOOLE_VERSION="master" DISABLE_XDEBUG=false INSTALL_REDIS_EXT=true
+    env: SWOOLE_VERSION="fix-issue-3444"
+  # - php: '7.1'
+  #   env: SWOOLE_VERSION="v4.4.19"
+  # - php: '7.2'
+  #   env: SWOOLE_VERSION="v4.4.19"
+  # - php: '7.3'
+  #   env: SWOOLE_VERSION="v4.4.19"
+  # - php: '7.4'
+  #   env: SWOOLE_VERSION="v4.4.19"
+  # - php: '7.1'
+  #   env: SWOOLE_VERSION="v4.3.6"
+  # - php: '7.2'
+  #   env: SWOOLE_VERSION="v4.3.6"
+  # - php: '7.3'
+  #   env: SWOOLE_VERSION="v4.3.6"
+  # - php: '7.1'
+  #   env: SWOOLE_VERSION="master"
+  # - php: '7.2'
+  #   env: SWOOLE_VERSION="master"
+  # - php: '7.3'
+  #   env: SWOOLE_VERSION="master"
+  # - php: '7.4'
+  #   env: SWOOLE_VERSION="master"
+  # - php: 'nightly'
+  #   env: SWOOLE_VERSION="master" DISABLE_XDEBUG=false INSTALL_REDIS_EXT=true
   allow_failures:
   - env: SWOOLE_VERSION="master"
   - php: nightly
