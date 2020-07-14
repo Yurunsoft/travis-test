@@ -36,7 +36,7 @@ matrix:
   # - php: '7.4'
   #   env: SWOOLE_VERSION="master"
   - php: 'nightly'
-    env: SWOOLE_VERSION="master" DISABLE_XDEBUG=false INSTALL_REDIS_EXT=true
+    env: SWOOLE_VERSION="master" DISABLE_XDEBUG=false INSTALL_REDIS_EXT=true DOWNLOAD_PHPUNIT=9
   allow_failures:
   - env: SWOOLE_VERSION="master"
   - php: nightly
@@ -70,8 +70,9 @@ before_script:
   - if [[ $DISABLE_XDEBUG != false ]]; then
       phpenv config-rm xdebug.ini;
     fi
-  # - curl -sSfL -o ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-7.5.phar && php ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit --version
-  # - export TEST_PHPUNIT_PATH=~/.phpenv/versions/$(phpenv version-name)/bin/phpunit
+  - if [[ $DOWNLOAD_PHPUNIT != "" ]]; then
+      curl -sSfL -o ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-$DOWNLOAD_PHPUNIT.phar && php ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit --version && export TEST_PHPUNIT_PATH=~/.phpenv/versions/$(phpenv version-name)/bin/phpunit
+    fi
   - composer -V
   # - php ./.travis/composer-no-phpunit.php
   - composer update
