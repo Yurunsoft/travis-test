@@ -1,20 +1,19 @@
 sudo: required
 language: php
+sudo: required
 dist: bionic
 
 matrix:
   include:
-  # - php: '7.1'
-  #   env: SWOOLE_VERSION="fix-issue-3444"
-  # - php: '7.2'
-  #   env: SWOOLE_VERSION="fix-issue-3444"
-  # - php: '7.3'
-  #   env: SWOOLE_VERSION="fix-issue-3444"
+  - php: '7.1'
+    env: SWOOLE_VERSION="v4.5.2"
+  - php: '7.2'
+    env: SWOOLE_VERSION="v4.5.2"
+  - php: '7.3'
+    env: SWOOLE_VERSION="v4.5.2"
   - php: '7.4'
-    env: SWOOLE_VERSION="ed6b019ce57a5cfa3a48eab9e64c2b6fa9946f05"
-  - php: '7.4'
-    env: SWOOLE_VERSION="10a2e4478cd29d149f74600755bc88ac4e1e82be"
-  # - php: '7.1'
+    env: SWOOLE_VERSION="v4.5.2"
+  - php: '7.1'
   #   env: SWOOLE_VERSION="v4.4.19"
   # - php: '7.2'
   #   env: SWOOLE_VERSION="v4.4.19"
@@ -36,8 +35,8 @@ matrix:
   #   env: SWOOLE_VERSION="master"
   # - php: '7.4'
   #   env: SWOOLE_VERSION="master"
-  # - php: 'nightly'
-  #   env: SWOOLE_VERSION="master" DISABLE_XDEBUG=false INSTALL_REDIS_EXT=true
+  - php: 'nightly'
+    env: SWOOLE_VERSION="master" DISABLE_XDEBUG=false INSTALL_REDIS_EXT=true
   allow_failures:
   - env: SWOOLE_VERSION="master"
   - php: nightly
@@ -52,37 +51,38 @@ addons:
     - unzip
 
 install:
-  # - if [[ $INSTALL_REDIS_EXT == true ]]; then
-  #     wget https://github.com/phpredis/phpredis/archive/develop.zip;
-  #     unzip develop.zip;
-  #     cd phpredis-develop;
-  #     phpize;
-  #     ./configure;
-  #     make && make install;
-  #     cd ../;
-  #   fi
-  # - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - dd if=/dev/zero of=swap bs=1024 count=2048000 && chmod 600 swap && sudo mkswap swap && sudo swapon swap
+  - if [[ $INSTALL_REDIS_EXT == true ]]; then
+      wget https://github.com/phpredis/phpredis/archive/develop.zip;
+      unzip develop.zip;
+      cd phpredis-develop;
+      phpize;
+      ./configure;
+      make && make install;
+      cd ../;
+    fi
+  - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini && php --ri redis
   - wget https://github.com/swoole/swoole-src/archive/$SWOOLE_VERSION.tar.gz -O swoole.tar.gz && mkdir -p swoole && tar -xf swoole.tar.gz -C swoole --strip-components=1 && rm swoole.tar.gz && cd swoole && phpize && ./configure --enable-openssl --enable-http2 --enable-mysqlnd && make -j && make install && cd -
   - echo "extension = swoole.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-# before_script:
-  # - if [[ $DISABLE_XDEBUG != false ]]; then
-  #     phpenv config-rm xdebug.ini;
-  #   fi
-  # - curl -sSfL -o ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-7.phar
-  # - export TEST_PHPUNIT_PATH=~/.phpenv/versions/$(phpenv version-name)/bin/phpunit
-  # - php ./.travis/composer-no-phpunit.php
-  # - composer update
-  # - cd ./tests && composer update && cd ../
-  # - php --ri swoole
-  # - sh tests/db/install-db.sh
-
-script:
-  # - ./tests/run
   - php --ri swoole
 
-# after_failure:
-  # - php ./.travis/output-server-log.php
+before_script:
+  - if [[ $DISABLE_XDEBUG != false ]]; then
+      phpenv config-rm xdebug.ini;
+    fi
+  # - curl -sSfL -o ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-7.5.phar && php ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit --version
+  # - export TEST_PHPUNIT_PATH=~/.phpenv/versions/$(phpenv version-name)/bin/phpunit
+  - composer -V
+  # - php ./.travis/composer-no-phpunit.php
+  - composer update
+  - cd ./tests && composer update && cd ../
+  - sh tests/db/install-db.sh
+
+script:
+  - ./tests/run
+
+after_failure:
+  - php ./.travis/output-server-log.php
 
 env:
   global:

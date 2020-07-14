@@ -612,7 +612,7 @@ abstract class Imi
         {
             $cmd = 'kill ' . $pid['masterPID'];
             $return['cmd'] = $cmd;
-            $result = `exec {$cmd}`;
+            $result = `{$cmd}`;
             $return['result'] = $result;
             return $return;
         }
@@ -640,7 +640,7 @@ abstract class Imi
         {
             $cmd = 'kill -USR1 ' . $pid['masterPID'];
             $return['cmd'] = $cmd;
-            $result = `exec {$cmd}`;
+            $result = `{$cmd}`;
             $return['result'] = $result;
             return $return;
         }
@@ -677,6 +677,126 @@ abstract class Imi
             unlink($fileName);
         }
         return $result;
+    }
+
+    /**
+     * 检测是否为 WSL 环境
+     *
+     * @return boolean
+     */
+    public static function isWSL(): bool
+    {
+        return is_file('/mnt/c/Windows/explorer.exe');
+    }
+
+    /**
+     * 获取 Linux 版本号
+     *
+     * @return string
+     */
+    public static function getLinuxVersion(): string
+    {
+        if(preg_match_all('/^((NAME="?(?<name>.+)"?)|VERSION="?(?<version>.+)"?)/im', `cat /etc/*-release`, $matches) <= 0)
+        {
+            return '';
+        }
+        if(!isset($matches['name']))
+        {
+            return '';
+        }
+        foreach($matches['name'] as $name)
+        {
+            if('' !== $name)
+            {
+                break;
+            }
+        }
+        $result = trim($name, '"');
+        if(isset($matches['version']))
+        {
+            foreach($matches['version'] as $version)
+            {
+                if('' !== $version)
+                {
+                    break;
+                }
+            }
+            if('' !== $version)
+            {
+                $result .= ' ' . trim($version, '"');
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * 获取苹果系统版本
+     *
+     * @return string
+     */
+    public static function getDarwinVersion(): string
+    {
+        $xml = simplexml_load_file('/System/Library/CoreServices/SystemVersion.plist');
+        if(!$xml)
+        {
+            return '';
+        }
+        $i = 0;
+        foreach($xml->dict->key as $item)
+        {
+            switch($item->__toString())
+            {
+                case 'ProductName':
+                    $name = $xml->dict->string[$i]->__toString();
+                    break;
+                case 'ProductUserVisibleVersion':
+                    $version = $xml->dict->string[$i]->__toString();
+                    break;
+            }
+            ++$i;
+        }
+        if(!isset($name))
+        {
+            return '';
+        }
+        $result = $name;
+        if(isset($version))
+        {
+            $result .= ' ' . $version;
+        }
+        return $result;
+    }
+
+    /**
+     * 获取 Cygwin 版本
+     *
+     * @return string
+     */
+    public static function getCygwinVersion(): string
+    {
+        if(preg_match('/^cygwin\s+(\S+)\s+OK$/', exec('cygcheck -c cygwin'), $matches) > 0)
+        {
+            return $matches[1];
+        }
+        else
+        {
+            return '';
+        }
+    }
+
+    /**
+     * 判断是否为 Docker 环境
+     *
+     * @return boolean
+     */
+    public static function isDockerEnvironment(): bool
+    {
+        $fileName = '/proc/1/cgroup';
+        if(is_file($fileName))
+        {
+            return false !== strpos(file_get_contents($fileName), ':/docker/');
+        }
+        return false;
     }
 
 }

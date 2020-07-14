@@ -1,1 +1,0 @@
-{"event_num":2,"signal_listener_num":0,"aio_task_num":0,"aio_worker_num":12,"c_stack_size":2097152,"coroutine_num":1,"coroutine_peak_num":2,"coroutine_last_cid":2}

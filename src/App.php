@@ -119,7 +119,7 @@ abstract class App
         if(!extension_loaded('swoole'))
         {
             echo 'No Swoole extension installed or enabled', PHP_EOL;
-            return;
+            exit;
         }
         // 短名称检查
         $useShortname = ini_get_all('swoole')['swoole.use_shortname']['local_value'];
@@ -127,7 +127,7 @@ abstract class App
         if (in_array($useShortname, ['', 'off', 'false'], true))
         {
             echo 'Please enable swoole short name before using imi!', PHP_EOL, 'You can set swoole.use_shortname = on into your php.ini.', PHP_EOL;
-            return;
+            exit;
         }
     }
 
@@ -158,7 +158,7 @@ abstract class App
         if(!is_writable($runtimePath = Imi::getRuntimePath()))
         {
             echo 'Runtime path "', $runtimePath, '" is not writable', PHP_EOL;
-            return;
+            exit;
         }
         // 框架运行时缓存支持
         if($isServerStart)
@@ -522,7 +522,28 @@ STR;
     public static function outStartupInfo()
     {
         echo '[System]', PHP_EOL;
-        echo 'System: ', defined('PHP_OS_FAMILY') ? PHP_OS_FAMILY : PHP_OS, PHP_EOL;
+        $system = (defined('PHP_OS_FAMILY') && 'Unknown' !== PHP_OS_FAMILY) ? PHP_OS_FAMILY : PHP_OS;
+        switch($system)
+        {
+            case 'Linux':
+                $system .= ' - ' . Imi::getLinuxVersion();
+                break;
+            case 'Darwin':
+                $system .= ' - ' . Imi::getDarwinVersion();
+                break;
+            case 'CYGWIN':
+                $system .= ' - ' . Imi::getCygwinVersion();
+                break;
+        }
+        echo 'System: ', $system, PHP_EOL;
+        if(Imi::isDockerEnvironment())
+        {
+            echo 'Virtual machine: Docker', PHP_EOL;
+        }
+        else if(Imi::isWSL())
+        {
+            echo 'Virtual machine: WSL', PHP_EOL;
+        }
         echo 'CPU: ', swoole_cpu_num(), ' Cores', PHP_EOL;
         echo 'Disk: Free ', round(@disk_free_space('.') / (1024*1024*1024), 3), ' GB / Total ', round(@disk_total_space('.') / (1024*1024*1024), 3), ' GB', PHP_EOL;
 
