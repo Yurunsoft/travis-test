@@ -1,17 +1,20 @@
 sudo: required
-language: php
 dist: bionic
 os: linux
 
 jobs:
   include:
   - php: '7.1'
+    language: php
     env: SWOOLE_VERSION="v4.5.2"
   - php: '7.2'
+    language: php
     env: SWOOLE_VERSION="v4.5.2"
   - php: '7.3'
+    language: php
     env: SWOOLE_VERSION="v4.5.2"
   - php: '7.4'
+    language: php
     env: SWOOLE_VERSION="v4.5.2"
   - os: osx
     osx_image: xcode12
