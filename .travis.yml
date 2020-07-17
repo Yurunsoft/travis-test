@@ -19,7 +19,7 @@ jobs:
   - os: osx
     language: generic
     osx_image: xcode12
-    env: PHP_VERSION=7.4 SWOOLE_VERSION="v4.5.2" INSTALL_REDIS_EXT=true
+    env: PHP_VERSION=7.4 SWOOLE_VERSION="v4.5.2" INSTALL_REDIS_EXT=true DISABLE_XDEBUG=false
   # - php: '7.1'
   #   env: SWOOLE_VERSION="v4.4.19"
   # - php: '7.2'
