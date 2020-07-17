@@ -73,7 +73,7 @@ install:
     fi
   - if [[ $TRAVIS_OS_NAME == linux ]]; then
       PHP_INI_FILE="~/.phpenv/versions/$(phpenv version-name)/etc/php.ini";
-      dd if=/dev/zero of=swap bs=1024 count=2048000 && chmod 600 swap && sudo mkswap swap && sudo swapon swap
+      dd if=/dev/zero of=swap bs=1024 count=2048000 && chmod 600 swap && sudo mkswap swap && sudo swapon swap;
     fi
   - if [[ $INSTALL_REDIS_EXT == true ]]; then
       wget https://github.com/phpredis/phpredis/archive/develop.zip;
