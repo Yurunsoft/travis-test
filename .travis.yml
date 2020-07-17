@@ -1,15 +1,9 @@
 sudo: required
 language: php
-sudo: required
 dist: bionic
+os: linux
 
-os:
-- linux
-- osx
-
-osx_image: xcode12
-
-matrix:
+jobs:
   include:
   - php: '7.1'
     env: SWOOLE_VERSION="v4.5.2"
@@ -18,6 +12,9 @@ matrix:
   - php: '7.3'
     env: SWOOLE_VERSION="v4.5.2"
   - php: '7.4'
+    env: SWOOLE_VERSION="v4.5.2"
+  - os: osx
+    osx_image: xcode12
     env: SWOOLE_VERSION="v4.5.2"
   # - php: '7.1'
   #   env: SWOOLE_VERSION="v4.4.19"
@@ -56,7 +53,10 @@ addons:
     packages:
     - unzip
 
-# install:
+install:
+  - if [[ $TRAVIS_OS_NAME == osx ]]; then
+      brew install php@7.4;
+    fi
 #   - dd if=/dev/zero of=swap bs=1024 count=2048000 && chmod 600 swap && sudo mkswap swap && sudo swapon swap
 #   - if [[ $INSTALL_REDIS_EXT == true ]]; then
 #       wget https://github.com/phpredis/phpredis/archive/develop.zip;
