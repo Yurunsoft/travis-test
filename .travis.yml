@@ -67,7 +67,7 @@ install:
       macosSwooleMakeArg="--with-openssl-dir=$(brew --prefix openssl)";
       curl -o composer.phar https://getcomposer.org/composer-stable.phar && chmod +x composer.phar && sudo mv -f composer.phar /usr/local/bin/composer && composer -V;
     fi
-  - if [[ $TRAVIS_OS_NAME == osx ]]; then
+  - if [[ $TRAVIS_OS_NAME == linux ]]; then
       PHP_INI_FILE="~/.phpenv/versions/$(phpenv version-name)/etc/php.ini"
     fi
   - if [[ $INSTALL_REDIS_EXT == true ]]; then
