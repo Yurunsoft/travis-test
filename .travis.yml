@@ -65,7 +65,7 @@ install:
       brew install mysql;
       brew install php@$PHP_VERSION;
       macosSwooleMakeArg="--with-openssl-dir=$(brew --prefix openssl)";
-      curl -o composer.phar https://getcomposer.org/composer-stable.phar && chmod +x composer.phar && sudo mv -f composer.phar /usr/bin/composer && composer -V;
+      curl -o composer.phar https://getcomposer.org/composer-stable.phar && chmod +x composer.phar && sudo mv -f composer.phar /usr/local/bin/composer && composer -V;
     fi
   - if [[ $INSTALL_REDIS_EXT == true ]]; then
       wget https://github.com/phpredis/phpredis/archive/develop.zip;
