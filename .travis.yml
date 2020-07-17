@@ -20,6 +20,10 @@ jobs:
     language: generic
     osx_image: xcode12
     env: PHP_VERSION=7.4 SWOOLE_VERSION="v4.5.2" INSTALL_REDIS_EXT=true DISABLE_XDEBUG=false
+  - os: osx
+    language: generic
+    osx_image: xcode12
+    env: PHP_VERSION=7.4 SWOOLE_VERSION="v4.4.19" INSTALL_REDIS_EXT=true DISABLE_XDEBUG=false
   # - php: '7.1'
   #   env: SWOOLE_VERSION="v4.4.19"
   # - php: '7.2'
@@ -58,7 +62,6 @@ addons:
     - unzip
 
 install:
-  # - dd if=/dev/zero of=swap bs=1024 count=2048000 && chmod 600 swap && sudo mkswap swap && sudo swapon swap
   - if [[ $TRAVIS_OS_NAME == osx ]]; then
       brew install redis && brew services start redis;
       brew install mysql && brew services start mysql;
@@ -70,6 +73,7 @@ install:
     fi
   - if [[ $TRAVIS_OS_NAME == linux ]]; then
       PHP_INI_FILE="~/.phpenv/versions/$(phpenv version-name)/etc/php.ini";
+      dd if=/dev/zero of=swap bs=1024 count=2048000 && chmod 600 swap && sudo mkswap swap && sudo swapon swap
     fi
   - if [[ $INSTALL_REDIS_EXT == true ]]; then
       wget https://github.com/phpredis/phpredis/archive/develop.zip;
