@@ -60,9 +60,10 @@ addons:
 install:
   # - dd if=/dev/zero of=swap bs=1024 count=2048000 && chmod 600 swap && sudo mkswap swap && sudo swapon swap
   - if [[ $TRAVIS_OS_NAME == osx ]]; then
+      brew install redis;
+      brew install mysql;
       brew install php@$PHP_VERSION;
       export PATH="$(brew --prefix php)/bin:$PATH";
-      php --ini;
       PHP_INI_FILE="/usr/local/etc/php/$PHP_VERSION/php.ini";
       macosSwooleMakeArg="--with-openssl-dir=$(brew --prefix openssl)";
       curl -o composer.phar https://getcomposer.org/composer-stable.phar && chmod +x composer.phar && sudo mv -f composer.phar /usr/local/bin/composer && composer -V;
