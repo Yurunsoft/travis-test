@@ -42,6 +42,7 @@ class Atomic extends BaseLock
     protected function __lock(): bool
     {
         $result = AtomicManager::wait($this->atomicName, 0 === $this->waitTimeout ? -1 : ($this->waitTimeout / 1000));
+        var_dump($this->atomicName, 0 === $this->waitTimeout ? -1 : ($this->waitTimeout / 1000), $result);
         if($result)
         {
             $this->startTimeoutTimer();
