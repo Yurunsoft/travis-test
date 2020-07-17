@@ -59,12 +59,11 @@ addons:
 install:
   # - dd if=/dev/zero of=swap bs=1024 count=2048000 && chmod 600 swap && sudo mkswap swap && sudo swapon swap
   - if [[ $TRAVIS_OS_NAME == osx ]]; then
-      ls /usr/local/Cellar/openssl;
-      ls /usr/local/opt/openssl/;
+      brew --prefix openssl;
       brew install redis;
       brew install mysql;
       brew install php@$PHP_VERSION;
-      macosSwooleMakeArg="--with-openssl-dir=/usr/local/Cellar/openssl/1.1";
+      macosSwooleMakeArg="--with-openssl-dir=$(brew --prefix openssl)";
     fi
   - php -v && php -m;
 #   - if [[ $INSTALL_REDIS_EXT == true ]]; then
