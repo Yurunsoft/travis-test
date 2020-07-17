@@ -60,8 +60,8 @@ addons:
 install:
   # - dd if=/dev/zero of=swap bs=1024 count=2048000 && chmod 600 swap && sudo mkswap swap && sudo swapon swap
   - if [[ $TRAVIS_OS_NAME == osx ]]; then
-      brew install redis;
-      brew install mysql;
+      brew install redis && brew services start redis;
+      brew install mysql && brew services start mysql;
       brew install php@$PHP_VERSION;
       export PATH="$(brew --prefix php)/bin:$PATH";
       PHP_INI_FILE="/usr/local/etc/php/$PHP_VERSION/php.ini";
