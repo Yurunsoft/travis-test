@@ -62,6 +62,7 @@ install:
   - if [[ $TRAVIS_OS_NAME == osx ]]; then
       php --ini;
       PHP_INI_FILE="/usr/local/etc/php/$PHP_VERSION/php.ini";
+      touch $PHP_INI_FILE;
       echo "extension = swoole.so" >> $PHP_INI_FILE;
       php -m;
       brew install redis;
