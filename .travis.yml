@@ -17,6 +17,7 @@ jobs:
   #   language: php
   #   env: SWOOLE_VERSION="v4.5.2"
   - os: osx
+    language: generic
     osx_image: xcode12
     env: PHP_VERSION=7.4 SWOOLE_VERSION="v4.5.2" INSTALL_REDIS_EXT=true
   # - php: '7.1'
@@ -48,7 +49,7 @@ jobs:
   - php: nightly
 
 services:
-  - redis-server
+  - redis
   - mysql
 
 addons:
@@ -64,7 +65,7 @@ install:
       brew install mysql;
       brew install php@$PHP_VERSION;
       macosSwooleMakeArg="--with-openssl-dir=$(brew --prefix openssl)";
-      curl -o composer.phar https://getcomposer.org/composer-stable.phar && chmod +x composer.phar && mv -f composer.phar /usr/bin/composer && composer -V;
+      curl -o composer.phar https://getcomposer.org/composer-stable.phar && chmod +x composer.phar && sudo mv -f composer.phar /usr/bin/composer && composer -V;
     fi
   - if [[ $INSTALL_REDIS_EXT == true ]]; then
       wget https://github.com/phpredis/phpredis/archive/develop.zip;
