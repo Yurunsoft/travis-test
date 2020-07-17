@@ -63,7 +63,7 @@ install:
       brew install mysql;
       brew install openssl@1.1.1g;
       brew install php@$PHP_VERSION;
-      macosSwooleMakeArg="--with-openssl-dir=/usr/local/Cellar/openssl/1.1.1g"
+      macosSwooleMakeArg="--with-openssl-dir=/usr/local/Cellar/openssl/1.1.1g";
     fi
     php -v && php -m;
 #   - if [[ $INSTALL_REDIS_EXT == true ]]; then
