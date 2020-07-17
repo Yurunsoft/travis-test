@@ -105,7 +105,7 @@ before_script:
   # - sh tests/db/install-db.sh
 
 script:
-  - ./tests/run
+  - php test.php
 
 after_failure:
   - php ./.travis/output-server-log.php
