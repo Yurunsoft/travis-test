@@ -116,7 +116,7 @@ before_script:
   # - composer -V && composer update
   # - cd ./tests && composer update && cd ../
   # - sh tests/db/install-db.sh
-  - ./tests/start.sh ./tests/swoole_atomic
+  # - ./tests/start.sh ./tests/swoole_atomic
 
 script:
   - ./swoole/tests/start.sh ./tests/swoole_atomic
