@@ -69,10 +69,10 @@ addons:
   apt:
     packages:
     - unzip
-  homebrew:
-    packages:
-    - redis
-    - mysql
+  # homebrew:
+  #   packages:
+  #   - redis
+  #   - mysql
 
 install:
   - if [[ $TRAVIS_OS_NAME == osx ]]; then
@@ -86,16 +86,16 @@ install:
       PHP_INI_FILE="~/.phpenv/versions/$(phpenv version-name)/etc/php.ini";
       dd if=/dev/zero of=swap bs=1024 count=2048000 && chmod 600 swap && sudo mkswap swap && sudo swapon swap;
     fi
-  - if [[ $INSTALL_REDIS_EXT == true ]]; then
-      wget https://github.com/phpredis/phpredis/archive/develop.zip;
-      unzip develop.zip;
-      cd phpredis-develop;
-      phpize;
-      ./configure;
-      make -j && make install;
-      cd ../;
-      echo "extension = redis.so" >> $PHP_INI_FILE && php --ri redis;
-    fi
+  # - if [[ $INSTALL_REDIS_EXT == true ]]; then
+  #     wget https://github.com/phpredis/phpredis/archive/develop.zip;
+  #     unzip develop.zip;
+  #     cd phpredis-develop;
+  #     phpize;
+  #     ./configure;
+  #     make -j && make install;
+  #     cd ../;
+  #     echo "extension = redis.so" >> $PHP_INI_FILE && php --ri redis;
+  #   fi
   - if [[ $TEST_SWOOLE_VERSION ]]; then
       wget https://github.com/Yurunsoft/swoole-src/archive/$TEST_SWOOLE_VERSION.tar.gz -O swoole.tar.gz;
     else
@@ -108,20 +108,21 @@ install:
     fi
 
 before_script:
-  - brew services start redis;
-  - brew services start mysql;
+  # - brew services start redis;
+  # - brew services start mysql;
   - if [[ $DISABLE_XDEBUG != false ]]; then
       phpenv config-rm xdebug.ini;
     fi
-  - composer -V && composer update
-  - cd ./tests && composer update && cd ../
-  - sh tests/db/install-db.sh
+  # - composer -V && composer update
+  # - cd ./tests && composer update && cd ../
+  # - sh tests/db/install-db.sh
+  - ./tests/start.sh ./tests/swoole_atomic
 
 script:
-  - ./tests/run
+  - cd swoole && ./tests/run
 
-after_failure:
-  - php ./.travis/output-server-log.php
+# after_failure:
+#   - php ./.travis/output-server-log.php
 
 env:
   global:
