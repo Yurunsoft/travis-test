@@ -119,7 +119,7 @@ before_script:
   # - ./tests/start.sh ./tests/swoole_atomic
 
 script:
-  - ./swoole/tests/start.sh ./tests/swoole_atomic
+  - ./swoole/tests/start.sh ./swoole/tests/swoole_atomic
 
 # after_failure:
 #   - php ./.travis/output-server-log.php
