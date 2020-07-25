@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
+add_compile_options(-fPIC -O2)
+
 project(GreeterStandalone
   LANGUAGES CXX
 )
@@ -28,9 +30,11 @@ CPMAddPackage(
 
 # ---- Create standalone executable ----
 
+file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
 
-add_executable(GreeterStandalone ${sources})
+# add_executable(GreeterStandalone ${sources})
+add_library(GreeterStandalone SHARED ${sources})
 
 set_target_properties(GreeterStandalone PROPERTIES 
   CXX_STANDARD 17 
@@ -38,3 +42,4 @@ set_target_properties(GreeterStandalone PROPERTIES
 )
 
 target_link_libraries(GreeterStandalone Greeter cxxopts)
+

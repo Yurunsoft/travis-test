@@ -8,6 +8,8 @@ project(Greeter
   LANGUAGES CXX
 )
 
+set(VENDOR_DEPENDENCIES_DIR ${CMAKE_BINARY_DIR}/_deps)
+
 # ---- Include guards ----
 
 if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
@@ -24,6 +26,19 @@ CPMAddPackage(
   NAME PackageProject.cmake
   GITHUB_REPOSITORY TheLartians/PackageProject.cmake
   VERSION 1.3
+)
+
+CPMAddPackage(
+  NAME nlohmann_json
+  VERSION 3.8.0
+  URL https://github.com/nlohmann/json/releases/download/v3.8.0/include.zip
+  URL_HASH SHA256=8590fbcc2346a3eefc341935765dd57598022ada1081b425678f0da9a939a3c0
+)
+
+find_package(nlohmann_json QUIET)
+
+include_directories(
+  ${VENDOR_DEPENDENCIES_DIR}/nlohmann_json-src/include
 )
 
 # ---- Add source files ----
