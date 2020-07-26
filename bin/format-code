@@ -5,17 +5,21 @@ __DIR__=$(cd `dirname $0`; pwd)
 cd $__DIR__/../
 
 formatView(){
-    echo "$(cmake --build build/test --target format 2>&1)" | while read row
+    result="$(cmake --build build/test --target format 2>&1)"
+    retVal="$?"
+    echo "$result" | while read row
     do
         echo $row
     done
+    return $retVal
 }
 
 formatApply(){
     cmake --build build/test --target fix-format
 }
 
-formatView
+retVal=$(formatView)
+
 
 if [ $? != 0 ];then
     ./bin/pre-build-test

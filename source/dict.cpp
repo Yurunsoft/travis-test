@@ -1,4 +1,5 @@
-#include <dict.h>
+#include "dict.h"
+
 #include <json.h>
 #include <util.h>
 

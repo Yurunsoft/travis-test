@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-project(GreeterDocs)
+project(ChineseUtilDocs)
 
 # ---- Dependencies ----
 
 include(../cmake/CPM.cmake)
 
 CPMAddPackage(
-  NAME Greeter
+  NAME ChineseUtil
   SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..
 )
 
@@ -23,8 +23,8 @@ set(BUILD_DOCUMENTATION ON CACHE INTERNAL "")
 include(${StableCoder-cmake-scripts_SOURCE_DIR}/doxygen.cmake)
 
 # set Doxyfile variables
-set(DOXYGEN_PROJECT_NAME Greeter)
-set(DOXYGEN_PROJECT_VERSION ${Greeter_VERSION})
+set(DOXYGEN_PROJECT_NAME ChineseUtil)
+set(DOXYGEN_PROJECT_VERSION ${ChineseUtil_VERSION})
 set(DOXYGEN_PROJECT_ROOT "${CMAKE_CURRENT_LIST_DIR}/..")
 
 # see https://github.com/StableCoder/cmake-scripts#doxygen-doxygencmake for additional options
