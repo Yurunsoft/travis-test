@@ -71,6 +71,7 @@ namespace chinese_util {
         string* yunmu = nullptr;
         // 韵母数量
         short yunmu_count = 0;
+
         private:
         void ClearCharacters();
         void ClearPinyins();

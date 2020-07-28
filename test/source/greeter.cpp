@@ -1,8 +1,8 @@
-#include <iostream>
 #include <dict.h>
-#include <pinyin.h>
 #include <doctest/doctest.h>
+#include <pinyin.h>
 
+#include <iostream>
 #include <string>
 #include <vector>
 

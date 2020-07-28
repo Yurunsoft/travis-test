@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include <cstring>
+#include <string>
 #include <vector>
 
 using namespace std;
@@ -26,23 +26,20 @@ static inline vector<string> split_string(const string &str, const string &patte
     return resultVec;
 }
 
-static void split_character_utf8(const string & word, vector<string> & characters)
-{
+static void split_character_utf8(const string &word, vector<string> &characters) {
     size_t num = word.size();
     size_t i = 0;
     char temp;
     size_t size;
-    while(i < num)
-    {
+    while (i < num) {
         size = 1;
-        if(word[i] & 0x80)
-        {
+        if (word[i] & 0x80) {
             temp = word[i];
             temp <<= 1;
-            do{
+            do {
                 temp <<= 1;
                 ++size;
-            }while(temp & 0x80);
+            } while (temp & 0x80);
         }
         characters.push_back(word.substr(i, size));
         i += size;

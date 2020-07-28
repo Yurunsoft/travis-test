@@ -1,15 +1,16 @@
 #pragma once
 
+#include <dict.h>
+
 #include <string>
 #include <vector>
-#include <dict.h>
 
 using namespace std;
 
 namespace chinese_util {
 
     // 转换模式
-    enum ConvertMode{
+    enum ConvertMode {
         // 转换为全拼
         PINYIN = 1,
         // 转换为带声调读音的拼音
@@ -37,8 +38,8 @@ namespace chinese_util {
     // 拼音处理类
     class Pinyin {
         public:
-            // 把字符串转为拼音结果
-            static PinyinResult convert(Dict *dict, const string & text, ConvertMode mode, const string & word_split, bool split_not_pinyin_char = true);
+        // 把字符串转为拼音结果
+        static PinyinResult convert(Dict *dict, const string &text, ConvertMode mode, const string &word_split, bool split_not_pinyin_char = true);
     };
 
-}
+}  // namespace chinese_util

@@ -1,22 +1,21 @@
 #include "dict.h"
-#include "util.h"
 
 #include <json.h>
 
 #include <fstream>
 
+#include "util.h"
+
 using namespace chinese_util;
 
-Dict::~Dict(){
+Dict::~Dict() {
     ClearCharacters();
     ClearPinyins();
     ClearPinyinSplitInfos();
-    if(shengmu)
-    {
+    if (shengmu) {
         delete[] shengmu;
     }
-    if(yunmu)
-    {
+    if (yunmu) {
         delete[] yunmu;
     }
 }
@@ -62,22 +61,20 @@ void Dict::LoadPinyinData(string file_name) {
     int num;
     // 声母
     num = json_data["split"]["shengmu"].size();
-    if(shengmu)
-    {
+    if (shengmu) {
         delete[] shengmu;
     }
     shengmu = new string[num];
-    for(int i = 0; i < num; ++i) {
+    for (int i = 0; i < num; ++i) {
         shengmu[i] = json_data["split"]["shengmu"][i].get<string>();
     }
     // 韵母
     num = json_data["split"]["yunmu"].size();
-    if(yunmu)
-    {
+    if (yunmu) {
         delete[] yunmu;
     }
     yunmu = new string[num];
-    for(int i = 0; i < num; ++i) {
+    for (int i = 0; i < num; ++i) {
         yunmu[i] = json_data["split"]["yunmu"][i].get<string>();
     }
     // 拼音分词
@@ -106,22 +103,20 @@ void Dict::LoadPinyinData(string file_name) {
 }
 
 // 获取汉字信息
-const Character* Dict::GetCharacter(string string) { return characters[string]; }
+const Character *Dict::GetCharacter(string string) { return characters[string]; }
 
 // 获取拼音信息
-const PinyinInfo* Dict::GetPinyin(string string) { return pinyins[string]; }
+const PinyinInfo *Dict::GetPinyin(string string) { return pinyins[string]; }
 
 // 将带音调拼音转为无音调
-string Dict::ConverToNoSoundPinyin(const string pinyin){
+string Dict::ConverToNoSoundPinyin(const string pinyin) {
     string result = pinyin;
 
     vector<string> characters;
     split_character_utf8(pinyin, characters);
 
-    for(string tmp : characters)
-    {
-        if(pinyins[tmp])
-        {
+    for (string tmp : characters) {
+        if (pinyins[tmp]) {
             result = result.replace(result.find(tmp), 2, pinyins[tmp]->ab);
             break;
         }
@@ -149,23 +144,19 @@ bool Dict::IsYunmu(string string) {
     return false;
 }
 
-
-void Dict::ClearCharacters()
-{
+void Dict::ClearCharacters() {
     for (auto i = characters.begin(); i != characters.end(); i++) {
         delete i->second;
     }
 }
 
-void Dict::ClearPinyins()
-{
+void Dict::ClearPinyins() {
     for (auto i = pinyins.begin(); i != pinyins.end(); i++) {
         delete i->second;
     }
 }
 
-void Dict::ClearPinyinSplitInfos()
-{
+void Dict::ClearPinyinSplitInfos() {
     for (auto i = pinyinSplitInfos.begin(); i != pinyinSplitInfos.end(); i++) {
         delete i->second;
     }
