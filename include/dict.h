@@ -7,6 +7,7 @@
 using namespace std;
 
 namespace chinese_util {
+
     // 汉字
     struct Character {
         // 拼音
@@ -22,7 +23,7 @@ namespace chinese_util {
     };
 
     // 拼音
-    struct Pinyin {
+    struct PinyinInfo {
         // 无读音的拼音
         string ab;
         // 读音第几声
@@ -38,34 +39,41 @@ namespace chinese_util {
     };
 
     class Dict {
-      public:
+        public:
+        ~Dict();
         // 从文件加载汉字数据
         void LoadCharacterData(string file_name);
         // 从文件加载拼音数据
         void LoadPinyinData(string file_name);
         // 获取汉字信息
-        Character GetCharacter(string string);
+        const Character* GetCharacter(string string);
         // 获取拼音信息
-        Pinyin GetPinyin(string string);
+        const PinyinInfo* GetPinyin(string string);
+        // 将带音调拼音转为无音调
+        string ConverToNoSoundPinyin(const string pinyin);
         // 是否是声母
         bool IsShengmu(string string);
         // 是否是韵母
         bool IsYunmu(string string);
 
-      private:
+        private:
         // 汉字集合
         unordered_map<string, Character*> characters;
         // 拼音集合
-        unordered_map<string, Pinyin*> pinyins;
+        unordered_map<string, PinyinInfo*> pinyins;
         // 拼音分词信息集合
         unordered_map<string, PinyinSplitInfo*> pinyinSplitInfos;
         // 声母集合
-        string* shengmu = 0;
+        string* shengmu = nullptr;
         // 声母数量
-        short shengmu_count;
+        short shengmu_count = 0;
         // 韵母集合
-        string* yunmu;
+        string* yunmu = nullptr;
         // 韵母数量
         short yunmu_count = 0;
+        private:
+        void ClearCharacters();
+        void ClearPinyins();
+        void ClearPinyinSplitInfos();
     };
 }  // namespace chinese_util

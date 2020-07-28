@@ -49,7 +49,7 @@ set_target_properties(ChineseUtilTests PROPERTIES CXX_STANDARD 17)
 # enable compiler warnings
 if (NOT TEST_INSTALLED_VERSION)
   if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_compile_options(ChineseUtil PUBLIC -Wall -pedantic -Wextra -Werror)
+    target_compile_options(ChineseUtil PUBLIC -Wall -pedantic -Wextra)
   elseif(MSVC)
     target_compile_options(ChineseUtil PUBLIC /W4 /WX)
     target_compile_definitions(ChineseUtilTests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
