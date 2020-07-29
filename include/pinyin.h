@@ -24,7 +24,19 @@ namespace chinese_util {
     };
 
     // 拼音结果
-    struct PinyinResult {
+    struct PinyinResultVector {
+        // 拼音
+        vector<vector<string>> *pinyin = nullptr;
+        // 带声调读音的拼音
+        vector<vector<string>> *pinyin_sound = nullptr;
+        // 带声调读音的拼音，但声调表示为数字
+        vector<vector<string>> *pinyin_sound_number = nullptr;
+        // 转换为拼音首字母
+        vector<vector<string>> *pinyin_first = nullptr;
+    };
+
+    // 拼音结果
+    struct PinyinResultString {
         // 拼音
         vector<string> *pinyin = nullptr;
         // 带声调读音的拼音
@@ -39,7 +51,8 @@ namespace chinese_util {
     class Pinyin {
         public:
         // 把字符串转为拼音结果
-        static PinyinResult convert(Dict *dict, const string &text, ConvertMode mode, const string &word_split, bool split_not_pinyin_char = true);
+        static PinyinResultString convert(Dict *dict, const string &text, ConvertMode mode, bool split_not_pinyin_char, const string &word_split);
+        static PinyinResultVector convert(Dict *dict, const string &text, ConvertMode mode, bool split_not_pinyin_char);
     };
 
 }  // namespace chinese_util

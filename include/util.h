@@ -45,3 +45,37 @@ static void split_character_utf8(const string &word, vector<string> &characters)
         i += size;
     }
 }
+
+template <class T>
+static std::string join(T& val, std::string delim)
+{
+    std::string str;
+    typename T::iterator it;
+    const typename T::iterator itlast = val.end()-1;
+    for (it = val.begin(); it != val.end(); it++)
+    {
+        str += *it;
+        if (it != itlast)
+        {
+            str += delim;
+        }
+    }
+    return str;
+}
+
+static string operator+(string &content, int number) {
+	string temp;
+	char t = 0;
+	while (true) {
+		t = number % 10 + '0';
+		temp = t + temp;
+		number /= 10;
+		if (number == 0) {
+			return content + temp;
+		}
+	}
+}
+//由于+=会调用+号，所以 += 必须写在 + 号重载后面
+static string&  operator+=(string &content, int number) {
+	return content = content + number;
+}

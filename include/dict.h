@@ -49,8 +49,8 @@ namespace chinese_util {
         const Character* GetCharacter(string string);
         // 获取拼音信息
         const PinyinInfo* GetPinyin(string string);
-        // 将带音调拼音转为无音调
-        string ConverToNoSoundPinyin(const string pinyin);
+        // 拼音转换
+        void ConvertPinyin(const string pinyin_sound, string & pinyin, string & pinyin_sound_number);
         // 是否是声母
         bool IsShengmu(string string);
         // 是否是韵母

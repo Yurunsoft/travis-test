@@ -108,20 +108,21 @@ const Character *Dict::GetCharacter(string string) { return characters[string]; 
 // 获取拼音信息
 const PinyinInfo *Dict::GetPinyin(string string) { return pinyins[string]; }
 
-// 将带音调拼音转为无音调
-string Dict::ConverToNoSoundPinyin(const string pinyin) {
-    string result = pinyin;
+// 拼音转换
+void Dict::ConvertPinyin(const string pinyin_sound, string & pinyin, string & pinyin_sound_number){
+    pinyin = pinyin_sound;
+    pinyin_sound_number = pinyin_sound;
 
     vector<string> characters;
     split_character_utf8(pinyin, characters);
 
     for (string tmp : characters) {
         if (pinyins[tmp]) {
-            result = result.replace(result.find(tmp), 2, pinyins[tmp]->ab);
+            pinyin = pinyin.replace(pinyin.find(tmp), 2, pinyins[tmp]->ab);
+            pinyin_sound_number = pinyin_sound_number.replace(pinyin_sound_number.find(tmp), 2, pinyins[tmp]->ab + pinyins[tmp]->tone);
             break;
         }
     }
-    return result;
 }
 
 // 是否是声母

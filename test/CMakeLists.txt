@@ -4,6 +4,8 @@ project(ChineseUtilTests
   LANGUAGES CXX
 )
 
+set(VENDOR_DEPENDENCIES_DIR ${CMAKE_BINARY_DIR}/_deps)
+
 # ---- Options ----
 
 option(ENABLE_TEST_COVERAGE "Enable test coverage" OFF)
@@ -38,11 +40,24 @@ CPMAddPackage(
   VERSION 1.3
 )
 
+find_package(nlohmann_json QUIET)
+
+include_directories(
+  ${VENDOR_DEPENDENCIES_DIR}/nlohmann_json-src/include
+)
+
 # ---- Create binary ----
 
+file(GLOB headers CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
-add_executable(ChineseUtilTests ${sources})
+add_executable(ChineseUtilTests ${headers} ${sources})
 target_link_libraries(ChineseUtilTests doctest ChineseUtil)
+
+target_include_directories(ChineseUtilTests
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
+)
 
 set_target_properties(ChineseUtilTests PROPERTIES CXX_STANDARD 17)
 

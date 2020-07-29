@@ -30,9 +30,9 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME nlohmann_json
-  VERSION 3.8.0
-  URL https://github.com/nlohmann/json/releases/download/v3.8.0/include.zip
-  URL_HASH SHA256=8590fbcc2346a3eefc341935765dd57598022ada1081b425678f0da9a939a3c0
+  VERSION 3.9.0
+  URL https://github.com/nlohmann/json/releases/download/v3.9.0/include.zip
+  URL_HASH SHA256=5b9b819aed31626aefe2eace23498cafafc1691890556cd36d2a8002f6905009
 )
 
 find_package(nlohmann_json QUIET)
