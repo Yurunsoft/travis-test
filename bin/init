@@ -2,6 +2,4 @@
 
 __DIR__=$(cd `dirname $0`; pwd)
 
-cd $__DIR__/../
-
-cmake --build build/test
+$__DIR__/pre-build && $__DIR__/pre-build-test

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <dict.h>
+#include "pinyin_c.h"
 
 #include <string>
 #include <vector>
@@ -8,20 +9,6 @@
 using namespace std;
 
 namespace chinese_util {
-
-    // 转换模式
-    enum ConvertMode {
-        // 转换为全拼
-        PINYIN = 1,
-        // 转换为带声调读音的拼音
-        PINYIN_SOUND = 2,
-        // 转换为带声调读音的拼音，但声调表示为数字
-        PINYIN_SOUND_NUMBER = 4,
-        // 转换为拼音首字母
-        PINYIN_FIRST = 8,
-        // 转换为上面支持的所有类型
-        ALL = 15,
-    };
 
     // 拼音结果
     struct PinyinResultVector {

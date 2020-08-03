@@ -4,13 +4,4 @@ __DIR__=$(cd `dirname $0`; pwd)
 
 cd $__DIR__/../
 
-test(){
-    CTEST_OUTPUT_ON_FAILURE=1 cmake --build build/test --target test
-}
-
-test
-
-if [ $? != 0 ];then
-    ./bin/build-test
-    test
-fi
+./bin/build-test && CTEST_OUTPUT_ON_FAILURE=1 cmake --build build/test --target test

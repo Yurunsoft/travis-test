@@ -162,3 +162,29 @@ void Dict::ClearPinyinSplitInfos() {
         delete i->second;
     }
 }
+
+extern "C" {
+    // 创建字典
+    void* create_dict()
+    {
+        return new Dict;
+    }
+
+    // 关闭字典
+    void close_dict(void* dict)
+    {
+        delete ((Dict*)dict);
+    }
+
+    // 从文件加载汉字数据
+    void load_character_data(void* dict, const char* file_name)
+    {
+        ((Dict*)dict)->LoadCharacterData(file_name);
+    }
+
+    // 从文件加载拼音数据
+    void load_pinyin_data(void* dict, const char* file_name)
+    {
+        ((Dict*)dict)->LoadPinyinData(file_name);
+    }
+}

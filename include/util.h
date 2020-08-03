@@ -79,3 +79,26 @@ static string operator+(string &content, int number) {
 static string&  operator+=(string &content, int number) {
 	return content = content + number;
 }
+
+// 将 string 转为 const char*
+static inline const char* str_cc(string str)
+{
+    char *c = new char[str.length() + 1]; 
+    strcpy(c, str.c_str());
+    return c;
+}
+
+// 将 string 转为 char*
+static inline char* str_c(string str)
+{
+    char *c = new char[str.length() + 1]; 
+    strcpy(c, str.c_str());
+    return c;
+}
+
+// 将 string 转为 char*
+static inline void str_c(char* &result, string str)
+{
+    result = new char[str.length() + 1]; 
+    strcpy(result, str.c_str());
+}
