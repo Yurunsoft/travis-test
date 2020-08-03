@@ -12,7 +12,7 @@ set(VENDOR_DEPENDENCIES_DIR ${CMAKE_BINARY_DIR}/_deps)
 
 # ---- Include guards ----
 
-if (DEFINED PHP_FFI)
+if (DEFINED WITH_SWOOLE)
   if (DEFINED PHP_CONFIG_DIR)
     set(PHP_CONFIG_DIR "${PHP_CONFIG_DIR}/")
   else ()
@@ -41,9 +41,11 @@ if (DEFINED PHP_FFI)
   )
   # 添加宏
   add_definitions(
-    -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1
-    -DHAVE_CONFIG_H
-    -DPHP_ATOM_INC
+    # -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    # -DHAVE_CONFIG_H
+    # -DPHP_ATOM_INC
+    -DHAVE_RWLOCK=1
+    -DWITH_SWOOLE
   )
   # 包含目录, 保持与php-config --includes的结果一致
   include_directories(
@@ -53,6 +55,8 @@ if (DEFINED PHP_FFI)
     ${PHP_INCLUDE_DIR}/main
     ${PHP_INCLUDE_DIR}/TSRM
     ${PHP_INCLUDE_DIR}/ext
+    ${PHP_INCLUDE_DIR}/ext/swoole
+    ${PHP_INCLUDE_DIR}/ext/swoole/include
   )
 endif ()
 

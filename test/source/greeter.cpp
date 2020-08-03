@@ -158,21 +158,27 @@ TEST_CASE("Pinyin") {
     dict.LoadCharacterData(dir + "/../../data/charsData.json");
     dict.LoadPinyinData(dir + "/../../data/pinyinData.json");
 
-    PinyinResultVector result_vector = Pinyin::convert(&dict, "测试的ab", ConvertMode::ALL, false);
+    PinyinResultVector* result_vector = Pinyin::convert(&dict, "测试的ab", ConvertMode::ALL, false);
 
-    AssertPinyinResultVector(R"JSON({"pinyin":[["ce","shi","di","ab"],["ce","shi","de","ab"]],"pinyin_first":[["c","s","d","a"]],"pinyin_sound":[["cè","shì","dí","ab"],["cè","shì","dì","ab"],["cè","shì","de","ab"]],"pinyin_sound_number":[["ce4","shi4","di2","ab"],["ce4","shi4","di4","ab"],["ce4","shi4","de0","ab"]]})JSON", &result_vector);
+    AssertPinyinResultVector(R"JSON({"pinyin":[["ce","shi","di","ab"],["ce","shi","de","ab"]],"pinyin_first":[["c","s","d","a"]],"pinyin_sound":[["cè","shì","dí","ab"],["cè","shì","dì","ab"],["cè","shì","de","ab"]],"pinyin_sound_number":[["ce4","shi4","di2","ab"],["ce4","shi4","di4","ab"],["ce4","shi4","de0","ab"]]})JSON", result_vector);
+    delete result_vector;
+
+    CHECK(false);
 
     result_vector = Pinyin::convert(&dict, "测试的ab", ConvertMode::ALL, true);
 
-    AssertPinyinResultVector(R"JSON({"pinyin":[["ce","shi","di","a","b"],["ce","shi","de","a","b"]],"pinyin_first":[["c","s","d","a","b"]],"pinyin_sound":[["cè","shì","dí","a","b"],["cè","shì","dì","a","b"],["cè","shì","de","a","b"]],"pinyin_sound_number":[["ce4","shi4","di2","a","b"],["ce4","shi4","di4","a","b"],["ce4","shi4","de0","a","b"]]})JSON", &result_vector);
+    AssertPinyinResultVector(R"JSON({"pinyin":[["ce","shi","di","a","b"],["ce","shi","de","a","b"]],"pinyin_first":[["c","s","d","a","b"]],"pinyin_sound":[["cè","shì","dí","a","b"],["cè","shì","dì","a","b"],["cè","shì","de","a","b"]],"pinyin_sound_number":[["ce4","shi4","di2","a","b"],["ce4","shi4","di4","a","b"],["ce4","shi4","de0","a","b"]]})JSON", result_vector);
+    delete result_vector;
 
-    PinyinResultString result_string = Pinyin::convert(&dict, "测试的ab", ConvertMode::ALL, false, " ");
+    PinyinResultString* result_string = Pinyin::convert(&dict, "测试的ab", ConvertMode::ALL, false, " ");
     
-    AssertPinyinResultString(R"JSON({"pinyin":["ce shi di ab","ce shi de ab"],"pinyin_first":["c s d a"],"pinyin_sound":["cè shì dí ab","cè shì dì ab","cè shì de ab"],"pinyin_sound_number":["ce4 shi4 di2 ab","ce4 shi4 di4 ab","ce4 shi4 de0 ab"]})JSON", &result_string);
+    AssertPinyinResultString(R"JSON({"pinyin":["ce shi di ab","ce shi de ab"],"pinyin_first":["c s d a"],"pinyin_sound":["cè shì dí ab","cè shì dì ab","cè shì de ab"],"pinyin_sound_number":["ce4 shi4 di2 ab","ce4 shi4 di4 ab","ce4 shi4 de0 ab"]})JSON", result_string);
+    delete result_string;
 
     result_string = Pinyin::convert(&dict, "测试的ab", ConvertMode::ALL, true, " ");
     
-    AssertPinyinResultString(R"JSON({"pinyin":["ce shi di a b","ce shi de a b"],"pinyin_first":["c s d a b"],"pinyin_sound":["cè shì dí a b","cè shì dì a b","cè shì de a b"],"pinyin_sound_number":["ce4 shi4 di2 a b","ce4 shi4 di4 a b","ce4 shi4 de0 a b"]})JSON", &result_string);
+    AssertPinyinResultString(R"JSON({"pinyin":["ce shi di a b","ce shi de a b"],"pinyin_first":["c s d a b"],"pinyin_sound":["cè shì dí a b","cè shì dì a b","cè shì de a b"],"pinyin_sound_number":["ce4 shi4 di2 a b","ce4 shi4 di4 a b","ce4 shi4 de0 a b"]})JSON", result_string);
+    delete result_string;
 }
 
 TEST_CASE("PinyinC") {
@@ -184,13 +190,14 @@ TEST_CASE("PinyinC") {
     PinyinResultArray_C* result_array = new PinyinResultArray_C;
     convert_to_pinyin_array(result_array, dict, "测试的ab", ConvertMode::ALL, 0);
     AssertPinyinResultArray_C(R"JSON({"pinyin":[["ce","shi","di","ab"],["ce","shi","de","ab"]],"pinyin_first":[["c","s","d","a"]],"pinyin_sound":[["cè","shì","dí","ab"],["cè","shì","dì","ab"],["cè","shì","de","ab"]],"pinyin_sound_number":[["ce4","shi4","di2","ab"],["ce4","shi4","di4","ab"],["ce4","shi4","de0","ab"]]})JSON", result_array);
-    delete result_array;
+
+    free_pinyin_result_array(result_array);
 
 
     PinyinResultString_C* result_string = new PinyinResultString_C;
     convert_to_pinyin_string(result_string, dict, "测试的ab", ConvertMode::ALL, 0, " ");
     AssertPinyinResultString_C(R"JSON({"pinyin":["ce shi di ab","ce shi de ab"],"pinyin_first":["c s d a"],"pinyin_sound":["cè shì dí ab","cè shì dì ab","cè shì de ab"],"pinyin_sound_number":["ce4 shi4 di2 ab","ce4 shi4 di4 ab","ce4 shi4 de0 ab"]})JSON", result_string);
-    delete result_string;
+    free_pinyin_result_string(result_string);
 
     close_dict(dict);
 

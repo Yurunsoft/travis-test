@@ -119,7 +119,7 @@ void Dict::ConvertPinyin(const string pinyin_sound, string & pinyin, string & pi
     for (string tmp : characters) {
         if (pinyins[tmp]) {
             pinyin = pinyin.replace(pinyin.find(tmp), 2, pinyins[tmp]->ab);
-            pinyin_sound_number = pinyin_sound_number.replace(pinyin_sound_number.find(tmp), 2, pinyins[tmp]->ab + pinyins[tmp]->tone);
+            pinyin_sound_number = pinyin_sound_number.replace(pinyin_sound_number.find(tmp), 2, pinyins[tmp]->ab) + pinyins[tmp]->tone;
             break;
         }
     }
