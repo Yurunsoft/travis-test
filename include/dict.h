@@ -42,19 +42,19 @@ namespace chinese_util {
         public:
         ~Dict();
         // 从文件加载汉字数据
-        void LoadCharacterData(string file_name);
+        void LoadCharacterData(const string file_name);
         // 从文件加载拼音数据
-        void LoadPinyinData(string file_name);
+        void LoadPinyinData(const string file_name);
         // 获取汉字信息
-        const Character* GetCharacter(string string);
+        const Character* GetCharacter(const string string);
         // 获取拼音信息
-        const PinyinInfo* GetPinyin(string string);
+        const PinyinInfo* GetPinyin(const string string);
         // 拼音转换
-        void ConvertPinyin(const string pinyin_sound, string & pinyin, string & pinyin_sound_number);
+        void ConvertPinyin(const string pinyin_sound, string& pinyin, string& pinyin_sound_number);
         // 是否是声母
-        bool IsShengmu(string string);
+        bool IsShengmu(const string string);
         // 是否是韵母
-        bool IsYunmu(string string);
+        bool IsYunmu(const string string);
 
         private:
         // 汉字集合
@@ -80,12 +80,12 @@ namespace chinese_util {
 }  // namespace chinese_util
 
 extern "C" {
-    // 创建字典
-    void* create_dict();
-    // 关闭字典
-    void close_dict(void* dict);
-    // 从文件加载汉字数据
-    void load_character_data(void* dict, const char* file_name);
-    // 从文件加载拼音数据
-    void load_pinyin_data(void* dict, const char* file_name);
+// 创建字典
+void* create_dict();
+// 关闭字典
+void close_dict(void* dict);
+// 从文件加载汉字数据
+void load_character_data(void* dict, const char* file_name);
+// 从文件加载拼音数据
+void load_pinyin_data(void* dict, const char* file_name);
 }

@@ -1,12 +1,12 @@
 #pragma once
 
 #include <dict.h>
-#include "pinyin_c.h"
 
+#include <iostream>
 #include <string>
 #include <vector>
 
-#include <iostream>
+#include "pinyin_c.h"
 
 using namespace std;
 
@@ -15,24 +15,20 @@ namespace chinese_util {
     // 拼音结果
     class PinyinResultVector {
         public:
-        ~PinyinResultVector(){
-            if(pinyin)
-            {
+        ~PinyinResultVector() {
+            if (pinyin) {
                 delete pinyin;
                 pinyin = nullptr;
             }
-            if(pinyin_sound)
-            {
+            if (pinyin_sound) {
                 delete pinyin_sound;
                 pinyin_sound = nullptr;
             }
-            if(pinyin_sound_number)
-            {
+            if (pinyin_sound_number) {
                 delete pinyin_sound_number;
                 pinyin_sound_number = nullptr;
             }
-            if(pinyin_first)
-            {
+            if (pinyin_first) {
                 delete pinyin_first;
                 pinyin_first = nullptr;
             }
@@ -50,24 +46,20 @@ namespace chinese_util {
     // 拼音结果
     class PinyinResultString {
         public:
-        ~PinyinResultString(){
-            if(pinyin)
-            {
+        ~PinyinResultString() {
+            if (pinyin) {
                 delete pinyin;
                 pinyin = nullptr;
             }
-            if(pinyin_sound)
-            {
+            if (pinyin_sound) {
                 delete pinyin_sound;
                 pinyin_sound = nullptr;
             }
-            if(pinyin_sound_number)
-            {
+            if (pinyin_sound_number) {
                 delete pinyin_sound_number;
                 pinyin_sound_number = nullptr;
             }
-            if(pinyin_first)
-            {
+            if (pinyin_first) {
                 delete pinyin_first;
                 pinyin_first = nullptr;
             }
@@ -86,8 +78,8 @@ namespace chinese_util {
     class Pinyin {
         public:
         // 把字符串转为拼音结果
-        static PinyinResultString* convert(Dict *dict, const string &text, ConvertMode mode, bool split_not_pinyin_char, const string &word_split);
-        static PinyinResultVector* convert(Dict *dict, const string &text, ConvertMode mode, bool split_not_pinyin_char);
+        static PinyinResultString *convert(Dict *dict, const string text, ConvertMode mode, bool split_not_pinyin_char, const string word_split);
+        static PinyinResultVector *convert(Dict *dict, const string text, ConvertMode mode, bool split_not_pinyin_char);
     };
 
 }  // namespace chinese_util

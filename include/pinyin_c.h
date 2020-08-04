@@ -1,11 +1,12 @@
 
 #pragma once
 
-#include "pinyin.h"
 #include <vec.h>
 
+#include "pinyin.h"
+
 #ifdef WITH_SWOOLE
-#include <coroutine_cxx_api.h>
+#    include <coroutine_cxx_api.h>
 #endif
 
 typedef vec_t(vec_str_t) vec_vec_str_t;
@@ -49,20 +50,20 @@ typedef struct {
 } PinyinResultArray_C;
 
 extern "C" {
-    // 转换汉字到拼音数组
-    void convert_to_pinyin_array(PinyinResultArray_C* result, void* dict, const char* text, ConvertMode mode, short split_not_pinyin_char);
+// 转换汉字到拼音数组
+void convert_to_pinyin_array(PinyinResultArray_C* result, void* dict, const char* text, ConvertMode mode, short split_not_pinyin_char);
 
-    // 转换汉字到拼音字符串数组
-    void convert_to_pinyin_string(PinyinResultString_C* result, void* dict, const char* text, ConvertMode mode, short split_not_pinyin_char, const char* word_split);
+// 转换汉字到拼音字符串数组
+void convert_to_pinyin_string(PinyinResultString_C* result, void* dict, const char* text, ConvertMode mode, short split_not_pinyin_char, const char* word_split);
 
-    // 释放拼音数组结果
-    void free_pinyin_result_array(PinyinResultArray_C* result);
+// 释放拼音数组结果
+void free_pinyin_result_array(PinyinResultArray_C* result);
 
-    // 释放字符串数组结果
-    void free_pinyin_result_string(PinyinResultString_C* result);
+// 释放字符串数组结果
+void free_pinyin_result_string(PinyinResultString_C* result);
 
-    #ifdef WITH_SWOOLE
-    // 转换汉字到拼音数组
-    void swoole_convert_to_pinyin_array(PinyinResultArray_C* result, void* dict, const char* text, ConvertMode mode, short split_not_pinyin_char);
-    #endif
+#ifdef WITH_SWOOLE
+// 转换汉字到拼音数组
+void swoole_convert_to_pinyin_array(PinyinResultArray_C* result, void* dict, const char* text, ConvertMode mode, short split_not_pinyin_char);
+#endif
 }
