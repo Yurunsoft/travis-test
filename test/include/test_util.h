@@ -4,7 +4,10 @@
 
 #include <string>
 
+#include "dict.h"
+
 using namespace std;
+using namespace chinese_util;
 
 #ifndef MAX_SIZE
 #    define MAX_SIZE 1024
@@ -26,4 +29,12 @@ static string get_dir() {
         }
     }
     return current_absolute_path;
+}
+
+static inline Dict* get_dict() {
+    Dict* dict = new Dict;
+    const string dir = get_dir();
+    dict->LoadCharacterData(dir + "/../../data/charsData.json");
+    dict->LoadPinyinData(dir + "/../../data/pinyinData.json");
+    return dict;
 }

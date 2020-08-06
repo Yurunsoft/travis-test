@@ -78,14 +78,3 @@ namespace chinese_util {
         void ClearPinyinSplitInfos();
     };
 }  // namespace chinese_util
-
-extern "C" {
-// 创建字典
-void* create_dict();
-// 关闭字典
-void close_dict(void* dict);
-// 从文件加载汉字数据
-void load_character_data(void* dict, const char* file_name);
-// 从文件加载拼音数据
-void load_pinyin_data(void* dict, const char* file_name);
-}

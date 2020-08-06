@@ -25,22 +25,22 @@ void Dict::LoadCharacterData(const string file_name) {
     ifstream fs(file_name);
     json json_data;
     fs >> json_data;
+    fs.close();
     ClearCharacters();
-    for (auto &el : json_data.items()) {
+    for (auto el : json_data.items()) {
         Character *character = new Character;
         const json value = el.value();
         if (value.size() < 5) {
             throw "Wrong data format";
         }
-        split_string(value[0], ",", &character->pinyin);
-        split_string(value[1], ",", &character->sc);
-        split_string(value[2], ",", &character->tc);
-        character->is_sc = 1 == value[3];
-        character->is_tc = 1 == value[4];
+        split_string(value[0].get<string>(), ",", &character->pinyin);
+        split_string(value[1].get<string>(), ",", &character->sc);
+        split_string(value[2].get<string>(), ",", &character->tc);
+        character->is_sc = 1 == value[3].get<short>();
+        character->is_tc = 1 == value[4].get<short>();
         const string character_string = el.key();
         characters[character_string] = character;
     }
-    fs.close();
 }
 
 // 从文件加载拼音数据
@@ -48,9 +48,10 @@ void Dict::LoadPinyinData(const string file_name) {
     ifstream fs(file_name);
     json json_data;
     fs >> json_data;
+    fs.close();
     // 读音
     ClearPinyins();
-    for (auto &el : json_data["sound"].items()) {
+    for (auto el : json_data["sound"].items()) {
         PinyinInfo *pinyin = new PinyinInfo;
         const json value = el.value();
         pinyin->ab = value["ab"].get<string>();
@@ -82,7 +83,7 @@ void Dict::LoadPinyinData(const string file_name) {
     // 拼音分词
     function<void(unordered_map<string, PinyinSplitInfo *> *, json *)> parse_pinyin_fenci;
     parse_pinyin_fenci = [&parse_pinyin_fenci](unordered_map<string, PinyinSplitInfo *> *pinyinSplitInfos, json *json_data) {
-        for (auto &el : json_data->items()) {
+        for (auto el : json_data->items()) {
             const string c = el.key();
             if ("py" == c) {
                 continue;
@@ -101,7 +102,6 @@ void Dict::LoadPinyinData(const string file_name) {
     };
     ClearPinyinSplitInfos();
     parse_pinyin_fenci(&pinyinSplitInfos, &json_data["split"]["relation"]);
-    fs.close();
 }
 
 // 获取汉字信息
@@ -163,26 +163,4 @@ void Dict::ClearPinyinSplitInfos() {
     for (auto i = pinyinSplitInfos.begin(); i != pinyinSplitInfos.end(); i++) {
         delete i->second;
     }
-}
-
-extern "C" {
-// 创建字典
-void *create_dict() {
-    return new Dict;
-}
-
-// 关闭字典
-void close_dict(void *dict) {
-    delete ((Dict *)dict);
-}
-
-// 从文件加载汉字数据
-void load_character_data(void *dict, const char *file_name) {
-    ((Dict *)dict)->LoadCharacterData(file_name);
-}
-
-// 从文件加载拼音数据
-void load_pinyin_data(void *dict, const char *file_name) {
-    ((Dict *)dict)->LoadPinyinData(file_name);
-}
 }

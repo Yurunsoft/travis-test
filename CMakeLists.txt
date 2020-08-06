@@ -12,7 +12,7 @@ set(VENDOR_DEPENDENCIES_DIR ${CMAKE_BINARY_DIR}/_deps)
 
 # ---- Include guards ----
 
-if (DEFINED WITH_SWOOLE)
+if (DEFINED WITH_PHP)
   if (DEFINED PHP_CONFIG_DIR)
     set(PHP_CONFIG_DIR "${PHP_CONFIG_DIR}/")
   else ()
@@ -45,6 +45,7 @@ if (DEFINED WITH_SWOOLE)
     # -DHAVE_CONFIG_H
     # -DPHP_ATOM_INC
     -DHAVE_RWLOCK=1
+    -DWITH_PHP
     -DWITH_SWOOLE
   )
   # 包含目录, 保持与php-config --includes的结果一致
@@ -90,8 +91,12 @@ include_directories(
 
 # Note: globbing sources is considered bad practice as CMake's generators may not detect new files automatically.
 # Keep that in mind when changing files, or explicitly mention them here.
-FILE(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
-FILE(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp")
+FILE(GLOB headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
+FILE(GLOB sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp")
+if (DEFINED WITH_PHP)
+  FILE(GLOB php_headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/php/*.h")
+  FILE(GLOB php_sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/php/*.cpp")
+endif()
 
 # ---- Create library ----
 
@@ -99,7 +104,7 @@ FILE(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/
 # add_library(ChineseUtil INTERFACE)  
 # set_target_properties(ChineseUtil PROPERTIES INTERFACE_COMPILE_FEATURES cxx_std_17)
 
-add_library(ChineseUtil SHARED ${headers} ${sources} ${vec_headers} ${vec_sources})
+add_library(ChineseUtil SHARED ${headers} ${sources} ${php_headers} ${php_sources})
 
 set_target_properties(ChineseUtil PROPERTIES CXX_STANDARD 17 OUTPUT_NAME "chinese_util")
 

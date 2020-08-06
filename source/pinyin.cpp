@@ -14,27 +14,27 @@ struct ListItem {
     const Character* character_info;
 };
 
-static void parseResult(Dict* dict, PinyinResultVector* result, const ListItem* item) {
-    if (item->is_chinese) {
-        vector<vector<string>> origin_pinyin_sound = *result->pinyin_sound;
+static void parse_result(Dict* dict, PinyinResultVector& result, const ListItem& item) {
+    if (item.is_chinese) {
+        vector<vector<string>> origin_pinyin_sound = *result.pinyin_sound;
         vector<vector<string>> origin_pinyin, origin_pinyin_sound_number, origin_pinyin_first;
-        if (result->pinyin) {
-            origin_pinyin = *result->pinyin;
+        if (result.pinyin) {
+            origin_pinyin = *result.pinyin;
         }
-        if (result->pinyin_sound_number) {
-            origin_pinyin_sound_number = *result->pinyin_sound_number;
+        if (result.pinyin_sound_number) {
+            origin_pinyin_sound_number = *result.pinyin_sound_number;
         }
-        if (result->pinyin_first) {
-            origin_pinyin_first = *result->pinyin_first;
+        if (result.pinyin_first) {
+            origin_pinyin_first = *result.pinyin_first;
         }
         vector<vector<string>>* tmp_vector;
         string pinyin_sound, tmp_pinyin, tmp_pinyin_sound_number;
         unordered_map<string, bool> exists_pinyins, exists_pinyin_firsts;
-        for (size_t i = 0; i < item->character_info->pinyin.size(); ++i) {
+        for (size_t i = 0; i < item.character_info->pinyin.size(); ++i) {
             // 拼音带读音
-            pinyin_sound = item->character_info->pinyin[i];
+            pinyin_sound = item.character_info->pinyin[i];
             if (0 == i) {
-                tmp_vector = result->pinyin_sound;
+                tmp_vector = result.pinyin_sound;
             } else {
                 tmp_vector = new vector<vector<string>>(origin_pinyin_sound);
             }
@@ -42,19 +42,19 @@ static void parseResult(Dict* dict, PinyinResultVector* result, const ListItem* 
                 result_item.push_back(pinyin_sound);
             }
             if (0 != i) {
-                result->pinyin_sound->insert(result->pinyin_sound->end(), tmp_vector->begin(), tmp_vector->end());
+                result.pinyin_sound->insert(result.pinyin_sound->end(), tmp_vector->begin(), tmp_vector->end());
                 delete tmp_vector;
             }
             dict->ConvertPinyin(pinyin_sound, tmp_pinyin, tmp_pinyin_sound_number);
             // 拼音
-            if (result->pinyin) {
+            if (result.pinyin) {
                 do {
                     if (exists_pinyins[tmp_pinyin]) {
                         break;
                     }
                     exists_pinyins[tmp_pinyin] = true;
                     if (0 == i) {
-                        tmp_vector = result->pinyin;
+                        tmp_vector = result.pinyin;
                     } else {
                         tmp_vector = new vector<vector<string>>(origin_pinyin);
                     }
@@ -62,15 +62,15 @@ static void parseResult(Dict* dict, PinyinResultVector* result, const ListItem* 
                         result_item.push_back(tmp_pinyin);
                     }
                     if (0 != i) {
-                        result->pinyin->insert(result->pinyin->end(), tmp_vector->begin(), tmp_vector->end());
+                        result.pinyin->insert(result.pinyin->end(), tmp_vector->begin(), tmp_vector->end());
                         delete tmp_vector;
                     }
                 } while (0);
             }
             // 拼音读音带数字
-            if (result->pinyin_sound_number) {
+            if (result.pinyin_sound_number) {
                 if (0 == i) {
-                    tmp_vector = result->pinyin_sound_number;
+                    tmp_vector = result.pinyin_sound_number;
                 } else {
                     tmp_vector = new vector<vector<string>>(origin_pinyin_sound_number);
                 }
@@ -78,20 +78,20 @@ static void parseResult(Dict* dict, PinyinResultVector* result, const ListItem* 
                     result_item.push_back(tmp_pinyin_sound_number);
                 }
                 if (0 != i) {
-                    result->pinyin_sound_number->insert(result->pinyin_sound_number->end(), tmp_vector->begin(), tmp_vector->end());
+                    result.pinyin_sound_number->insert(result.pinyin_sound_number->end(), tmp_vector->begin(), tmp_vector->end());
                     delete tmp_vector;
                 }
             }
             // 拼音首字母
-            if (result->pinyin_first) {
+            if (result.pinyin_first) {
                 do {
-                    const string first_char = item->is_chinese ? tmp_pinyin.substr(0, 1) : tmp_pinyin;
+                    const string first_char = item.is_chinese ? tmp_pinyin.substr(0, 1) : tmp_pinyin;
                     if (exists_pinyin_firsts[first_char]) {
                         break;
                     }
                     exists_pinyin_firsts[first_char] = true;
                     if (0 == i) {
-                        tmp_vector = result->pinyin_first;
+                        tmp_vector = result.pinyin_first;
                     } else {
                         tmp_vector = new vector<vector<string>>(origin_pinyin_first);
                     }
@@ -99,75 +99,71 @@ static void parseResult(Dict* dict, PinyinResultVector* result, const ListItem* 
                         result_item.push_back(first_char);
                     }
                     if (0 != i) {
-                        result->pinyin_first->insert(result->pinyin_first->end(), tmp_vector->begin(), tmp_vector->end());
+                        result.pinyin_first->insert(result.pinyin_first->end(), tmp_vector->begin(), tmp_vector->end());
                         delete tmp_vector;
                     }
                 } while (0);
             }
         }
     } else {
-        for (vector<vector<string>>* i1 : {result->pinyin, result->pinyin_sound, result->pinyin_sound_number}) {
+        for (vector<vector<string>>* i1 : {result.pinyin, result.pinyin_sound, result.pinyin_sound_number}) {
             if (i1) {
                 for (vector<string>& i2 : *i1) {
-                    i2.push_back(item->character);
+                    i2.push_back(item.character);
                 }
             }
         }
-        if (result->pinyin_first) {
-            const string first_char = item->is_chinese ? item->character.substr(0, 1) : item->character;
-            for (vector<string>& i2 : *result->pinyin_first) {
+        if (result.pinyin_first) {
+            const string first_char = item.is_chinese ? item.character.substr(0, 1) : item.character;
+            for (vector<string>& i2 : *result.pinyin_first) {
                 i2.push_back(first_char);
             }
         }
     }
 }
 
-PinyinResultString* Pinyin::convert(Dict* dict, const string text, ConvertMode mode, bool split_not_pinyin_char, const string word_split) {
-    PinyinResultVector* vector_result = convert(dict, text, mode, split_not_pinyin_char);
-    PinyinResultString* result = new PinyinResultString;
-    if (vector_result->pinyin) {
-        result->pinyin = new vector<string>;
-        for (auto i : *vector_result->pinyin) {
-            result->pinyin->push_back(join(i, word_split));
+void Pinyin::Convert(PinyinResultString& result, Dict* dict, const string text, ConvertMode mode, bool split_not_pinyin_char, const string word_split) {
+    PinyinResultVector vector_result;
+    Convert(vector_result, dict, text, mode, split_not_pinyin_char);
+    if (vector_result.pinyin) {
+        result.pinyin = new vector<string>;
+        for (auto i : *vector_result.pinyin) {
+            result.pinyin->push_back(join(i, word_split));
         }
     }
-    if (vector_result->pinyin_sound) {
-        result->pinyin_sound = new vector<string>;
-        for (auto i : *vector_result->pinyin_sound) {
-            result->pinyin_sound->push_back(join(i, word_split));
+    if (vector_result.pinyin_sound) {
+        result.pinyin_sound = new vector<string>;
+        for (auto i : *vector_result.pinyin_sound) {
+            result.pinyin_sound->push_back(join(i, word_split));
         }
     }
-    if (vector_result->pinyin_sound_number) {
-        result->pinyin_sound_number = new vector<string>;
-        for (auto i : *vector_result->pinyin_sound_number) {
-            result->pinyin_sound_number->push_back(join(i, word_split));
+    if (vector_result.pinyin_sound_number) {
+        result.pinyin_sound_number = new vector<string>;
+        for (auto i : *vector_result.pinyin_sound_number) {
+            result.pinyin_sound_number->push_back(join(i, word_split));
         }
     }
-    if (vector_result->pinyin_first) {
-        result->pinyin_first = new vector<string>;
-        for (auto i : *vector_result->pinyin_first) {
-            result->pinyin_first->push_back(join(i, word_split));
+    if (vector_result.pinyin_first) {
+        result.pinyin_first = new vector<string>;
+        for (auto i : *vector_result.pinyin_first) {
+            result.pinyin_first->push_back(join(i, word_split));
         }
     }
-    delete vector_result;
-    return result;
 }
 
-PinyinResultVector* Pinyin::convert(Dict* dict, const string text, ConvertMode mode, bool split_not_pinyin_char) {
-    PinyinResultVector* result = new PinyinResultVector;
-
+void Pinyin::Convert(PinyinResultVector& result, Dict* dict, const string text, ConvertMode mode, bool split_not_pinyin_char) {
     const vector<string> tmp;
     // 初始化
     if (mode & ConvertMode::PINYIN) {
-        result->pinyin = new vector<vector<string>>({tmp});
+        result.pinyin = new vector<vector<string>>({tmp});
     }
     // 拼音带读音的是一定需要的
-    result->pinyin_sound = new vector<vector<string>>({tmp});
+    result.pinyin_sound = new vector<vector<string>>({tmp});
     if (mode & ConvertMode::PINYIN_SOUND_NUMBER) {
-        result->pinyin_sound_number = new vector<vector<string>>({tmp});
+        result.pinyin_sound_number = new vector<vector<string>>({tmp});
     }
     if (mode & ConvertMode::PINYIN_FIRST) {
-        result->pinyin_first = new vector<vector<string>>({tmp});
+        result.pinyin_first = new vector<vector<string>>({tmp});
     }
 
     // 分割字符
@@ -184,7 +180,7 @@ PinyinResultVector* Pinyin::convert(Dict* dict, const string text, ConvertMode m
                 ListItem item2;
                 item2.is_chinese = false;
                 item2.character = no_result_item;
-                parseResult(dict, result, &item2);
+                parse_result(dict, result, item2);
                 no_result_item.clear();
             }
             item.is_chinese = true;
@@ -196,195 +192,18 @@ PinyinResultVector* Pinyin::convert(Dict* dict, const string text, ConvertMode m
             }
             item.is_chinese = false;
         }
-        parseResult(dict, result, &item);
+        parse_result(dict, result, item);
     }
     if (!split_not_pinyin_char && no_result_item.length() > 0) {
         ListItem item2;
         item2.is_chinese = false;
         item2.character = no_result_item;
-        parseResult(dict, result, &item2);
+        parse_result(dict, result, item2);
     }
 
     // 如果不需要拼音带读音则不返回
     if (!(mode & ConvertMode::PINYIN_SOUND)) {
-        delete result->pinyin_sound;
-        result->pinyin_sound = nullptr;
+        delete result.pinyin_sound;
+        result.pinyin_sound = nullptr;
     }
-    return result;
-}
-
-static void free_chars_in_vec_str_t(vec_str_t* vec) {
-    int i;
-    char* i1;
-    vec_foreach(vec, i1, i) {
-        delete[] i1;
-    };
-}
-
-extern "C" {
-// 转换汉字到拼音数组
-void convert_to_pinyin_array(PinyinResultArray_C* result, void* dict, const char* text, ConvertMode mode, short split_not_pinyin_char) {
-    PinyinResultVector* vector_result = Pinyin::convert((Dict*)dict, text, mode, split_not_pinyin_char);
-    if (vector_result->pinyin) {
-        vec_init(&result->pinyin);
-        for (auto i1 : *vector_result->pinyin) {
-            vec_str_t item;
-            vec_init(&item);
-            for (auto i2 : i1) {
-                vec_push(&item, str_c(i2));
-            }
-            vec_push(&result->pinyin, item);
-        }
-    }
-    if (vector_result->pinyin_first) {
-        vec_init(&result->pinyin_first);
-        for (auto i1 : *vector_result->pinyin_first) {
-            vec_str_t item;
-            vec_init(&item);
-            for (auto i2 : i1) {
-                vec_push(&item, str_c(i2));
-            }
-            vec_push(&result->pinyin_first, item);
-        }
-    }
-    if (vector_result->pinyin_sound) {
-        vec_init(&result->pinyin_sound);
-        for (auto i1 : *vector_result->pinyin_sound) {
-            vec_str_t item;
-            vec_init(&item);
-            for (auto i2 : i1) {
-                vec_push(&item, str_c(i2));
-            }
-            vec_push(&result->pinyin_sound, item);
-        }
-    }
-    if (vector_result->pinyin_sound_number) {
-        vec_init(&result->pinyin_sound_number);
-        for (auto i1 : *vector_result->pinyin_sound_number) {
-            vec_str_t item;
-            vec_init(&item);
-            for (auto i2 : i1) {
-                vec_push(&item, str_c(i2));
-            }
-            vec_push(&result->pinyin_sound_number, item);
-        }
-    }
-    delete vector_result;
-}
-
-// 转换汉字到拼音字符串数组
-void convert_to_pinyin_string(PinyinResultString_C* result, void* dict, const char* text, ConvertMode mode, short split_not_pinyin_char, const char* word_split) {
-    PinyinResultString* string_result = Pinyin::convert((Dict*)dict, text, mode, split_not_pinyin_char, word_split);
-    if (string_result->pinyin) {
-        vec_init(&result->pinyin);
-        for (auto item : *string_result->pinyin) {
-            vec_push(&result->pinyin, str_c(item));
-        }
-    }
-    if (string_result->pinyin_first) {
-        vec_init(&result->pinyin_first);
-        for (auto item : *string_result->pinyin_first) {
-            vec_push(&result->pinyin_first, str_c(item));
-        }
-    }
-    if (string_result->pinyin_sound) {
-        vec_init(&result->pinyin_sound);
-        for (auto item : *string_result->pinyin_sound) {
-            vec_push(&result->pinyin_sound, str_c(item));
-        }
-    }
-    if (string_result->pinyin_sound_number) {
-        vec_init(&result->pinyin_sound_number);
-        for (auto item : *string_result->pinyin_sound_number) {
-            vec_push(&result->pinyin_sound_number, str_c(item));
-        }
-    }
-    delete string_result;
-}
-
-// 释放拼音数组结果
-void free_pinyin_result_array(PinyinResultArray_C* result) {
-    if (result->pinyin.capacity > 0) {
-        int i;
-        vec_str_t i1;
-        vec_foreach(&result->pinyin, i1, i) {
-            free_chars_in_vec_str_t(&i1);
-            vec_deinit(&i1);
-        }
-        vec_deinit(&result->pinyin);
-    }
-    if (result->pinyin_first.capacity > 0) {
-        int i;
-        vec_str_t i1;
-        vec_foreach(&result->pinyin_first, i1, i) {
-            free_chars_in_vec_str_t(&i1);
-            vec_deinit(&i1);
-        }
-        vec_deinit(&result->pinyin_first);
-    }
-    if (result->pinyin_sound.capacity > 0) {
-        int i;
-        vec_str_t i1;
-        vec_foreach(&result->pinyin_sound, i1, i) {
-            free_chars_in_vec_str_t(&i1);
-            vec_deinit(&i1);
-        }
-        vec_deinit(&result->pinyin_sound);
-    }
-    if (result->pinyin_sound_number.capacity > 0) {
-        int i;
-        vec_str_t i1;
-        vec_foreach(&result->pinyin_sound_number, i1, i) {
-            free_chars_in_vec_str_t(&i1);
-            vec_deinit(&i1);
-        }
-        vec_deinit(&result->pinyin_sound_number);
-    }
-}
-
-// 释放字符串数组结果
-void free_pinyin_result_string(PinyinResultString_C* result) {
-    if (result->pinyin.capacity > 0) {
-        free_chars_in_vec_str_t(&result->pinyin);
-        vec_deinit(&result->pinyin);
-    }
-    if (result->pinyin_first.capacity > 0) {
-        free_chars_in_vec_str_t(&result->pinyin_first);
-        vec_deinit(&result->pinyin_first);
-    }
-    if (result->pinyin_sound.capacity > 0) {
-        free_chars_in_vec_str_t(&result->pinyin_sound);
-        vec_deinit(&result->pinyin_sound);
-    }
-    if (result->pinyin_sound_number.capacity > 0) {
-        free_chars_in_vec_str_t(&result->pinyin_sound_number);
-        vec_deinit(&result->pinyin_sound_number);
-    }
-}
-
-#ifdef WITH_SWOOLE
-using swoole::Coroutine;
-// 转换汉字到拼音数组
-void swoole_convert_to_pinyin_array(PinyinResultArray_C* result, void* dict, const char* text, ConvertMode mode, short split_not_pinyin_char) {
-    const auto callback = [&]() {
-        convert_to_pinyin_array(result, dict, text, mode, split_not_pinyin_char);
-    };
-    if (Coroutine::get_current()) {
-        swoole::coroutine::async(callback);
-    } else {
-        callback();
-    }
-}
-// 转换汉字到拼音字符串数组
-void swoole_convert_to_pinyin_string(PinyinResultString_C* result, void* dict, const char* text, ConvertMode mode, short split_not_pinyin_char, const char* word_split) {
-    const auto callback = [&]() {
-        convert_to_pinyin_string(result, dict, text, mode, split_not_pinyin_char, word_split);
-    };
-    if (Coroutine::get_current()) {
-        swoole::coroutine::async(callback);
-    } else {
-        callback();
-    }
-}
-#endif
 }
