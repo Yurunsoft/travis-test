@@ -81,9 +81,9 @@ void Dict::LoadPinyinData(const string file_name) {
         yunmu[i] = json_data["split"]["yunmu"][i].get<string>();
     }
     // 拼音分词
-    function<void(unordered_map<string, PinyinSplitInfo *> *, json *)> parse_pinyin_fenci;
-    parse_pinyin_fenci = [&parse_pinyin_fenci](unordered_map<string, PinyinSplitInfo *> *pinyinSplitInfos, json *json_data) {
-        for (auto el : json_data->items()) {
+    function<void(unordered_map<string, PinyinSplitInfo *> *, json &)> parse_pinyin_fenci;
+    parse_pinyin_fenci = [&parse_pinyin_fenci](unordered_map<string, PinyinSplitInfo *> *pinyinSplitInfos, json &json_data) {
+        for (auto el : json_data.items()) {
             const string c = el.key();
             if ("py" == c) {
                 continue;
@@ -91,24 +91,49 @@ void Dict::LoadPinyinData(const string file_name) {
             json value = el.value();
             PinyinSplitInfo *pinyinSplitInfo = new PinyinSplitInfo;
             pinyinSplitInfo->is_pinyin = value["py"].is_boolean() ? value["py"].get<bool>() : false;
-            unordered_map<string, PinyinSplitInfo *> *subPinyinSplitInfos
-                = new unordered_map<string, PinyinSplitInfo *>;
-            parse_pinyin_fenci(subPinyinSplitInfos, &value);
-            if (!subPinyinSplitInfos->empty()) {
+            auto subPinyinSplitInfos = new unordered_map<string, PinyinSplitInfo *>;
+            parse_pinyin_fenci(subPinyinSplitInfos, value);
+            if (subPinyinSplitInfos->empty()) {
+                pinyinSplitInfo->children = nullptr;
+            } else {
                 pinyinSplitInfo->children = subPinyinSplitInfos;
             }
             (*pinyinSplitInfos)[c] = pinyinSplitInfo;
         }
     };
     ClearPinyinSplitInfos();
-    parse_pinyin_fenci(&pinyinSplitInfos, &json_data["split"]["relation"]);
+    parse_pinyin_fenci(&pinyinSplitInfos, json_data["split"]["relation"]);
 }
 
 // 获取汉字信息
-const Character *Dict::GetCharacter(const string string) { return characters[string]; }
+const Character *Dict::GetCharacter(const string string) {
+    auto find_result = characters.find(string);
+    if(find_result == characters.end())
+    {
+        return nullptr;
+    }
+    return find_result->second;
+}
 
 // 获取拼音信息
-const PinyinInfo *Dict::GetPinyin(const string string) { return pinyins[string]; }
+const PinyinInfo *Dict::GetPinyin(const string string) {
+    auto find_result = pinyins.find(string);
+    if(find_result == pinyins.end())
+    {
+        return nullptr;
+    }
+    return find_result->second;
+}
+
+// 获取拼音分词信息
+const PinyinSplitInfo *Dict::GetPinyinSplitInfo(const string string) {
+    auto find_result = pinyinSplitInfos.find(string);
+    if(find_result == pinyinSplitInfos.end())
+    {
+        return nullptr;
+    }
+    return find_result->second;
+}
 
 // 拼音转换
 void Dict::ConvertPinyin(const string pinyin_sound, string &pinyin, string &pinyin_sound_number) {
@@ -151,16 +176,19 @@ void Dict::ClearCharacters() {
     for (auto i = characters.begin(); i != characters.end(); i++) {
         delete i->second;
     }
+    characters.clear();
 }
 
 void Dict::ClearPinyins() {
     for (auto i = pinyins.begin(); i != pinyins.end(); i++) {
         delete i->second;
     }
+    pinyins.clear();
 }
 
 void Dict::ClearPinyinSplitInfos() {
     for (auto i = pinyinSplitInfos.begin(); i != pinyinSplitInfos.end(); i++) {
         delete i->second;
     }
+    pinyinSplitInfos.clear();
 }

@@ -4,22 +4,25 @@
 #include "php/php_pinyin.h"
 #include "php/php_st.h"
 
-/* {{{ PHP_MINIT_FUNCTION */
 PHP_MINIT_FUNCTION(yurun_chinese) {
     return SUCCESS;
 }
-/* }}} */
 
-/* {{{ PHP_MSHUTDOWN_FUNCTION */
 PHP_MSHUTDOWN_FUNCTION(yurun_chinese) {
     return SUCCESS;
 }
-/* }}} */
 
-/* {{{ PHP_MINFO_FUNCTION */
+PHP_RINIT_FUNCTION(yurun_chinese) {
+    return SUCCESS;
+}
+
+PHP_RSHUTDOWN_FUNCTION(yurun_chinese) {
+    close_chinese_dict();
+    return SUCCESS;
+}
+
 PHP_MINFO_FUNCTION(yurun_chinese) {
 }
-/* }}} */
 
 static const zend_function_entry ext_functions[] = {
     ZEND_FE(init_chinese_dict, arginfo_init_chinese_dict)
@@ -38,15 +41,17 @@ static const zend_function_entry ext_functions[] = {
                                         ZEND_FE_END};
 
 zend_module_entry yurun_chinese_module_entry = {
-    STANDARD_MODULE_HEADER,
+    STANDARD_MODULE_HEADER_EX,
+    nullptr,
+    nullptr,
     "yurun_chinese",
     ext_functions,
     PHP_MINIT(yurun_chinese),
     PHP_MSHUTDOWN(yurun_chinese),
-    NULL,
-    NULL,
+    PHP_RINIT(yurun_chinese),
+    PHP_RSHUTDOWN(yurun_chinese),
     PHP_MINFO(yurun_chinese),
-    "",
+    "1.0.0",
     STANDARD_MODULE_PROPERTIES};
 extern "C" {
 void init_chinese_util() {

@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -49,13 +50,14 @@ namespace chinese_util {
         const Character* GetCharacter(const string string);
         // 获取拼音信息
         const PinyinInfo* GetPinyin(const string string);
+        // 获取拼音分词信息
+        const PinyinSplitInfo* GetPinyinSplitInfo(const string string);
         // 拼音转换
         void ConvertPinyin(const string pinyin_sound, string& pinyin, string& pinyin_sound_number);
         // 是否是声母
         bool IsShengmu(const string string);
         // 是否是韵母
         bool IsYunmu(const string string);
-
         private:
         // 汉字集合
         unordered_map<string, Character*> characters;

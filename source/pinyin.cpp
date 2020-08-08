@@ -8,13 +8,7 @@
 
 using namespace chinese_util;
 
-struct ListItem {
-    bool is_chinese;
-    string character;
-    const Character* character_info;
-};
-
-static void parse_result(Dict* dict, PinyinResultVector& result, const ListItem& item) {
+void Pinyin::ParseResult(Dict* dict, PinyinResultVector& result, const ListItem& item) {
     if (item.is_chinese) {
         vector<vector<string>> origin_pinyin_sound = *result.pinyin_sound;
         vector<vector<string>> origin_pinyin, origin_pinyin_sound_number, origin_pinyin_first;
@@ -180,7 +174,7 @@ void Pinyin::Convert(PinyinResultVector& result, Dict* dict, const string text, 
                 ListItem item2;
                 item2.is_chinese = false;
                 item2.character = no_result_item;
-                parse_result(dict, result, item2);
+                ParseResult(dict, result, item2);
                 no_result_item.clear();
             }
             item.is_chinese = true;
@@ -192,13 +186,13 @@ void Pinyin::Convert(PinyinResultVector& result, Dict* dict, const string text, 
             }
             item.is_chinese = false;
         }
-        parse_result(dict, result, item);
+        ParseResult(dict, result, item);
     }
     if (!split_not_pinyin_char && no_result_item.length() > 0) {
         ListItem item2;
         item2.is_chinese = false;
         item2.character = no_result_item;
-        parse_result(dict, result, item2);
+        ParseResult(dict, result, item2);
     }
 
     // 如果不需要拼音带读音则不返回

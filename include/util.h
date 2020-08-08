@@ -6,6 +6,10 @@
 
 using namespace std;
 
+#define ww(a, b) (a ? a : b)
+#define stl_isset(stl, key) (stl.find(key) != stl.end())
+#define stlp_isset(stl, key) (stl->find(key) != stl->end())
+
 static void split_string(const string str, const string pattern, vector<string> *result) {
     char *strc = new char[str.length() + 1];
     strcpy(strc, str.c_str());
@@ -39,7 +43,7 @@ static void split_character_utf8(const string word, vector<string> &characters) 
 }
 
 template <class T>
-static std::string join(T &val, const std::string delim) {
+static inline std::string join(T &val, const std::string delim = "") {
     std::string str;
     typename T::iterator it;
     const typename T::iterator itlast = val.end() - 1;

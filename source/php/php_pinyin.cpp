@@ -1,7 +1,6 @@
 #include "php/php_pinyin.h"
 
 static inline void parse_convert_to_pinyin_array_result(zval *result, PinyinResultVector &parse_result) {
-    array_init(result);
     if (parse_result.pinyin) {
         zval result_item;
         array_init(&result_item);
@@ -57,7 +56,6 @@ static inline void parse_convert_to_pinyin_array_result(zval *result, PinyinResu
 }
 
 static inline void parse_convert_to_pinyin_string_result(zval *result, PinyinResultString &parse_result) {
-    array_init(result);
     if (parse_result.pinyin) {
         zval result_item;
         array_init(&result_item);
@@ -106,7 +104,8 @@ PHP_FUNCTION(convert_to_pinyin_array) {
     ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
 
     PinyinResultVector result;
-    Pinyin::Convert(result, &dict, text, (ConvertMode)mode, split_not_pinyin_char);
+    Pinyin::Convert(result, dict, text, (ConvertMode)mode, split_not_pinyin_char);
+    array_init(return_value);
     parse_convert_to_pinyin_array_result(return_value, result);
 }
 
@@ -116,7 +115,7 @@ PHP_FUNCTION(convert_to_pinyin_string) {
     zend_long mode = ConvertMode::ALL;
     zend_bool split_not_pinyin_char = true;
 
-    ZEND_PARSE_PARAMETERS_START(1, 3)
+    ZEND_PARSE_PARAMETERS_START(1, 4)
     Z_PARAM_STRING(text, text_len)
     Z_PARAM_OPTIONAL
     Z_PARAM_LONG(mode)
@@ -129,7 +128,8 @@ PHP_FUNCTION(convert_to_pinyin_string) {
     }
 
     PinyinResultString result;
-    Pinyin::Convert(result, &dict, text, (ConvertMode)mode, split_not_pinyin_char, word_split);
+    Pinyin::Convert(result, dict, text, (ConvertMode)mode, split_not_pinyin_char, word_split);
+    array_init(return_value);
     parse_convert_to_pinyin_string_result(return_value, result);
 }
 #ifdef WITH_SWOOLE
@@ -148,7 +148,7 @@ PHP_FUNCTION(swoole_convert_to_pinyin_array) {
 
     PinyinResultVector result;
     const auto callback = [&]() {
-        Pinyin::Convert(result, &dict, text, (ConvertMode)mode, split_not_pinyin_char);
+        Pinyin::Convert(result, dict, text, (ConvertMode)mode, split_not_pinyin_char);
     };
 
     if (Coroutine::get_current()) {
@@ -157,6 +157,7 @@ PHP_FUNCTION(swoole_convert_to_pinyin_array) {
         callback();
     }
 
+    array_init(return_value);
     parse_convert_to_pinyin_array_result(return_value, result);
 }
 
@@ -166,7 +167,7 @@ PHP_FUNCTION(swoole_convert_to_pinyin_string) {
     zend_long mode = ConvertMode::ALL;
     zend_bool split_not_pinyin_char = true;
 
-    ZEND_PARSE_PARAMETERS_START(1, 3)
+    ZEND_PARSE_PARAMETERS_START(1, 4)
     Z_PARAM_STRING(text, text_len)
     Z_PARAM_OPTIONAL
     Z_PARAM_LONG(mode)
@@ -180,7 +181,7 @@ PHP_FUNCTION(swoole_convert_to_pinyin_string) {
 
     PinyinResultString result;
     const auto callback = [&]() {
-        Pinyin::Convert(result, &dict, text, (ConvertMode)mode, split_not_pinyin_char, word_split);
+        Pinyin::Convert(result, dict, text, (ConvertMode)mode, split_not_pinyin_char, word_split);
     };
 
     if (Coroutine::get_current()) {
@@ -189,6 +190,7 @@ PHP_FUNCTION(swoole_convert_to_pinyin_string) {
         callback();
     }
 
+    array_init(return_value);
     parse_convert_to_pinyin_string_result(return_value, result);
 }
 #endif

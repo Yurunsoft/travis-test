@@ -4,6 +4,7 @@
 
 #include <string>
 
+#include "json.h"
 #include "dict.h"
 
 using namespace std;
@@ -37,4 +38,10 @@ static inline Dict* get_dict() {
     dict->LoadCharacterData(dir + "/../../data/charsData.json");
     dict->LoadPinyinData(dir + "/../../data/pinyinData.json");
     return dict;
+}
+
+template <class T>
+static inline void CheckVectorString(const string excepted, vector<T> &vector)
+{
+    CHECK_EQ(json::parse(excepted).dump(4), json(vector).dump(4));
 }
