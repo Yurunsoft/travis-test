@@ -1,10 +1,5 @@
 #pragma once
-#include "dict.h"
-#include "php.h"
-
-using namespace chinese_util;
-
-extern Dict* dict;
+#include "php_chinese_util.h"
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_init_chinese_dict, 0, 0, 2)
 ZEND_ARG_INFO(0, chars_data_file)

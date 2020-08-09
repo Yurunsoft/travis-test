@@ -1,6 +1,7 @@
 #pragma once
 #include "php.h"
 #include "php/php_dict.h"
+#include "php_chinese_util.h"
 #ifdef WITH_SWOOLE
 #    include <coroutine_cxx_api.h>
 using namespace swoole;
