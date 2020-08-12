@@ -33,9 +33,9 @@ void Dict::LoadCharacterData(const string file_name) {
         if (value.size() < 5) {
             throw "Wrong data format";
         }
-        split_string(value[0].get<string>(), ",", &character->pinyin);
-        split_string(value[1].get<string>(), ",", &character->sc);
-        split_string(value[2].get<string>(), ",", &character->tc);
+        split_string(value[0].get<string>(), ",", character->pinyin);
+        split_string(value[1].get<string>(), ",", character->sc);
+        split_string(value[2].get<string>(), ",", character->tc);
         character->is_sc = 1 == value[3].get<short>();
         character->is_tc = 1 == value[4].get<short>();
         const string character_string = el.key();

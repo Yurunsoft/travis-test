@@ -3,6 +3,9 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <iostream>
+#include <array>
 
 using namespace std;
 
@@ -10,13 +13,13 @@ using namespace std;
 #define stl_isset(stl, key) (stl.find(key) != stl.end())
 #define stlp_isset(stl, key) (stl->find(key) != stl->end())
 
-static void split_string(const string str, const string pattern, vector<string> *result) {
+static void split_string(const string str, const string pattern, vector<string> &result) {
     char *strc = new char[str.length() + 1];
     strcpy(strc, str.c_str());
     const char *patternChars = pattern.c_str();
     char *tmpStr = strtok(strc, patternChars);
     while (tmpStr != NULL) {
-        result->push_back(string(tmpStr));
+        result.push_back(string(tmpStr));
         tmpStr = strtok(NULL, patternChars);
     }
 
@@ -97,4 +100,46 @@ static inline void str_c(char *&result, const string str) {
     result = new char[length + 1];
     strcpy(result, str.c_str());
     result[length] = '\0';
+}
+
+template <typename T, size_t N>
+static inline size_t array_search(array<T, N> &arr, T &val)
+{
+    for(size_t i = 0; i < arr.size(); ++i)
+    {
+        if(arr[i] == val)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+static inline bool is_digital(string text)
+{
+    bool has_negative = false, has_point = false;
+    for(size_t i = 0; i < text.length(); ++i)
+    {
+        if('-' == text[i])
+        {
+            if(i > 0 || has_negative)
+            {
+                return false;
+            }
+            has_negative = true;
+        }
+        else if('.' == text[i])
+        {
+            if(0 == i || has_point)
+            {
+                return false;
+            }
+            has_point = true;
+        }
+        else if(text[i] < '0' || text[i] > '9')
+        {
+            return false;
+        }
+    }
+    return true;
 }
