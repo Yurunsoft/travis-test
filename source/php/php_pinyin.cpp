@@ -104,7 +104,7 @@ PHP_FUNCTION(convert_to_pinyin_array) {
     ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
 
     PinyinResultVector result;
-    Pinyin::Convert(result, yurun_chinese_globals.dict, text, (ConvertMode)mode, split_not_pinyin_char);
+    Pinyin::Convert(result, dict, text, (ConvertMode)mode, split_not_pinyin_char);
     array_init(return_value);
     parse_convert_to_pinyin_array_result(return_value, result);
 }
@@ -128,7 +128,7 @@ PHP_FUNCTION(convert_to_pinyin_string) {
     }
 
     PinyinResultString result;
-    Pinyin::Convert(result, yurun_chinese_globals.dict, text, (ConvertMode)mode, split_not_pinyin_char, word_split);
+    Pinyin::Convert(result, dict, text, (ConvertMode)mode, split_not_pinyin_char, word_split);
     array_init(return_value);
     parse_convert_to_pinyin_string_result(return_value, result);
 }
@@ -148,7 +148,7 @@ PHP_FUNCTION(swoole_convert_to_pinyin_array) {
 
     PinyinResultVector result;
     const auto callback = [&]() {
-        Pinyin::Convert(result, yurun_chinese_globals.dict, text, (ConvertMode)mode, split_not_pinyin_char);
+        Pinyin::Convert(result, dict, text, (ConvertMode)mode, split_not_pinyin_char);
     };
 
     if (Coroutine::get_current()) {
@@ -181,7 +181,7 @@ PHP_FUNCTION(swoole_convert_to_pinyin_string) {
 
     PinyinResultString result;
     const auto callback = [&]() {
-        Pinyin::Convert(result, yurun_chinese_globals.dict, text, (ConvertMode)mode, split_not_pinyin_char, word_split);
+        Pinyin::Convert(result, dict, text, (ConvertMode)mode, split_not_pinyin_char, word_split);
     };
 
     if (Coroutine::get_current()) {
