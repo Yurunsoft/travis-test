@@ -58,10 +58,6 @@ void PinyinSplit::ParseBlock(Dict *dict, const string text, unordered_map<size_t
 {
     vector<vector<string>> blocks;
     SplitPinyinBlock(text, blocks);
-    for(auto i : blocks)
-    {
-        cout << join(i, " ") << endl;
-    }
     bool has_no_pinyin_chars = blocks.size() > 1;
     bool odd_is_pinyin;
     if(has_no_pinyin_chars)
@@ -82,7 +78,6 @@ void PinyinSplit::ParseBlock(Dict *dict, const string text, unordered_map<size_t
                 {
                     begin_maps[begin] = vector<BeginMapBlockItem>();
                 }
-                cout << "str-1:" << join(blocks[block_index]) << endl;
                 begin_maps[begin].push_back(BeginMapBlockItem{
                     text: join(blocks[block_index]),
                     is_pinyin: false,
@@ -125,7 +120,6 @@ void PinyinSplit::ParseBlock(Dict *dict, const string text, unordered_map<size_t
                     auto sub_relation = relation_has_character ? (*relation->children)[character] : nullptr;
                     temp_block_result_item->is_pinyin = relation_has_character && sub_relation->is_pinyin;
                     temp_block_result_item->text += character;
-                    cout << "str-2:" << temp_block_result_item->text << endl;
                     temp_block_result_item->relation = sub_relation;
                 }
                 else
@@ -153,7 +147,6 @@ void PinyinSplit::ParseBlock(Dict *dict, const string text, unordered_map<size_t
             }
 
             const PinyinSplitInfo *character_split_info = dict->GetPinyinSplitInfo(character);
-            cout << "str-3:" << character << endl;
             temp_block_results.push_back(BeginMapBlockItem{
                 text: character,
                 is_pinyin: character_split_info && character_split_info->is_pinyin,

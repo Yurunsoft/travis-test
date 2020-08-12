@@ -3,6 +3,7 @@
 #include "php/php_dict.h"
 #include "php/php_pinyin.h"
 #include "php/php_st.h"
+#include "php/php_pinyin_split.h"
 
 // clang-format off
 const zend_function_entry ext_functions[] = {
@@ -18,6 +19,12 @@ const zend_function_entry ext_functions[] = {
 #ifdef WITH_SWOOLE
     ZEND_FE(swoole_convert_to_pinyin_array, arginfo_swoole_convert_to_pinyin_array)
     ZEND_FE(swoole_convert_to_pinyin_string, arginfo_swoole_convert_to_pinyin_string)
+#endif
+    ZEND_FE(split_pinyin_array, arginfo_split_pinyin_array)
+    ZEND_FE(split_pinyin_string, arginfo_split_pinyin_string)
+#ifdef WITH_SWOOLE
+    ZEND_FE(swoole_split_pinyin_array, arginfo_swoole_split_pinyin_array)
+    ZEND_FE(swoole_split_pinyin_string, arginfo_swoole_split_pinyin_string)
 #endif
     PHP_FE_END
 };
