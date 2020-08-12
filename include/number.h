@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <array>
 #include <sstream>
+#include <cmath>
 
 #include "util.h"
 
@@ -121,6 +122,8 @@ namespace chinese_util {
         }
         // 数字转为中文口语化数字
         static string ToChinese(const string text, bool ten_min = false);
+        // 数字转为中文口语化数字
+        static string ToChinese(const char* text, bool ten_min = false);
         // 数字转为中文口语化数字
         template <typename T>
         static string ToChinese(const T text, bool ten_min = false) {

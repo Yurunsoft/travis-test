@@ -115,7 +115,7 @@ static inline size_t array_search(array<T, N> &arr, T &val)
     return -1;
 }
 
-static inline bool is_digital(string text)
+static inline bool is_digital(const string text)
 {
     bool has_negative = false, has_point = false;
     for(size_t i = 0; i < text.length(); ++i)
@@ -142,4 +142,15 @@ static inline bool is_digital(string text)
         }
     }
     return true;
+}
+
+static inline void str_split(const string text, size_t split_length, vector<string> &result)
+{
+    string tmp;
+    size_t i = 0;
+    while((tmp = text.substr(i, split_length)).length() > 0)
+    {
+        result.push_back(tmp);
+        i += split_length;
+    }
 }
