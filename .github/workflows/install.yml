@@ -26,10 +26,10 @@ jobs:
         rm -rf build
 
     - name: configure
-      run: cmake -Htest -Bbuild -DTEST_INSTALLED_VERSION=1
+      run: cmake -Htest -Bbuild/test -DTEST_INSTALLED_VERSION=1
 
     - name: build
-      run: cmake --build build --config Debug -j4
+      run: cmake --build build/test --config Debug -j4
 
     - name: test
       run: cmake --build build/test --target test
