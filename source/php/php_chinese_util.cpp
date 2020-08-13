@@ -2,8 +2,8 @@
 
 #include "php/php_dict.h"
 #include "php/php_pinyin.h"
-#include "php/php_st.h"
 #include "php/php_pinyin_split.h"
+#include "php/php_st.h"
 
 // clang-format off
 const zend_function_entry ext_functions[] = {

@@ -108,8 +108,7 @@ void Dict::LoadPinyinData(const string file_name) {
 // 获取汉字信息
 const Character *Dict::GetCharacter(const string string) {
     auto find_result = characters.find(string);
-    if(find_result == characters.end())
-    {
+    if (find_result == characters.end()) {
         return nullptr;
     }
     return find_result->second;
@@ -118,8 +117,7 @@ const Character *Dict::GetCharacter(const string string) {
 // 获取拼音信息
 const PinyinInfo *Dict::GetPinyin(const string string) {
     auto find_result = pinyins.find(string);
-    if(find_result == pinyins.end())
-    {
+    if (find_result == pinyins.end()) {
         return nullptr;
     }
     return find_result->second;
@@ -128,8 +126,7 @@ const PinyinInfo *Dict::GetPinyin(const string string) {
 // 获取拼音分词信息
 const PinyinSplitInfo *Dict::GetPinyinSplitInfo(const string string) {
     auto find_result = pinyinSplitInfos.find(string);
-    if(find_result == pinyinSplitInfos.end())
-    {
+    if (find_result == pinyinSplitInfos.end()) {
         return nullptr;
     }
     return find_result->second;

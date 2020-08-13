@@ -4,8 +4,8 @@
 
 #include <string>
 
-#include "json.h"
 #include "dict.h"
+#include "json.h"
 
 using namespace std;
 using namespace chinese_util;
@@ -41,7 +41,6 @@ static inline Dict* get_dict() {
 }
 
 template <class T>
-static inline void CheckVectorString(const string excepted, vector<T> &vector)
-{
+static inline void CheckVectorString(const string excepted, vector<T>& vector) {
     CHECK_EQ(json::parse(excepted).dump(4), json(vector).dump(4));
 }

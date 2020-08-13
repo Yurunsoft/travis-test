@@ -16,7 +16,7 @@ static inline void conver_st(Dict *dict, const string text, bool to_simplified, 
                 goto no_result;
             }
             auto result_back = result;
-            for (int i = 0; i < size; ++i) {
+            for (size_t i = 0; i < size; ++i) {
                 if (0 == i) {
                     for (auto &result_item : result) {
                         result_item += (*tmpVector)[i];
@@ -37,11 +37,11 @@ static inline void conver_st(Dict *dict, const string text, bool to_simplified, 
 }
 
 // 繁体转简体
-const void SimplifiedTraditional::ToSimplified(Dict *dict, const string text, vector<string> &result) {
+void SimplifiedTraditional::ToSimplified(Dict *dict, const string text, vector<string> &result) {
     return conver_st(dict, text, true, result);
 }
 
 // 简体转繁体
-const void SimplifiedTraditional::ToTraditional(Dict *dict, const string text, vector<string> &result) {
+void SimplifiedTraditional::ToTraditional(Dict *dict, const string text, vector<string> &result) {
     return conver_st(dict, text, false, result);
 }

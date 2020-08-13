@@ -1,13 +1,13 @@
 #pragma once
 
+#include <dict.h>
+#include <json.h>
+#include <util.h>
+
 #include <iostream>
+#include <stack>
 #include <string>
 #include <vector>
-#include <stack>
-
-#include <dict.h>
-#include <util.h>
-#include <json.h>
 
 using namespace std;
 
@@ -20,12 +20,13 @@ namespace chinese_util {
 
         // 分词为字符串二维数组
         static void Split(vector<vector<string>> &result, Dict *dict, const string text);
+
         private:
         // 以开始位置为索引的集合分块信息
         struct BeginMapBlockItem {
             string text;
             bool is_pinyin;
-            const PinyinSplitInfo* relation;
+            const PinyinSplitInfo *relation;
             size_t begin = 0;
             size_t end = 0;
         };
@@ -37,4 +38,4 @@ namespace chinese_util {
         static void SplitPinyinBlock(const string word, vector<vector<string>> &result);
         static void ParseBlock(Dict *dict, const string text, unordered_map<size_t, vector<BeginMapBlockItem>> &begin_maps, unordered_map<size_t, bool> &end_maps, size_t &length);
     };
-}
+}  // namespace chinese_util

@@ -1,11 +1,11 @@
 #pragma once
 
+#include <algorithm>
+#include <array>
 #include <cstring>
+#include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <iostream>
-#include <array>
 
 using namespace std;
 
@@ -103,53 +103,39 @@ static inline void str_c(char *&result, const string str) {
 }
 
 template <typename T, size_t N>
-static inline size_t array_search(array<T, N> &arr, T &val)
-{
-    for(size_t i = 0; i < arr.size(); ++i)
-    {
-        if(arr[i] == val)
-        {
+static inline int array_search(array<T, N> &arr, T &val) {
+    for (size_t i = 0; i < arr.size(); ++i) {
+        if (arr[i] == val) {
             return i;
         }
     }
     return -1;
 }
 
-static inline bool is_digital(const string text)
-{
+static inline bool is_digital(const string text) {
     bool has_negative = false, has_point = false;
-    for(size_t i = 0; i < text.length(); ++i)
-    {
-        if('-' == text[i])
-        {
-            if(i > 0 || has_negative)
-            {
+    for (size_t i = 0; i < text.length(); ++i) {
+        if ('-' == text[i]) {
+            if (i > 0 || has_negative) {
                 return false;
             }
             has_negative = true;
-        }
-        else if('.' == text[i])
-        {
-            if(0 == i || has_point)
-            {
+        } else if ('.' == text[i]) {
+            if (0 == i || has_point) {
                 return false;
             }
             has_point = true;
-        }
-        else if(text[i] < '0' || text[i] > '9')
-        {
+        } else if (text[i] < '0' || text[i] > '9') {
             return false;
         }
     }
     return true;
 }
 
-static inline void str_split(const string text, size_t split_length, vector<string> &result)
-{
+static inline void str_split(const string text, size_t split_length, vector<string> &result) {
     string tmp;
     size_t i = 0;
-    while((tmp = text.substr(i, split_length)).length() > 0)
-    {
+    while ((tmp = text.substr(i, split_length)).length() > 0) {
         result.push_back(tmp);
         i += split_length;
     }

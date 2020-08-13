@@ -1,11 +1,11 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include <unordered_map>
 #include <array>
-#include <sstream>
 #include <cmath>
+#include <sstream>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 #include "util.h"
 
@@ -24,8 +24,7 @@ namespace chinese_util {
         {'8', "八"},
         {'9', "九"},
         {'-', "负"},
-        {'.', "点"}
-    };
+        {'.', "点"}};
     unordered_map<string, char> NUMBER_MAP_BY_CHARACTER = {
         {"零", '0'},
         {"一", '1'},
@@ -38,8 +37,7 @@ namespace chinese_util {
         {"八", '8'},
         {"九", '9'},
         {"负", '-'},
-        {"点", '.'}
-    };
+        {"点", '.'}};
     array<string, 7> UNIT_MAP = {
         "十",
         "百",
@@ -47,8 +45,7 @@ namespace chinese_util {
         "万",
         "亿",
         "兆",
-        "京"
-    };
+        "京"};
 
     class Number {
         public:
@@ -61,52 +58,38 @@ namespace chinese_util {
             short pom = 1;
             bool is_decimal = false;
             string decimal;
-            for(size_t i = 0; i < characters.size(); ++i)
-            {
+            for (size_t i = 0; i < characters.size(); ++i) {
                 string character = characters[i];
-                if(0 == i && NUMBER_MAP_BY_NUMBER['-'] == character)
-                {
+                if (0 == i && NUMBER_MAP_BY_NUMBER['-'] == character) {
                     pom = -1;
                     continue;
                 }
-                if(NUMBER_MAP_BY_NUMBER['.'] == character)
-                {
+                if (NUMBER_MAP_BY_NUMBER['.'] == character) {
                     is_decimal = true;
                     continue;
                 }
-                if(stl_isset(NUMBER_MAP_BY_CHARACTER, character))
-                {
-                    if(is_decimal)
-                    {
+                if (stl_isset(NUMBER_MAP_BY_CHARACTER, character)) {
+                    if (is_decimal) {
                         decimal.append(1, NUMBER_MAP_BY_CHARACTER[character]);
-                    }
-                    else
-                    {
+                    } else {
                         last_num = NUMBER_MAP_BY_CHARACTER[character] - '0';
                     }
-                }
-                else
-                {
+                } else {
                     auto key = array_search(UNIT_MAP, character);
-                    if(-1 == key)
-                    {
+                    if (-1 == key) {
                         throw sprintf("%s is not a valied chinese number text", character.c_str());
                     }
 
-                    if(0 == key && 0 == last_num)
-                    {
+                    if (0 == key && 0 == last_num) {
                         last_num = 1;
                     }
 
                     T t_number;
-                    if(key >= 3)
-                    {
+                    if (key >= 3) {
                         part_number += last_num;
                         number += part_number * pow(10, ((key - 3) * 4) + 4);
                         part_number = 0;
-                    }
-                    else
-                    {
+                    } else {
                         part_number += last_num * pow(10, key + 1);
                     }
 
@@ -114,8 +97,7 @@ namespace chinese_util {
                 }
             }
             double integer = (number + part_number + last_num) * pom;
-            if(is_decimal)
-            {
+            if (is_decimal) {
                 integer += atof(decimal.c_str()) / pow(10, decimal.length());
             }
             return (T)integer;
@@ -130,4 +112,4 @@ namespace chinese_util {
             return ToChinese(to_string(text), ten_min);
         }
     };
-}
+}  // namespace chinese_util

@@ -1,9 +1,9 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <iostream>
 
 using namespace std;
 
@@ -58,6 +58,7 @@ namespace chinese_util {
         bool IsShengmu(const string string);
         // 是否是韵母
         bool IsYunmu(const string string);
+
         private:
         // 汉字集合
         unordered_map<string, Character*> characters;

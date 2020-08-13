@@ -2,10 +2,8 @@
 
 Dict* dict = nullptr;
 
-void close_chinese_dict()
-{
-    if(dict)
-    {
+void close_chinese_dict() {
+    if (dict) {
         delete dict;
         dict = nullptr;
     }

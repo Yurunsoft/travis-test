@@ -1,12 +1,10 @@
 #include "php/php_pinyin_split.h"
 
 static inline void parse_convert_to_pinyin_array_result(zval *result, vector<vector<string>> &parse_result) {
-    for(auto i1 : parse_result)
-    {
+    for (auto i1 : parse_result) {
         zval result_item;
         array_init(&result_item);
-        for(auto i2 : i1)
-        {
+        for (auto i2 : i1) {
             add_next_index_string(&result_item, i2.c_str());
         }
         add_next_index_zval(result, &result_item);
@@ -14,8 +12,7 @@ static inline void parse_convert_to_pinyin_array_result(zval *result, vector<vec
 }
 
 static inline void parse_convert_to_pinyin_string_result(zval *result, vector<string> &parse_result) {
-    for(auto i1 : parse_result)
-    {
+    for (auto i1 : parse_result) {
         add_next_index_string(result, i1.c_str());
     }
 }
@@ -29,7 +26,7 @@ PHP_FUNCTION(split_pinyin_array) {
 
     vector<vector<string>> result;
     PinyinSplit::Split(result, dict, text);
-    
+
     array_init(return_value);
     parse_convert_to_pinyin_array_result(return_value, result);
 }
@@ -45,7 +42,7 @@ PHP_FUNCTION(split_pinyin_string) {
 
     vector<string> result;
     PinyinSplit::Split(result, dict, text, word_split);
-    
+
     array_init(return_value);
     parse_convert_to_pinyin_string_result(return_value, result);
 }
@@ -68,7 +65,7 @@ PHP_FUNCTION(swoole_split_pinyin_array) {
     } else {
         callback();
     }
-    
+
     array_init(return_value);
     parse_convert_to_pinyin_array_result(return_value, result);
 }
@@ -92,7 +89,7 @@ PHP_FUNCTION(swoole_split_pinyin_string) {
     } else {
         callback();
     }
-    
+
     array_init(return_value);
     parse_convert_to_pinyin_string_result(return_value, result);
 }

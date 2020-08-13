@@ -92,13 +92,14 @@ namespace chinese_util {
         // 把字符串转为拼音结果
         static void Convert(PinyinResultString &result, Dict *dict, const string text, ConvertMode mode, bool split_not_pinyin_char, const string word_split);
         static void Convert(PinyinResultVector &result, Dict *dict, const string text, ConvertMode mode, bool split_not_pinyin_char);
+
         private:
         struct ListItem {
             bool is_chinese;
             string character;
-            const Character* character_info;
+            const Character *character_info;
         };
-        static void ParseResult(Dict* dict, PinyinResultVector& result, const ListItem& item);
+        static void ParseResult(Dict *dict, PinyinResultVector &result, const ListItem &item);
     };
 
 }  // namespace chinese_util
