@@ -64,11 +64,11 @@ void PinyinSplit::ParseBlock(Dict *dict, const string text, unordered_map<size_t
                     begin_maps[begin] = vector<BeginMapBlockItem>();
                 }
                 begin_maps[begin].push_back(BeginMapBlockItem{
-                    text : join(blocks[block_index]),
-                    is_pinyin : false,
-                    relation : nullptr,
-                    begin : begin,
-                    end : length - 1,
+                    join(blocks[block_index]),
+                    false,
+                    nullptr,
+                    begin,
+                    length - 1,
                 });
                 continue;
             }
@@ -122,10 +122,10 @@ void PinyinSplit::ParseBlock(Dict *dict, const string text, unordered_map<size_t
 
             const PinyinSplitInfo *character_split_info = dict->GetPinyinSplitInfo(character);
             temp_block_results.push_back(BeginMapBlockItem{
-                text : character,
-                is_pinyin : character_split_info && character_split_info->is_pinyin,
-                relation : ww(character_split_info, nullptr),
-                begin : length + i
+                character,
+                character_split_info && character_split_info->is_pinyin,
+                ww(character_split_info, nullptr),
+                length + i
             });
         }
         for (auto temp_block_result_item1 : temp_block_results) {
@@ -188,8 +188,8 @@ void PinyinSplit::Split(vector<vector<string>> &result, Dict *dict, const string
             }
             if (item_next_index < length) {
                 stack.push(StackItem{
-                    index : item_next_index,
-                    result : item_result
+                    item_next_index,
+                    item_result
                 });
             } else {
                 result.insert(result.end(), item_result.begin(), item_result.end());

@@ -35,6 +35,7 @@ static string get_dir() {
     if (cnt < 0 || cnt >= MAX_SIZE) {
         return nullptr;
     }
+    cout << "current_absolute_path-1:" << current_absolute_path << endl;
     //获取当前目录绝对路径，即去掉程序名
     for (ssize_t i = cnt - 1; i >= 0; --i) {
 #ifdef _WIN32
@@ -46,7 +47,7 @@ static string get_dir() {
             break;
         }
     }
-    cout << "current_absolute_path:" << current_absolute_path << endl;
+    cout << "current_absolute_path-2:" << current_absolute_path << endl;
     return current_absolute_path;
 }
 

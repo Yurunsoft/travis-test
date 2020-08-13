@@ -79,7 +79,7 @@ static string &operator+=(string &content, const int number) {
 
 // 将 string 转为 const char*
 static inline const char *str_cc(const string str) {
-    const ssize_t length = str.length();
+    const auto length = str.length();
     char *c = new char[length + 1];
     strcpy(c, str.c_str());
     c[length] = '\0';
@@ -88,7 +88,7 @@ static inline const char *str_cc(const string str) {
 
 // 将 string 转为 char*
 static inline char *str_c(const string str) {
-    const ssize_t length = str.length();
+    const auto length = str.length();
     char *c = new char[length + 1];
     strcpy(c, str.c_str());
     c[length] = '\0';
@@ -97,7 +97,7 @@ static inline char *str_c(const string str) {
 
 // 将 string 转为 char*
 static inline void str_c(char *&result, const string str) {
-    const ssize_t length = str.length();
+    const auto length = str.length();
     result = new char[length + 1];
     strcpy(result, str.c_str());
     result[length] = '\0';
