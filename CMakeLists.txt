@@ -61,9 +61,7 @@ if (DEFINED WITH_PHP)
   )
 endif ()
 
-add_definitions(
-  -D_CRT_SECURE_NO_WARNINGS
-)
+set(D_CRT_SECURE_NO_WARNINGS "")
 
 # ---- Add dependencies via CPM ----
 # see https://github.com/TheLartians/CPM.cmake for more info
