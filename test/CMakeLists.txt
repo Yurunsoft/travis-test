@@ -73,6 +73,7 @@ endif()
 
 if(MSVC)
   add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+  add_definitions(-D_HAS_STD_BYTE=0)
   add_compile_options(/wd4505)
 endif()
 
