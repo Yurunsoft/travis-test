@@ -22,22 +22,22 @@ using namespace chinese_util;
 
 static string get_dir() {
     char current_absolute_path[MAX_SIZE];
+    ssize_t cnt;
 #ifdef __APPLE__
-    unsigned size = 1024;
-    _NSGetExecutablePath(current_absolute_path, &size);
+    cnt = 1024;
+    _NSGetExecutablePath(current_absolute_path, &cnt);
     current_absolute_path[size] = '\0';
 #elif _WIN32
-    GetModuleFileName(NULL, current_absolute_path, sizeof(current_absolute_path) - 1);
+    cnt = GetModuleFileName(NULL, current_absolute_path, sizeof(current_absolute_path) - 1);
 #else
     //获取当前程序绝对路径
-    ssize_t cnt = readlink("/proc/self/exe", current_absolute_path, MAX_SIZE);
+    cnt = readlink("/proc/self/exe", current_absolute_path, MAX_SIZE);
+#endif
     if (cnt < 0 || cnt >= MAX_SIZE) {
         return nullptr;
     }
-#endif
     //获取当前目录绝对路径，即去掉程序名
-    ssize_t i;
-    for (i = cnt - 1; i >= 0; --i) {
+    for (ssize_t i = cnt - 1; i >= 0; --i) {
         if (current_absolute_path[i] == '/') {
             current_absolute_path[i + 1] = '\0';
             break;
