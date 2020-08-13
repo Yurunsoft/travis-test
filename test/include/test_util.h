@@ -16,25 +16,39 @@
 using namespace std;
 using namespace chinese_util;
 
-#ifndef MAX_SIZE
-#    define MAX_SIZE 1024
+#ifndef MAX_PATH
+#    define MAX_PATH 1024
 #endif
 
 static string get_dir() {
-    char current_absolute_path[MAX_SIZE];
+    char current_absolute_path[MAX_PATH];
 #ifdef __APPLE__
-    unsigned cnt = 1024;
-    cout << "cnt-1:" << cnt;
-    _NSGetExecutablePath(current_absolute_path, &cnt);
-    cout << "cnt-2:" << cnt;
-    current_absolute_path[cnt] = '\0';
+    // unsigned cnt = 1024;
+    // cout << "cnt-1:" << cnt;
+    // _NSGetExecutablePath(current_absolute_path, &cnt);
+    // cout << "cnt-2:" << cnt;
+    // current_absolute_path[cnt] = '\0';
+    uint32_t cnt = 0;
+
+    /* Get the buffer size */
+    int ret = _NSGetExecutablePath(current_absolute_path, &cnt);
+    if (cnt == 0) {
+        throw "_NSGetExecutablePath failed to give the buffer size";
+    }
+
+    /* Get the path of the current executable */
+    // self = malloc(cnt);
+    ret = _NSGetExecutablePath(current_absolute_path, &cnt);
+    if (ret != 0) {
+        throw "_NSGetExecutablePath returned" + ret;
+    }
 #elif _WIN32
     ssize_t cnt = GetModuleFileName(NULL, current_absolute_path, sizeof(current_absolute_path) - 1);
 #else
     //获取当前程序绝对路径
-    ssize_t cnt = readlink("/proc/self/exe", current_absolute_path, MAX_SIZE);
+    ssize_t cnt = readlink("/proc/self/exe", current_absolute_path, MAX_PATH);
 #endif
-    if (cnt < 0 || cnt >= MAX_SIZE) {
+    if (cnt < 0 || cnt >= MAX_PATH) {
         return nullptr;
     }
     cout << "current_absolute_path-1:" << current_absolute_path << endl;
