@@ -61,7 +61,9 @@ if (DEFINED WITH_PHP)
   )
 endif ()
 
-set(_CRT_SECURE_NO_WARNINGS 1)
+if(MSVC)
+  add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+endif()
 
 # ---- Add dependencies via CPM ----
 # see https://github.com/TheLartians/CPM.cmake for more info

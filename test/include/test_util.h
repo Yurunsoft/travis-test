@@ -37,11 +37,16 @@ static string get_dir() {
     }
     //获取当前目录绝对路径，即去掉程序名
     for (ssize_t i = cnt - 1; i >= 0; --i) {
+#ifdef _WIN32
+        if (current_absolute_path[i] == '\\') {
+#else
         if (current_absolute_path[i] == '/') {
+#endif
             current_absolute_path[i + 1] = '\0';
             break;
         }
     }
+    cout << "current_absolute_path:" << current_absolute_path << endl;
     return current_absolute_path;
 }
 
