@@ -24,7 +24,9 @@ static string get_dir() {
     char current_absolute_path[MAX_SIZE];
 #ifdef __APPLE__
     unsigned cnt = 1024;
+    cout << "cnt-1:" << cnt;
     _NSGetExecutablePath(current_absolute_path, &cnt);
+    cout << "cnt-2:" << cnt;
     current_absolute_path[cnt] = '\0';
 #elif _WIN32
     ssize_t cnt = GetModuleFileName(NULL, current_absolute_path, sizeof(current_absolute_path) - 1);
