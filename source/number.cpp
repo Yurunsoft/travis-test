@@ -109,7 +109,7 @@ string Number::ToChinese(const string text, bool ten_min) {
     vector<string> split_result;
     split_string(text, ".", split_result);
     string integer_str, decimal_str;
-    long tmp_integer;
+    long tmp_integer = 0;
     string pom;
     if (split_result.size() > 0) {
         integer_str = split_result[0];

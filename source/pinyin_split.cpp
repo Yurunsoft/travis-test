@@ -49,7 +49,7 @@ void PinyinSplit::ParseBlock(Dict *dict, const string text, unordered_map<size_t
     vector<vector<string>> blocks;
     SplitPinyinBlock(text, blocks);
     bool has_no_pinyin_chars = blocks.size() > 1;
-    bool odd_is_pinyin;
+    bool odd_is_pinyin = false;
     if (has_no_pinyin_chars) {
         odd_is_pinyin = (1 == blocks[0][0].length()) && isalpha(blocks[0][0][0]) > 0;
     }
