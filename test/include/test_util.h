@@ -33,10 +33,10 @@ static string get_dir() {
         throw "_NSGetExecutablePath returned" + ret;
     }
 #elif _WIN32
-    ssize_t cnt = GetModuleFileName(NULL, current_absolute_path, sizeof(current_absolute_path) - 1);
+    auto cnt = GetModuleFileName(NULL, current_absolute_path, sizeof(current_absolute_path) - 1);
 #else
     //获取当前程序绝对路径
-    ssize_t cnt = readlink("/proc/self/exe", current_absolute_path, MAX_PATH);
+    auto cnt = readlink("/proc/self/exe", current_absolute_path, MAX_PATH);
 #endif
     if (cnt < 0 || cnt >= MAX_PATH) {
         return nullptr;
