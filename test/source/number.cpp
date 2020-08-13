@@ -24,6 +24,7 @@ TEST_CASE("ToChinese") {
     CHECK_EQ("负五", Number::ToChinese(-5));
 
     // 小数
+    CHECK_EQ("三点一四一五", Number::ToChinese(3.1415));
     CHECK_EQ("三点一四一五", Number::ToChinese("3.1415"));
 }
 

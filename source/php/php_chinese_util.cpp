@@ -1,6 +1,7 @@
 #include "php/php_chinese_util.h"
 
 #include "php/php_dict.h"
+#include "php/php_number.h"
 #include "php/php_pinyin.h"
 #include "php/php_pinyin_split.h"
 #include "php/php_st.h"
@@ -25,6 +26,12 @@ const zend_function_entry ext_functions[] = {
 #ifdef WITH_SWOOLE
     ZEND_FE(swoole_split_pinyin_array, arginfo_swoole_split_pinyin_array)
     ZEND_FE(swoole_split_pinyin_string, arginfo_swoole_split_pinyin_string)
+#endif
+    ZEND_FE(convert_chinese_to_number, arginfo_convert_chinese_to_number)
+    ZEND_FE(convert_number_to_chinese, arginfo_convert_number_to_chinese)
+#ifdef WITH_SWOOLE
+    ZEND_FE(swoole_convert_chinese_to_number, arginfo_swoole_convert_chinese_to_number)
+    ZEND_FE(swoole_convert_number_to_chinese, arginfo_swoole_convert_number_to_chinese)
 #endif
     PHP_FE_END
 };

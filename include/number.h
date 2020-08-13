@@ -11,42 +11,11 @@
 
 using namespace std;
 
-namespace chinese_util {
-    unordered_map<char, string> NUMBER_MAP_BY_NUMBER = {
-        {'0', "零"},
-        {'1', "一"},
-        {'2', "二"},
-        {'3', "三"},
-        {'4', "四"},
-        {'5', "五"},
-        {'6', "六"},
-        {'7', "七"},
-        {'8', "八"},
-        {'9', "九"},
-        {'-', "负"},
-        {'.', "点"}};
-    unordered_map<string, char> NUMBER_MAP_BY_CHARACTER = {
-        {"零", '0'},
-        {"一", '1'},
-        {"二", '2'},
-        {"三", '3'},
-        {"四", '4'},
-        {"五", '5'},
-        {"六", '6'},
-        {"七", '7'},
-        {"八", '8'},
-        {"九", '9'},
-        {"负", '-'},
-        {"点", '.'}};
-    array<string, 7> UNIT_MAP = {
-        "十",
-        "百",
-        "千",
-        "万",
-        "亿",
-        "兆",
-        "京"};
+extern unordered_map<char, string> NUMBER_MAP_BY_NUMBER;
+extern unordered_map<string, char> NUMBER_MAP_BY_CHARACTER;
+extern array<string, 7> UNIT_MAP;
 
+namespace chinese_util {
     class Number {
         public:
         // 中文口语化数字转数字
@@ -106,6 +75,10 @@ namespace chinese_util {
         static string ToChinese(const string text, bool ten_min = false);
         // 数字转为中文口语化数字
         static string ToChinese(const char* text, bool ten_min = false);
+        // 数字转为中文口语化数字
+        static string ToChinese(char* text, bool ten_min = false);
+        // 数字转为中文口语化数字
+        static string ToChinese(double text, bool ten_min = false);
         // 数字转为中文口语化数字
         template <typename T>
         static string ToChinese(const T text, bool ten_min = false) {

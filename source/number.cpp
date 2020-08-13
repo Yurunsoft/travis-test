@@ -2,6 +2,43 @@
 
 using namespace chinese_util;
 
+unordered_map<char, string> NUMBER_MAP_BY_NUMBER = {
+    {'0', "零"},
+    {'1', "一"},
+    {'2', "二"},
+    {'3', "三"},
+    {'4', "四"},
+    {'5', "五"},
+    {'6', "六"},
+    {'7', "七"},
+    {'8', "八"},
+    {'9', "九"},
+    {'-', "负"},
+    {'.', "点"}};
+
+unordered_map<string, char> NUMBER_MAP_BY_CHARACTER = {
+    {"零", '0'},
+    {"一", '1'},
+    {"二", '2'},
+    {"三", '3'},
+    {"四", '4'},
+    {"五", '5'},
+    {"六", '6'},
+    {"七", '7'},
+    {"八", '8'},
+    {"九", '9'},
+    {"负", '-'},
+    {"点", '.'}};
+
+array<string, 7> UNIT_MAP = {
+    "十",
+    "百",
+    "千",
+    "万",
+    "亿",
+    "兆",
+    "京"};
+
 static inline string parse_integer(const string number, bool ten_min) {
     const auto number_length = number.length();
     // 同 % 4
@@ -96,4 +133,14 @@ string Number::ToChinese(const string text, bool ten_min) {
 
 string Number::ToChinese(const char* text, bool ten_min) {
     return ToChinese(string(text), ten_min);
+}
+
+string Number::ToChinese(char* text, bool ten_min) {
+    return ToChinese(string(text), ten_min);
+}
+
+string Number::ToChinese(double text, bool ten_min) {
+    std::ostringstream oss;
+    oss << text;
+    return ToChinese(oss.str(), ten_min);
 }
