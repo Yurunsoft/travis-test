@@ -46,7 +46,7 @@ namespace chinese_util {
                 } else {
                     auto key = array_search(UNIT_MAP, character);
                     if (-1 == key) {
-                        throw sprintf("%s is not a valied chinese number text", character.c_str());
+                        throw character + " is not a valied chinese number text";
                     }
 
                     if (0 == key && 0 == last_num) {

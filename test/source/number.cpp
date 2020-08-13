@@ -12,7 +12,7 @@
 using namespace std;
 using namespace chinese_util;
 
-TEST_CASE("ToChinese") {
+TEST_CASE("NumberToChinese") {
     CHECK_EQ("五", Number::ToChinese(5));
     CHECK_EQ("一十二", Number::ToChinese(12));
 
@@ -28,7 +28,7 @@ TEST_CASE("ToChinese") {
     CHECK_EQ("三点一四一五", Number::ToChinese("3.1415"));
 }
 
-TEST_CASE("ToNumber") {
+TEST_CASE("NumberToNumber") {
     // 数字
     CHECK_EQ(5, Number::ToNumber<long>("五"));
     CHECK_EQ(12, Number::ToNumber<long>("一十二"));

@@ -80,12 +80,12 @@ static inline string parse_integer(const string number, bool ten_min) {
                 }
                 if ('0' != item[j]) {
                     const auto unit_index = length - j - 2;
-                    item_result += (unit_index < UNIT_MAP.size() ? UNIT_MAP[unit_index] : "");
+                    item_result += (stl_isset_index(UNIT_MAP, unit_index) ? UNIT_MAP[unit_index] : "");
                 }
             }
         }
         if (0 != item_result.length()) {
-            result += item_result + ((i != split4_count - 1 && index < UNIT_MAP.size()) ? UNIT_MAP[index] : "");
+            result += item_result + ((i != split4_count - 1 && stl_isset_index(UNIT_MAP, index) ? UNIT_MAP[index] : ""));
         }
     }
     return result;
@@ -104,7 +104,7 @@ static inline string parse_decimal(const string number) {
 
 string Number::ToChinese(const string text, bool ten_min) {
     if (!is_digital(text)) {
-        throw sprintf("%s is not a valied number", text.c_str());
+        throw text + " is not a valied number";
     }
     vector<string> split_result;
     split_string(text, ".", split_result);

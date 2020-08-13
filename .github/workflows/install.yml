@@ -21,7 +21,7 @@ jobs:
     
     - name: build and install library
       run: |
-        cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_SWOOLE=1
+        cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -D WITH_PHP=1 -DWITH_SWOOLE=1
         sudo cmake --build build --target install
         rm -rf build
 

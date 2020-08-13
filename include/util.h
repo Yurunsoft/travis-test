@@ -12,6 +12,7 @@ using namespace std;
 #define ww(a, b) (a ? a : b)
 #define stl_isset(stl, key) (stl.find(key) != stl.end())
 #define stlp_isset(stl, key) (stl->find(key) != stl->end())
+#define stl_isset_index(stl, index) (index >= 0 && index < stl.size())
 
 static void split_string(const string str, const string pattern, vector<string> &result) {
     char *strc = new char[str.length() + 1];
@@ -112,6 +113,16 @@ static inline int array_search(array<T, N> &arr, T &val) {
     return -1;
 }
 
+template <typename T>
+static inline int vector_search(vector<T> &arr, T &val) {
+    for (size_t i = 0; i < arr.size(); ++i) {
+        if (arr[i] == val) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 static inline bool is_digital(const string text) {
     bool has_negative = false, has_point = false;
     for (size_t i = 0; i < text.length(); ++i) {
@@ -139,4 +150,25 @@ static inline void str_split(const string text, size_t split_length, vector<stri
         result.push_back(tmp);
         i += split_length;
     }
+}
+
+static inline string string_ltrim(const string text, const string trim_chars) {
+    vector<string> text_splits;
+    split_character_utf8(text, text_splits);
+    vector<string> trims;
+    split_character_utf8(trim_chars, trims);
+    for (size_t i = 0; i < text_splits.size(); ++i) {
+        if (vector_search(trims, text_splits[i]) > -1) {
+            return text.substr(i);
+        }
+    }
+    return text;
+}
+
+static inline string str_repeat(const string text, size_t count) {
+    string result;
+    for (size_t i = 0; i < count; ++i) {
+        result += text;
+    }
+    return result;
 }
