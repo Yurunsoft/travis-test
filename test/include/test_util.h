@@ -42,7 +42,7 @@ static string get_dir() {
         return nullptr;
     }
     //获取当前目录绝对路径，即去掉程序名
-    for (ssize_t i = cnt - 1; i >= 0; --i) {
+    for (auto i = cnt - 1; i >= 0; --i) {
 #ifdef _WIN32
         if (current_absolute_path[i] == '\\') {
 #else

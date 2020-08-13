@@ -71,6 +71,11 @@ if (NOT TEST_INSTALLED_VERSION)
   endif()
 endif()
 
+if(MSVC)
+  add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+  add_compile_options(/wd4505)
+endif()
+
 # ---- Add ChineseUtilTests ----
 
 ENABLE_TESTING() 
