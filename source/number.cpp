@@ -53,7 +53,7 @@ static inline string parse_integer(const string number, bool ten_min) {
     }
     const auto split4_count = split4.size();
 
-    short unit_index = ((number_length - 1) / 4) >> 0;
+    short unit_index = (short)(((number_length - 1) / 4) >> 0);
     if (0 == unit_index) {
         unit_index = -1;
     } else {
@@ -79,7 +79,7 @@ static inline string parse_integer(const string number, bool ten_min) {
                     item_result += NUMBER_MAP_BY_NUMBER[item[j]];
                 }
                 if ('0' != item[j]) {
-                    const auto unit_index = length - j - 2;
+                    unit_index = (short)(length - j - 2);
                     item_result += (stl_isset_index(UNIT_MAP, unit_index) ? UNIT_MAP[unit_index] : "");
                 }
             }

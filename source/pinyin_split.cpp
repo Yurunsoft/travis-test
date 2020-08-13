@@ -54,7 +54,7 @@ void PinyinSplit::ParseBlock(Dict *dict, const string text, unordered_map<size_t
         odd_is_pinyin = (1 == blocks[0][0].length()) && isalpha(blocks[0][0][0]) > 0;
     }
     length = 0;
-    size_t block_length, begin, end, i, j;
+    size_t begin, end, i, j;
     for (size_t block_index = 0; block_index < blocks.size(); ++block_index) {
         if (has_no_pinyin_chars) {
             if (odd_is_pinyin == (1 == (block_index & 1))) {
@@ -162,8 +162,7 @@ void PinyinSplit::Split(vector<vector<string>> &result, Dict *dict, const string
         return;
     }
     stack<StackItem> stack({StackItem{
-        index : 0,
-    }});
+        0}});
     stack.top().result.push_back(vector<string>());
     while (!stack.empty()) {
         StackItem stack_item = stack.top();

@@ -72,10 +72,6 @@ static string operator+(string &content, int number) {
         }
     }
 }
-//由于+=会调用+号，所以 += 必须写在 + 号重载后面
-static string &operator+=(string &content, const int number) {
-    return content = content + number;
-}
 
 // 将 string 转为 const char*
 static inline const char *str_cc(const string str) {
