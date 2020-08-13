@@ -53,6 +53,7 @@ static string get_dir() {
 static inline Dict* get_dict() {
     Dict* dict = new Dict;
     const string dir = get_dir();
+    cout << dir << endl;
     dict->LoadCharacterData(dir + "/../../data/charsData.json");
     dict->LoadPinyinData(dir + "/../../data/pinyinData.json");
     return dict;
