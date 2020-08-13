@@ -39,7 +39,7 @@ void Dict::LoadCharacterData(const string file_name) {
         character->is_sc = 1 == value[3].get<short>();
         character->is_tc = 1 == value[4].get<short>();
         const string character_string = el.key();
-        characters[character_string] = character;
+        map_characters[character_string] = character;
     }
 }
 
@@ -57,7 +57,7 @@ void Dict::LoadPinyinData(const string file_name) {
         pinyin->ab = value["ab"].get<string>();
         pinyin->tone = value["tone"].get<short>();
         const string sound = el.key();
-        pinyins[sound] = pinyin;
+        map_pinyins[sound] = pinyin;
     }
     size_t num, i;
     // 声母
@@ -102,13 +102,13 @@ void Dict::LoadPinyinData(const string file_name) {
         }
     };
     ClearPinyinSplitInfos();
-    parse_pinyin_fenci(&pinyinSplitInfos, json_data["split"]["relation"]);
+    parse_pinyin_fenci(&map_pinyin_split_infos, json_data["split"]["relation"]);
 }
 
 // 获取汉字信息
 const Character *Dict::GetCharacter(const string string) {
-    auto find_result = characters.find(string);
-    if (find_result == characters.end()) {
+    auto find_result = map_characters.find(string);
+    if (find_result == map_characters.end()) {
         return nullptr;
     }
     return find_result->second;
@@ -116,8 +116,8 @@ const Character *Dict::GetCharacter(const string string) {
 
 // 获取拼音信息
 const PinyinInfo *Dict::GetPinyin(const string string) {
-    auto find_result = pinyins.find(string);
-    if (find_result == pinyins.end()) {
+    auto find_result = map_pinyins.find(string);
+    if (find_result == map_pinyins.end()) {
         return nullptr;
     }
     return find_result->second;
@@ -125,8 +125,8 @@ const PinyinInfo *Dict::GetPinyin(const string string) {
 
 // 获取拼音分词信息
 const PinyinSplitInfo *Dict::GetPinyinSplitInfo(const string string) {
-    auto find_result = pinyinSplitInfos.find(string);
-    if (find_result == pinyinSplitInfos.end()) {
+    auto find_result = map_pinyin_split_infos.find(string);
+    if (find_result == map_pinyin_split_infos.end()) {
         return nullptr;
     }
     return find_result->second;
@@ -141,9 +141,9 @@ void Dict::ConvertPinyin(const string pinyin_sound, string &pinyin, string &piny
     split_character_utf8(pinyin, characters);
 
     for (const string tmp : characters) {
-        if (pinyins[tmp]) {
-            pinyin = pinyin.replace(pinyin.find(tmp), 2, pinyins[tmp]->ab);
-            pinyin_sound_number = pinyin_sound_number.replace(pinyin_sound_number.find(tmp), 2, pinyins[tmp]->ab) + pinyins[tmp]->tone;
+        if (map_pinyins[tmp]) {
+            pinyin = pinyin.replace(pinyin.find(tmp), 2, map_pinyins[tmp]->ab);
+            pinyin_sound_number = pinyin_sound_number.replace(pinyin_sound_number.find(tmp), 2, map_pinyins[tmp]->ab) + map_pinyins[tmp]->tone;
             break;
         }
     }
@@ -170,22 +170,22 @@ bool Dict::IsYunmu(const string string) {
 }
 
 void Dict::ClearCharacters() {
-    for (auto i = characters.begin(); i != characters.end(); i++) {
+    for (auto i = map_characters.begin(); i != map_characters.end(); i++) {
         delete i->second;
     }
-    characters.clear();
+    map_characters.clear();
 }
 
 void Dict::ClearPinyins() {
-    for (auto i = pinyins.begin(); i != pinyins.end(); i++) {
+    for (auto i = map_pinyins.begin(); i != map_pinyins.end(); i++) {
         delete i->second;
     }
-    pinyins.clear();
+    map_pinyins.clear();
 }
 
 void Dict::ClearPinyinSplitInfos() {
-    for (auto i = pinyinSplitInfos.begin(); i != pinyinSplitInfos.end(); i++) {
+    for (auto i = map_pinyin_split_infos.begin(); i != map_pinyin_split_infos.end(); i++) {
         delete i->second;
     }
-    pinyinSplitInfos.clear();
+    map_pinyin_split_infos.clear();
 }

@@ -125,8 +125,7 @@ void PinyinSplit::ParseBlock(Dict *dict, const string text, unordered_map<size_t
                 character,
                 character_split_info && character_split_info->is_pinyin,
                 ww(character_split_info, nullptr),
-                length + i
-            });
+                length + i});
         }
         for (auto temp_block_result_item1 : temp_block_results) {
             auto temp_block_result_item = BeginMapBlockItem(temp_block_result_item1);
@@ -189,8 +188,7 @@ void PinyinSplit::Split(vector<vector<string>> &result, Dict *dict, const string
             if (item_next_index < length) {
                 stack.push(StackItem{
                     item_next_index,
-                    item_result
-                });
+                    item_result});
             } else {
                 result.insert(result.end(), item_result.begin(), item_result.end());
             }

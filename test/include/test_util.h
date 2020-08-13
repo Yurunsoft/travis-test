@@ -23,21 +23,11 @@ using namespace chinese_util;
 static string get_dir() {
     char current_absolute_path[MAX_PATH];
 #ifdef __APPLE__
-    // unsigned cnt = 1024;
-    // cout << "cnt-1:" << cnt;
-    // _NSGetExecutablePath(current_absolute_path, &cnt);
-    // cout << "cnt-2:" << cnt;
-    // current_absolute_path[cnt] = '\0';
     uint32_t cnt = 0;
-
-    /* Get the buffer size */
     int ret = _NSGetExecutablePath(current_absolute_path, &cnt);
     if (cnt == 0) {
         throw "_NSGetExecutablePath failed to give the buffer size";
     }
-
-    /* Get the path of the current executable */
-    // self = malloc(cnt);
     ret = _NSGetExecutablePath(current_absolute_path, &cnt);
     if (ret != 0) {
         throw "_NSGetExecutablePath returned" + ret;
@@ -51,7 +41,6 @@ static string get_dir() {
     if (cnt < 0 || cnt >= MAX_PATH) {
         return nullptr;
     }
-    cout << "current_absolute_path-1:" << current_absolute_path << endl;
     //获取当前目录绝对路径，即去掉程序名
     for (ssize_t i = cnt - 1; i >= 0; --i) {
 #ifdef _WIN32
@@ -63,14 +52,12 @@ static string get_dir() {
             break;
         }
     }
-    cout << "current_absolute_path-2:" << current_absolute_path << endl;
     return current_absolute_path;
 }
 
 static inline Dict* get_dict() {
     Dict* dict = new Dict;
     const string dir = get_dir();
-    cout << dir << endl;
     dict->LoadCharacterData(dir + "/../../data/charsData.json");
     dict->LoadPinyinData(dir + "/../../data/pinyinData.json");
     return dict;

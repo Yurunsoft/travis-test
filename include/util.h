@@ -117,7 +117,7 @@ template <typename T>
 static inline int vector_search(vector<T> &arr, T &val) {
     for (size_t i = 0; i < arr.size(); ++i) {
         if (arr[i] == val) {
-            return i;
+            return (int)i;
         }
     }
     return -1;

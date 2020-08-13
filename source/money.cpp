@@ -58,7 +58,7 @@ static inline string parse_integer(const string number) {
     }
     const auto split4_count = split4.size();
 
-    long unit_index = ((number_length - 1) / 4) >> 0;
+    short unit_index = ((number_length - 1) / 4) >> 0;
     if (0 == unit_index) {
         unit_index = -1;
     } else {
@@ -68,7 +68,7 @@ static inline string parse_integer(const string number) {
     string result;
     for (size_t i = 0; i < split4_count; ++i) {
         const auto item = split4[i];
-        const long index = unit_index - i;
+        const short index = (short)(unit_index - i);
         const auto length = item.length();
         string item_result;
         bool has0 = false;
@@ -81,7 +81,7 @@ static inline string parse_integer(const string number) {
                     has0 = false;
                 }
                 item_result += MONEY_NUMBER_MAP_BY_NUMBER[item[j]];
-                unit_index = length - j - 2;
+                unit_index = (short)(length - j - 2);
                 if (stl_isset_index(MONEY_NUMBER_UNIT_MAP, unit_index)) {
                     item_result += MONEY_NUMBER_UNIT_MAP[unit_index];
                 }

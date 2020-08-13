@@ -61,11 +61,11 @@ namespace chinese_util {
 
         private:
         // 汉字集合
-        unordered_map<string, Character*> characters;
+        unordered_map<string, Character*> map_characters;
         // 拼音集合
-        unordered_map<string, PinyinInfo*> pinyins;
+        unordered_map<string, PinyinInfo*> map_pinyins;
         // 拼音分词信息集合
-        unordered_map<string, PinyinSplitInfo*> pinyinSplitInfos;
+        unordered_map<string, PinyinSplitInfo*> map_pinyin_split_infos;
         // 声母集合
         string* shengmu = nullptr;
         // 声母数量
