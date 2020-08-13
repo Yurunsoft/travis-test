@@ -20,12 +20,11 @@ jobs:
     - uses: actions/checkout@v1
     
     - name: configure
-      run: cmake -Htest -Bbuild
+      run: bin/pre-build-test
 
     - name: build
-      run: cmake --build build --config Debug -j4
+      run: bin/build-test
 
     - name: test
       run: |
-        cd build
-        ctest --build-config Debug
+        CTEST_OUTPUT_ON_FAILURE=1 cmake --build build/test --target test
