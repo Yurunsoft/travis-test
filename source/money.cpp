@@ -126,7 +126,7 @@ static inline string parse_decimal(const string number) {
 }
 string Money::ToChinese(const string text) {
     if (!is_digital(text)) {
-        throw sprintf("%s is not a valied number", text.c_str());
+        throw text + " is not a valied number";
     }
     vector<string> split_result;
     split_string(text, ".", split_result);
