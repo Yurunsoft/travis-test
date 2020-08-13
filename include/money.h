@@ -43,7 +43,7 @@ namespace chinese_util {
                         --i;
                         decimal = decimal * 10 + key;
                     } else {
-                        decimal += key * pow(10, -unit_key);
+                        decimal += (T)(key * pow(10, -unit_key));
                     }
                 } else if (-1 == key) {
                     key = array_search(MONEY_NUMBER_UNIT_MAP, character);
@@ -58,9 +58,9 @@ namespace chinese_util {
 
                     // 单位
                     if (key > 3) {
-                        t_number = pow(10, ((key - 2) * 4));
+                        t_number = (T)pow(10, ((key - 2) * 4));
                     } else {
-                        t_number = pow(10, key + 1);
+                        t_number = (T)pow(10, key + 1);
                     }
 
                     if (-1 == last_num) {
@@ -75,7 +75,7 @@ namespace chinese_util {
                         }
                         part_number = 0;
                         last_num = -1;
-                        last_key = key;
+                        last_key = (char)key;
                     } else {
                         part_number += last_num * t_number;
                         last_num = 0;

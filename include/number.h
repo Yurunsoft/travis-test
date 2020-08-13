@@ -53,13 +53,12 @@ namespace chinese_util {
                         last_num = 1;
                     }
 
-                    T t_number;
                     if (key >= 3) {
                         part_number += last_num;
-                        number += part_number * pow(10, ((key - 3) * 4) + 4);
+                        number += (T)(part_number * pow(10, ((key - 3) * 4) + 4));
                         part_number = 0;
                     } else {
-                        part_number += last_num * pow(10, key + 1);
+                        part_number += (T)(last_num * pow(10, key + 1));
                     }
 
                     last_num = 0;

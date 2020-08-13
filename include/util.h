@@ -103,7 +103,7 @@ template <typename T, size_t N>
 static inline int array_search(array<T, N> &arr, T &val) {
     for (size_t i = 0; i < arr.size(); ++i) {
         if (arr[i] == val) {
-            return i;
+            return (int)i;
         }
     }
     return -1;
