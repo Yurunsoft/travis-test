@@ -1,6 +1,12 @@
 #pragma once
 
-#include <unistd.h>
+#ifdef __APPLE__
+#    include <mach-o/dyld.h>
+#elif _WIN32
+#    include <windows.h>
+#else
+#    include <unistd.h>
+#endif
 
 #include <string>
 
@@ -15,6 +21,17 @@ using namespace chinese_util;
 #endif
 
 static string get_dir() {
+#ifdef __APPLE__
+    char path[1024];
+    unsigned size = 1024;
+    _NSGetExecutablePath(path, &size);
+    path[size] = '\0';
+    return path;
+#elif _WIN32
+    char szPath[1024] = {0};
+    GetModuleFileName(NULL, szPath, sizeof(szPath) - 1);
+    return szPath;
+#else
     char current_absolute_path[MAX_SIZE];
     //获取当前程序绝对路径
     ssize_t cnt = readlink("/proc/self/exe", current_absolute_path, MAX_SIZE);
@@ -30,6 +47,7 @@ static string get_dir() {
         }
     }
     return current_absolute_path;
+#endif
 }
 
 static inline Dict* get_dict() {
