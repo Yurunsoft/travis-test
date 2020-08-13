@@ -27,7 +27,6 @@ namespace chinese_util {
             T number = 0, part_number = 0, last_num = 0, decimal = 0, t_number = 0;
             short pom = 1;
             bool is_decimal = (-1 == text.find(MONEY_UNIT_MAP[0]));
-            const auto scale = MONEY_UNIT_MAP.size() - 1;
             char last_key = -1;
             int key;
             for (size_t i = 0; i < characters.size(); ++i) {
