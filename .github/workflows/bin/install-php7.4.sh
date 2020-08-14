@@ -18,6 +18,4 @@ curl -o composer.phar https://getcomposer.org/composer-stable.phar && chmod +x c
 
 phpIniFile=$(php -r "echo php_ini_loaded_file();")
 
-echo "xdebug.var_display_max_children=128" >> $phpIniFile
-echo "xdebug.var_display_max_data=512" >> $phpIniFile
-echo "xdebug.var_display_max_depth=16" >> $phpIniFile
+phpdismod xdebug
