@@ -67,7 +67,7 @@ void PinyinSplit::ParseBlock(Dict *dict, const string text, unordered_map<size_t
                 tmp_item.text = join(blocks[block_index]);
                 tmp_item.is_pinyin = false;
                 tmp_item.begin = begin;
-                tmp_item.end = end;
+                tmp_item.end = length - 1;
                 begin_maps[begin].push_back(tmp_item);
                 continue;
             }
