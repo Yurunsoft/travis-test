@@ -13,7 +13,7 @@ set(VENDOR_DEPENDENCIES_DIR ${CMAKE_BINARY_DIR}/_deps)
 # ---- Include guards ----
 
 if (DEFINED WITH_PHP)
-  if (DEFINED PHP_CONFIG_DIR)
+  if(NOT MSVC)
     set(PHP_CONFIG_DIR "${PHP_CONFIG_DIR}/")
     # 读取include目录
     execute_process(COMMAND ${PHP_CONFIG_DIR}php-config --include-dir
@@ -36,7 +36,7 @@ if (DEFINED WITH_PHP)
     OUTPUT_VARIABLE PHP_EXTDIR
     OUTPUT_STRIP_TRAILING_WHITESPACE
     )
-  endif ()
+  endif()
   # 包含目录, 保持与php-config --includes的结果一致
   include_directories(
     BEFORE
