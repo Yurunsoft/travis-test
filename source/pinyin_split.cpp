@@ -54,7 +54,7 @@ void PinyinSplit::ParseBlock(Dict *dict, const string text, unordered_map<size_t
         odd_is_pinyin = (1 == blocks[0][0].length()) && isalpha(blocks[0][0][0]) > 0;
     }
     length = 0;
-    size_t begin, end, i, j;
+    size_t begin, end = 0, i, j;
     for (size_t block_index = 0; block_index < blocks.size(); ++block_index) {
         if (has_no_pinyin_chars) {
             if (odd_is_pinyin == (1 == (block_index & 1))) {
@@ -63,13 +63,12 @@ void PinyinSplit::ParseBlock(Dict *dict, const string text, unordered_map<size_t
                 if (!stl_isset(begin_maps, begin)) {
                     begin_maps[begin] = vector<BeginMapBlockItem>();
                 }
-                begin_maps[begin].push_back(BeginMapBlockItem{
-                    join(blocks[block_index]),
-                    false,
-                    nullptr,
-                    begin,
-                    length - 1,
-                });
+                BeginMapBlockItem tmp_item;
+                tmp_item.text = join(blocks[block_index]);
+                tmp_item.is_pinyin = false;
+                tmp_item.begin = begin;
+                tmp_item.end = end;
+                begin_maps[begin].push_back(tmp_item);
                 continue;
             }
         }
@@ -121,11 +120,12 @@ void PinyinSplit::ParseBlock(Dict *dict, const string text, unordered_map<size_t
             }
 
             const PinyinSplitInfo *character_split_info = dict->GetPinyinSplitInfo(character);
-            temp_block_results.push_back(BeginMapBlockItem{
-                character,
-                character_split_info && character_split_info->is_pinyin,
-                ww(character_split_info, nullptr),
-                length + i});
+            BeginMapBlockItem tmp_item;
+            tmp_item.text = character;
+            tmp_item.is_pinyin = character_split_info && character_split_info->is_pinyin;
+            tmp_item.relation = ww(character_split_info, nullptr);
+            tmp_item.begin = length + i;
+            temp_block_results.push_back(tmp_item);
         }
         for (auto temp_block_result_item1 : temp_block_results) {
             auto temp_block_result_item = BeginMapBlockItem(temp_block_result_item1);

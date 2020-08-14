@@ -26,7 +26,7 @@ namespace chinese_util {
         struct BeginMapBlockItem {
             string text;
             bool is_pinyin;
-            const PinyinSplitInfo *relation;
+            const PinyinSplitInfo *relation = nullptr;
             size_t begin = 0;
             size_t end = 0;
         };

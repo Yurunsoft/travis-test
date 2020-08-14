@@ -63,7 +63,8 @@ endif ()
 
 if(MSVC)
   add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-  add_compile_options(/wd4505)
+  add_definitions(-D_HAS_STD_BYTE=0)
+  add_compile_options(/wd4505 /wd4018 /utf-8)
 endif()
 
 # ---- Add dependencies via CPM ----
@@ -103,23 +104,36 @@ if (DEFINED WITH_PHP)
   FILE(GLOB php_sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/php/*.cpp")
 endif()
 
+# set(CMAKE_AR "D:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/amd64/lib.exe")
+# set(CMAKE_CXX_COMPILER "D:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\cl.exe")
+# set(CMAKE_LINKER "D:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\link.exe")
+
 # ---- Create library ----
 
 # Note: for header-only libraries change all PUBLIC flags to INTERFACE and create an interface target:
 # add_library(ChineseUtil INTERFACE)  
 # set_target_properties(ChineseUtil PROPERTIES INTERFACE_COMPILE_FEATURES cxx_std_17)
 
+add_library(LibChineseUtil ${headers} ${sources} ${php_headers} ${php_sources})
 add_library(ChineseUtil SHARED ${headers} ${sources} ${php_headers} ${php_sources})
 
+set_target_properties(LibChineseUtil PROPERTIES CXX_STANDARD 17 OUTPUT_NAME "chinese_util")
 set_target_properties(ChineseUtil PROPERTIES CXX_STANDARD 17 OUTPUT_NAME "chinese_util")
 
 # being a cross-platform target, we enforce standards conformance on MSVC
+target_compile_options(LibChineseUtil PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
 target_compile_options(ChineseUtil PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
 
 # Link dependencies (if required)
 # target_link_libraries(Greeter PUBLIC cxxopts)
+target_link_libraries(LibChineseUtil)
 target_link_libraries(ChineseUtil)
 
+target_include_directories(LibChineseUtil
+  PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
+)
 target_include_directories(ChineseUtil
   PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>

@@ -58,7 +58,7 @@ static inline string parse_integer(const string number) {
     }
     const auto split4_count = split4.size();
 
-    short unit_index = ((number_length - 1) / 4) >> 0;
+    short unit_index = (short)(((number_length - 1) / 4) >> 0);
     if (0 == unit_index) {
         unit_index = -1;
     } else {

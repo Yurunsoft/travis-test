@@ -2,7 +2,7 @@
 
 #ifdef __APPLE__
 #    include <mach-o/dyld.h>
-#elif _WIN32
+#elif defined(_WIN32) || defined(_WIN64)
 #    include <windows.h>
 #else
 #    include <unistd.h>
@@ -32,7 +32,7 @@ static string get_dir() {
     if (ret != 0) {
         throw "_NSGetExecutablePath returned" + ret;
     }
-#elif _WIN32
+#elif defined(_WIN32) || defined(_WIN64)
     auto cnt = GetModuleFileName(NULL, current_absolute_path, sizeof(current_absolute_path) - 1);
 #else
     //获取当前程序绝对路径
@@ -43,7 +43,7 @@ static string get_dir() {
     }
     //获取当前目录绝对路径，即去掉程序名
     for (auto i = cnt - 1; i >= 0; --i) {
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
         if (current_absolute_path[i] == '\\') {
 #else
         if (current_absolute_path[i] == '/') {
@@ -57,9 +57,13 @@ static string get_dir() {
 
 static inline Dict* get_dict() {
     Dict* dict = new Dict;
-    const string dir = get_dir();
-    dict->LoadCharacterData(dir + "/../../data/charsData.json");
-    dict->LoadPinyinData(dir + "/../../data/pinyinData.json");
+#if defined(_WIN32) || defined(_WIN64)
+    const string dir = get_dir() + "/../../../data";
+#else
+    const string dir = get_dir() + "/../../data";
+#endif
+    dict->LoadCharacterData(dir + "/charsData.json");
+    dict->LoadPinyinData(dir + "/pinyinData.json");
     return dict;
 }
 

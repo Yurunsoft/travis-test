@@ -66,15 +66,11 @@ if (NOT TEST_INSTALLED_VERSION)
   if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     target_compile_options(ChineseUtil PUBLIC -Wall -pedantic -Wextra)
   elseif(MSVC)
-    target_compile_options(ChineseUtil PUBLIC /W4)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+    add_definitions(-D_HAS_STD_BYTE=0)
+    target_compile_options(ChineseUtil PUBLIC /W4 /wd4505 /wd4018 /utf-8)
     target_compile_definitions(ChineseUtilTests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
   endif()
-endif()
-
-if(MSVC)
-  add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-  add_definitions(-D_HAS_STD_BYTE=0)
-  add_compile_options(/wd4505)
 endif()
 
 # ---- Add ChineseUtilTests ----
