@@ -28,7 +28,7 @@ PHP_FUNCTION(convert_to_traditional) {
     }
 }
 
-#ifdef WITH_SWOOLE
+#if WITH_SWOOLE
 PHP_FUNCTION(swoole_convert_to_simplified) {
     char *text;
     size_t text_len;

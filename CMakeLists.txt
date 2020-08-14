@@ -42,12 +42,7 @@ if (DEFINED WITH_PHP)
     )
     # 添加宏
     add_definitions(
-      # -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1
-      # -DHAVE_CONFIG_H
-      # -DPHP_ATOM_INC
-      -DHAVE_RWLOCK=1
       -DWITH_PHP
-      -DWITH_SWOOLE
     )
   endif()
   # 包含目录, 保持与php-config --includes的结果一致
@@ -58,9 +53,16 @@ if (DEFINED WITH_PHP)
     ${PHP_INCLUDE_DIR}/main
     ${PHP_INCLUDE_DIR}/TSRM
     ${PHP_INCLUDE_DIR}/ext
-    ${PHP_INCLUDE_DIR}/ext/swoole
-    ${PHP_INCLUDE_DIR}/ext/swoole/include
   )
+  if(WITH_SWOOLE)
+    add_definitions(
+      -DWITH_SWOOLE
+    )
+    include_directories(
+      ${PHP_INCLUDE_DIR}/ext/swoole
+      ${PHP_INCLUDE_DIR}/ext/swoole/include
+    )
+  endif()
 endif ()
 
 if(MSVC)

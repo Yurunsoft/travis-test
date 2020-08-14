@@ -25,4 +25,4 @@ jobs:
     - name: build and install library
       run: |
         cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1
-        sudo cmake --build build --target install --config Release
+        sudo cmake --build build --target install --config Release -j

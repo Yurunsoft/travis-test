@@ -132,7 +132,7 @@ PHP_FUNCTION(convert_to_pinyin_string) {
     array_init(return_value);
     parse_convert_to_pinyin_string_result(return_value, result);
 }
-#ifdef WITH_SWOOLE
+#if WITH_SWOOLE
 PHP_FUNCTION(swoole_convert_to_pinyin_array) {
     char *text;
     size_t text_len;

@@ -33,7 +33,7 @@ PHP_FUNCTION(convert_number_to_chinese) {
     RETURN_STRING(result.c_str());
 }
 
-#ifdef WITH_SWOOLE
+#if WITH_SWOOLE
 PHP_FUNCTION(swoole_convert_chinese_to_number) {
     char* text;
     size_t text_len;

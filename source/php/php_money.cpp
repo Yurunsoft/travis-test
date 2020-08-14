@@ -30,7 +30,7 @@ PHP_FUNCTION(convert_money_to_chinese) {
     RETURN_STRING(result.c_str());
 }
 
-#ifdef WITH_SWOOLE
+#if WITH_SWOOLE
 PHP_FUNCTION(swoole_convert_chinese_to_money) {
     char* text;
     size_t text_len;

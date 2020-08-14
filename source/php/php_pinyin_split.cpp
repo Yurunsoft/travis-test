@@ -47,7 +47,7 @@ PHP_FUNCTION(split_pinyin_string) {
     parse_convert_to_pinyin_string_result(return_value, result);
 }
 
-#ifdef WITH_SWOOLE
+#if WITH_SWOOLE
 PHP_FUNCTION(swoole_split_pinyin_array) {
     char *text;
     size_t text_len;
