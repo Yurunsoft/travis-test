@@ -14,7 +14,11 @@ set(VENDOR_DEPENDENCIES_DIR ${CMAKE_BINARY_DIR}/_deps)
 
 if (DEFINED WITH_PHP)
   if(NOT MSVC)
-    set(PHP_CONFIG_DIR "${PHP_CONFIG_DIR}/")
+    if (DEFINED PHP_CONFIG_DIR)
+      set(PHP_CONFIG_DIR "${PHP_CONFIG_DIR}/")
+    else ()
+      set(PHP_CONFIG_DIR "")
+    endif ()
     # 读取include目录
     execute_process(COMMAND ${PHP_CONFIG_DIR}php-config --include-dir
     OUTPUT_VARIABLE PHP_INCLUDE_DIR
@@ -35,6 +39,15 @@ if (DEFINED WITH_PHP)
     #    RESULT_VARIABLE PHP_EXTDIR
     OUTPUT_VARIABLE PHP_EXTDIR
     OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    # 添加宏
+    add_definitions(
+      # -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+      # -DHAVE_CONFIG_H
+      # -DPHP_ATOM_INC
+      -DHAVE_RWLOCK=1
+      -DWITH_PHP
+      -DWITH_SWOOLE
     )
   endif()
   # 包含目录, 保持与php-config --includes的结果一致
