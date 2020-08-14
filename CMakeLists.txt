@@ -74,8 +74,12 @@ if(MSVC)
   if (DEFINED WITH_PHP)
     add_definitions(-DZEND_WIN32=1)
     add_definitions(-DPHP_WIN32=1)
-    set(PHP_LIB "${PHP_INCLUDE_DIR}/../lib/php7.lib")
+    set(PHP_LIB "${PHP_LIB_DIR}/php7.lib")
   endif()
+  else()
+    if(DEFINED PHP_LIB_DIR)
+      set(PHP_LIB "${PHP_LIB_DIR}/libphp7.so")
+    endif()
 endif()
 
 # ---- Add dependencies via CPM ----

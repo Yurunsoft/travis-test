@@ -16,6 +16,4 @@ php-config --extension-dir
 
 curl -o composer.phar https://getcomposer.org/composer-stable.phar && chmod +x composer.phar && sudo mv -f composer.phar /usr/local/bin/composer && composer -V;
 
-export phpIniFile=$(php -r "echo php_ini_loaded_file();")
-
 phpdismod xdebug

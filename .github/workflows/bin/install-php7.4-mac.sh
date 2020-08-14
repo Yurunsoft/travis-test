@@ -11,5 +11,4 @@ php-config --libs
 php-config --ldflags
 php-config --extension-dir
 
-export PHP_INI_FILE="/usr/local/etc/php/$PHP_VERSION/php.ini";
 curl -o composer.phar https://getcomposer.org/composer-stable.phar && chmod +x composer.phar && sudo mv -f composer.phar /usr/local/bin/composer && composer -V;
