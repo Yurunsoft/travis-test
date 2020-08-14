@@ -14,6 +14,12 @@ using namespace std;
 #define stlp_isset(stl, key) (stl->find(key) != stl->end())
 #define stl_isset_index(stl, index) (index >= 0 && index < stl.size())
 
+#if defined(_WIN32) || defined(_WIN64)
+#define PUBLIC_API __declspec(dllexport)
+#else
+#define PUBLIC_API 
+#endif
+
 static void split_string(const string str, const string pattern, vector<string> &result) {
     char *strc = new char[str.length() + 1];
     strcpy(strc, str.c_str());
@@ -154,8 +160,21 @@ static inline string string_ltrim(const string text, const string trim_chars) {
     vector<string> trims;
     split_character_utf8(trim_chars, trims);
     for (size_t i = 0; i < text_splits.size(); ++i) {
-        if (vector_search(trims, text_splits[i]) > -1) {
+        if (-1 == vector_search(trims, text_splits[i])) {
             return text.substr(i);
+        }
+    }
+    return text;
+}
+
+static inline string string_rtrim(const string text, const string trim_chars) {
+    vector<string> text_splits;
+    split_character_utf8(text, text_splits);
+    vector<string> trims;
+    split_character_utf8(trim_chars, trims);
+    for (size_t i = text_splits.size() - 1; i >= 0; --i) {
+        if (-1 == vector_search(trims, text_splits[i])) {
+            return text.substr(0, i + 1);
         }
     }
     return text;

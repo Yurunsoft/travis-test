@@ -2,6 +2,7 @@
 #include <php.h>
 
 #include "dict.h"
+#include "util.h"
 
 using namespace chinese_util;
 
@@ -20,5 +21,5 @@ using namespace chinese_util;
 // PHP_MINFO_FUNCTION(yurun_chinese);
 
 extern "C" {
-void init_chinese_util();
+PUBLIC_API void init_chinese_util();
 }

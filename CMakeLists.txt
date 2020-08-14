@@ -15,39 +15,28 @@ set(VENDOR_DEPENDENCIES_DIR ${CMAKE_BINARY_DIR}/_deps)
 if (DEFINED WITH_PHP)
   if (DEFINED PHP_CONFIG_DIR)
     set(PHP_CONFIG_DIR "${PHP_CONFIG_DIR}/")
-  else ()
-    set(PHP_CONFIG_DIR "")
+    # 读取include目录
+    execute_process(COMMAND ${PHP_CONFIG_DIR}php-config --include-dir
+    OUTPUT_VARIABLE PHP_INCLUDE_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    # 读取链接库
+    execute_process(COMMAND ${PHP_CONFIG_DIR}php-config --libs
+    OUTPUT_VARIABLE PHP_LIBS
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    # 读取链接参数
+    execute_process(COMMAND ${PHP_CONFIG_DIR}php-config --ldflags
+    OUTPUT_VARIABLE PHP_LDFLAGS
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    # 获取插件存放目录
+    execute_process(COMMAND ${PHP_CONFIG_DIR}php-config --extension-dir
+    #    RESULT_VARIABLE PHP_EXTDIR
+    OUTPUT_VARIABLE PHP_EXTDIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
   endif ()
-  # 读取include目录
-  execute_process(COMMAND ${PHP_CONFIG_DIR}php-config --include-dir
-  OUTPUT_VARIABLE PHP_INCLUDE_DIR
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-  )
-  # 读取链接库
-  execute_process(COMMAND ${PHP_CONFIG_DIR}php-config --libs
-  OUTPUT_VARIABLE PHP_LIBS
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-  )
-  # 读取链接参数
-  execute_process(COMMAND ${PHP_CONFIG_DIR}php-config --ldflags
-  OUTPUT_VARIABLE PHP_LDFLAGS
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-  )
-  # 获取插件存放目录
-  execute_process(COMMAND ${PHP_CONFIG_DIR}php-config --extension-dir
-  #    RESULT_VARIABLE PHP_EXTDIR
-  OUTPUT_VARIABLE PHP_EXTDIR
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-  )
-  # 添加宏
-  add_definitions(
-    # -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1
-    # -DHAVE_CONFIG_H
-    # -DPHP_ATOM_INC
-    -DHAVE_RWLOCK=1
-    -DWITH_PHP
-    -DWITH_SWOOLE
-  )
   # 包含目录, 保持与php-config --includes的结果一致
   include_directories(
     BEFORE
@@ -65,6 +54,11 @@ if(MSVC)
   add_definitions(-D_CRT_SECURE_NO_WARNINGS)
   add_definitions(-D_HAS_STD_BYTE=0)
   add_compile_options(/wd4505 /wd4018 /utf-8)
+  if (DEFINED WITH_PHP)
+    add_definitions(-DZEND_WIN32=1)
+    add_definitions(-DPHP_WIN32=1)
+    set(PHP_LIB "${PHP_INCLUDE_DIR}/../lib/php7.lib")
+  endif()
 endif()
 
 # ---- Add dependencies via CPM ----
@@ -104,10 +98,6 @@ if (DEFINED WITH_PHP)
   FILE(GLOB php_sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/php/*.cpp")
 endif()
 
-# set(CMAKE_AR "D:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/amd64/lib.exe")
-# set(CMAKE_CXX_COMPILER "D:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\cl.exe")
-# set(CMAKE_LINKER "D:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\link.exe")
-
 # ---- Create library ----
 
 # Note: for header-only libraries change all PUBLIC flags to INTERFACE and create an interface target:
@@ -126,8 +116,8 @@ target_compile_options(ChineseUtil PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
 
 # Link dependencies (if required)
 # target_link_libraries(Greeter PUBLIC cxxopts)
-target_link_libraries(LibChineseUtil)
-target_link_libraries(ChineseUtil)
+target_link_libraries(LibChineseUtil ${PHP_LIB})
+target_link_libraries(ChineseUtil ${PHP_LIB})
 
 target_include_directories(LibChineseUtil
   PUBLIC

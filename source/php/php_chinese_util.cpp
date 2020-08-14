@@ -45,7 +45,7 @@ const zend_function_entry ext_functions[] = {
 // clang-format on
 
 extern "C" {
-void init_chinese_util() {
+PUBLIC_API void init_chinese_util() {
     zend_register_functions(NULL, ext_functions, NULL, MODULE_PERSISTENT);
 }
 }

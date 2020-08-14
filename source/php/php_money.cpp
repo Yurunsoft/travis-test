@@ -6,7 +6,8 @@ PHP_FUNCTION(convert_chinese_to_money) {
     Z_PARAM_STRING(text, text_len)
     ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
 
-    RETURN_STRING(to_string(Money::ToNumber<double>(text)).c_str());
+    string result = string_rtrim(to_string(Money::ToNumber<double>(text)), ".0");
+    RETURN_STRING(result.c_str());
 }
 PHP_FUNCTION(convert_money_to_chinese) {
     zval* value;
@@ -39,7 +40,7 @@ PHP_FUNCTION(swoole_convert_chinese_to_money) {
 
     string result;
     const auto callback = [&]() {
-        result = to_string(Money::ToNumber<double>(text));
+        result = string_rtrim(to_string(Money::ToNumber<double>(text)), ".0");
     };
 
     if (Coroutine::get_current()) {
