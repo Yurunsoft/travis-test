@@ -1,0 +1,28 @@
+name: Ubuntu With PHP 7.4
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  CTEST_OUTPUT_ON_FAILURE: 1
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: install php
+      run: .github/workflows/bin/install-php7.4.sh
+    
+    - name: build and install library
+      run: |
+        cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1
+        sudo cmake --build build --target install --config Release
