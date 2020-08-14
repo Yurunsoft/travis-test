@@ -13,7 +13,7 @@ cd $swooleDir
 
 phpize && ./configure && make -j && make install
 
-echo "extension = swoole.so" >> $(php -r "echo php_ini_loaded_file();")
+echo "extension = swoole.so" >> $phpIniFile
 
 cd ../
 

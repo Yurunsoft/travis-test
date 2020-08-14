@@ -13,19 +13,52 @@ env:
 
 jobs:
   build:
-
     runs-on: windows-latest
-    
+
     steps:
-    - uses: actions/checkout@v1
-    
-    - name: configure
-      run: cmake -Htest -Bbuild/test
+      - uses: actions/checkout@v1
 
-    - name: build
-      run: cmake --build build/test --config Debug -j4
+      - name: configure
+        run: cmake -Htest -Bbuild/test
 
-    - name: test
-      run: |
-        cd build/test
-        ctest --build-config Debug
+      - name: build
+        run: cmake --build build/test --config Debug -j4
+
+      - name: test
+        run: |
+          cd build/test
+          ctest --build-config Debug
+
+      - name: install php x86
+        run: .github/workflows/bin/install-php7.4-win-x86.bat
+
+      - name: build and install library with php x86
+        run: |
+          rm -rf build
+          cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DPHP_INCLUDE_DIR="%PHP_DEV_PATH%\include"
+          sudo cmake --build build --target install --config Release -j
+
+      - name: php x86 test
+        run: |
+          cd phptest
+          composer update
+          phpunit
+          cd ../
+
+      - name: install php x64
+        run: |
+          del /F /S /Q C:\php
+          .github/workflows/bin/install-php7.4-win-x64.bat
+
+      - name: build and install library with php x64
+        run: |
+          rm -rf build
+          cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=x64 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="%PHP_DEV_PATH%\include"
+          sudo cmake --build build --target install --config Release -j
+
+      - name: php x64 test
+        run: |
+          cd phptest
+          composer update
+          phpunit
+          cd ../

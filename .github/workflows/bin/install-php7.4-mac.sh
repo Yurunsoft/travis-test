@@ -1,10 +1,7 @@
 #!/bin/bash
-
-add-apt-repository ppa:ondrej/php -y -u
-
-apt-get update
-
-apt install -y php7.4-cli php7.4-bcmath php7.4-curl php7.4-dev hp7.4-mbstring php7.4-zip
+PHP_VERSION="7.4"
+brew install php@$PHP_VERSION;
+export PATH="$(brew --prefix php)/bin:$PATH";
 
 php -v
 php -m
@@ -14,8 +11,5 @@ php-config --libs
 php-config --ldflags
 php-config --extension-dir
 
+export PHP_INI_FILE="/usr/local/etc/php/$PHP_VERSION/php.ini";
 curl -o composer.phar https://getcomposer.org/composer-stable.phar && chmod +x composer.phar && sudo mv -f composer.phar /usr/local/bin/composer && composer -V;
-
-export phpIniFile=$(php -r "echo php_ini_loaded_file();")
-
-phpdismod xdebug
