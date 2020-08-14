@@ -15,9 +15,9 @@ using namespace std;
 #define stl_isset_index(stl, index) (index >= 0 && index < stl.size())
 
 #if defined(_WIN32) || defined(_WIN64)
-#define PUBLIC_API __declspec(dllexport)
+#    define PUBLIC_API __declspec(dllexport)
 #else
-#define PUBLIC_API 
+#    define PUBLIC_API
 #endif
 
 static void split_string(const string str, const string pattern, vector<string> &result) {

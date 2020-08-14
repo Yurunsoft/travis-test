@@ -13,6 +13,10 @@ set(VENDOR_DEPENDENCIES_DIR ${CMAKE_BINARY_DIR}/_deps)
 # ---- Include guards ----
 
 if (DEFINED WITH_PHP)
+  # 添加宏
+  add_definitions(
+    -DWITH_PHP
+  )
   if(NOT MSVC)
     if (DEFINED PHP_CONFIG_DIR)
       set(PHP_CONFIG_DIR "${PHP_CONFIG_DIR}/")
@@ -40,10 +44,6 @@ if (DEFINED WITH_PHP)
     OUTPUT_VARIABLE PHP_EXTDIR
     OUTPUT_STRIP_TRAILING_WHITESPACE
     )
-    # 添加宏
-    add_definitions(
-      -DWITH_PHP
-    )
   endif()
   # 包含目录, 保持与php-config --includes的结果一致
   include_directories(
@@ -56,9 +56,11 @@ if (DEFINED WITH_PHP)
   )
   if(WITH_SWOOLE)
     add_definitions(
+      -DHAVE_RWLOCK=1
       -DWITH_SWOOLE
     )
     include_directories(
+      BEFORE
       ${PHP_INCLUDE_DIR}/ext/swoole
       ${PHP_INCLUDE_DIR}/ext/swoole/include
     )
