@@ -13,3 +13,5 @@ php-config --include-dir
 php-config --libs
 php-config --ldflags
 php-config --extension-dir
+
+curl -o composer.phar https://getcomposer.org/composer-stable.phar && chmod +x composer.phar && sudo mv -f composer.phar /usr/local/bin/composer && composer -V;

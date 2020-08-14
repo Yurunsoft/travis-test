@@ -29,3 +29,9 @@ jobs:
       run: |
         cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DWITH_SWOOLE=1
         sudo cmake --build build --target install --config Release -j
+
+    - name: php test
+      run: |
+        cd phptest
+        composer update
+        vendor/bin/phpunit
