@@ -15,3 +15,7 @@ php-config --ldflags
 php-config --extension-dir
 
 curl -o composer.phar https://getcomposer.org/composer-stable.phar && chmod +x composer.phar && sudo mv -f composer.phar /usr/local/bin/composer && composer -V;
+
+echo "xdebug.var_display_max_children=128\
+xdebug.var_display_max_data=512\
+xdebug.var_display_max_depth=16" >> $(php -r "echo php_ini_loaded_file();")
