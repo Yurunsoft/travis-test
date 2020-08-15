@@ -47,6 +47,9 @@ jobs:
           composer update
           phpunit
           cd ../
+
+      - name: clean
+        run: |
           del /S /Q /F .\build
           del /S /Q /F C:\php
         shell: cmd
