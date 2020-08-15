@@ -20,7 +20,7 @@ Expand-Archive "php.zip" "C:\php"
 
 Expand-Archive "php_dev.zip" "C:\"
 
-[environment]::SetEnvironmentvariable("PHP_DEV_PATH", "C:\php-7.4.9-devel-vc15-x64", "User")
+[environment]::SetEnvironmentvariable("PHP_DEV_PATH", "C:\php-7.4.9-devel-vc15-x64", "Machine")
 
 (gc C:\php\php.ini-development) -replace ';extension_dir = "ext"', 'extension_dir = "C:\php\ext"' | Out-File C:\php\php.ini -encoding Utf8
 
@@ -38,7 +38,7 @@ Expand-Archive "php_dev.zip" "C:\"
 
 $path=[environment]::GetEnvironmentvariable("PATH") + ";C:\php"
 [environment]::SetEnvironmentvariable("PATH", $path)
-[environment]::SetEnvironmentvariable("PATH", $path, "User")
+[environment]::SetEnvironmentvariable("PATH", $path, "Machine")
 
 php -v
 php -m
