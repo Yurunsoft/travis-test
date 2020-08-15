@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: configure
-        run: cmake -Htest -Bbuild/test
+        run: cmake -Htest -Bbuild/test -DCMAKE_GENERATOR_PLATFORM=Win32
 
       - name: build
         run: cmake --build build/test --config Debug -j4
