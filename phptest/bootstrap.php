@@ -11,7 +11,7 @@ function getLibFileName()
         case 'Darwin':
             return 'libchinese_util.dylib';
         case 'Windows':
-            return 'Release/libchinese_util.dll';
+            return 'Release/chinese_util.dll';
         default:
             return 'libchinese_util.so';
     }
