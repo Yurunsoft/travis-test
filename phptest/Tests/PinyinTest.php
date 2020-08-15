@@ -18,7 +18,7 @@ class PinyinTest extends TestCase
 
     protected function parseLine($string)
     {
-        return str_replace("\n", PHP_EOL, $string);
+        return str_replace(PHP_EOL, "\n", $string);
     }
 
     /**
