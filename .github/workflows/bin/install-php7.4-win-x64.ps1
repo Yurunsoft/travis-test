@@ -20,7 +20,9 @@ Expand-Archive "php.zip" "C:\php"
 
 Expand-Archive "php_dev.zip" "C:\"
 
-[environment]::SetEnvironmentvariable("PHP_DEV_PATH", "C:\php-7.4.9-devel-vc15-x64", "Machine")
+$phpDevPath="C:\php-7.4.9-devel-vc15-x64"
+[environment]::SetEnvironmentvariable("PHP_DEV_PATH", $phpDevPath, "Machine")
+powershell $phpDevPath\phpize.bat
 
 (gc C:\php\php.ini-development) -replace ';extension_dir = "ext"', 'extension_dir = "C:\php\ext"' | Out-File C:\php\php.ini -encoding Utf8
 
@@ -44,14 +46,14 @@ php -v
 php -m
 
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php composer-setup.php --install-dir=C:\php
+php composer-setup.php --install-dir=C:\
 php -r "unlink('composer-setup.php');"
-php -r "file_put_contents('C:\php\composer.bat', 'php C:\php\composer.phar %1');"
+php -r "file_put_contents('C:\php\composer.bat', 'php C:\composer.phar %*');"
 
 composer -V
 
-Invoke-Webrequest "https://phar.phpunit.de/phpunit-9.phar" -Outfile "C:\php\phpunit.phar"
+Invoke-Webrequest "https://phar.phpunit.de/phpunit-9.phar" -Outfile "C:\phpunit.phar"
 
-php -r "file_put_contents('C:\php\phpunit.bat', 'php C:\php\phpunit.phar %1');"
+php -r "file_put_contents('C:\php\phpunit.bat', 'php C:\phpunit.phar %*');"
 
 phpunit --version

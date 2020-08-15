@@ -37,10 +37,7 @@ jobs:
 
       - name: build and install library with php x86
         run: |
-          echo $([environment]::GetEnvironmentvariable("PHP_DEV_PATH"))
-          echo $([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine"))
-          composer --version
-          phpunit --version
+          [environment]::SetEnvironmentvariable("PHP_DEV_PATH", $([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine")))
           $phpDevPath=$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine"))
           cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=Win32 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$phpDevPath\include" -DPHP_LIB_DIR="$phpDevPath\lib"
           cmake --build build --target install --config Release -j
