@@ -23,7 +23,7 @@ jobs:
           brew install gcc@7
           brew link --force --overwrite gcc@7
           gcc --version
-          gcc++ --version
+          g++ --version
           gcc-ar-7 --version
           gcc-ranlib-7 --version
           cmake -Htest -Bbuild/test
