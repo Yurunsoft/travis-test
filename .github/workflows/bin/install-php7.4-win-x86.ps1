@@ -48,12 +48,12 @@ php -m
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php --install-dir=C:\php
 php -r "unlink('composer-setup.php');"
-php -r "file_put_contents('C:\php\composer.bat', 'php C:\php\composer.phar %1');"
+php -r "file_put_contents('C:\php\composer.bat', 'php C:\php\composer.phar %*');"
 
 composer -V
 
 Invoke-Webrequest "https://phar.phpunit.de/phpunit-9.phar" -Outfile "C:\php\phpunit.phar"
 
-php -r "file_put_contents('C:\php\phpunit.bat', 'php C:\php\phpunit.phar %1');"
+php -r "file_put_contents('C:\php\phpunit.bat', 'php C:\php\phpunit.phar %*');"
 
 phpunit --version
