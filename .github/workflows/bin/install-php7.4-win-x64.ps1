@@ -52,6 +52,4 @@ Invoke-Webrequest "https://phar.phpunit.de/phpunit-9.phar" -Outfile "C:\php\phpu
 
 php -r "file_put_contents('C:\php\phpunit.bat', 'php C:\php\phpunit.phar %1');"
 
-php C:\php\phpunit.phar --version
-
 phpunit --version

@@ -19,14 +19,7 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: configure
-        run: |
-          brew install gcc@7
-          brew link --force --overwrite gcc@7
-          gcc --version
-          g++ --version
-          gcc-ar-7 --version
-          gcc-ranlib-7 --version
-          cmake -Htest -Bbuild/test
+        run: cmake -Htest -Bbuild/test
 
       - name: build
         run: cmake --build build/test --config Debug -j4
@@ -35,8 +28,7 @@ jobs:
         run: cmake --build build/test --target test
 
       - name: install php
-        run: |
-          sudo .github/workflows/bin/install-php7.4-mac.sh
+        run: sudo .github/workflows/bin/install-php7.4-mac.sh
 
       - name: build and install library with php
         run: |
