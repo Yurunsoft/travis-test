@@ -29,7 +29,8 @@ jobs:
           cd build/test
           ctest --build-config Debug
           cd ../../
-          rm .\build -recurse
+          del /S /Q /F .\build
+        shell: cmd
 
       - name: install php x86
         run: .\.github/workflows/bin/install-php7.4-win-x86.ps1
@@ -45,7 +46,8 @@ jobs:
           composer update
           phpunit
           cd ../
-          rm .\build -recurse
+          del /S /Q /F .\build
+        shell: cmd
 
       - name: install php x64
         run: |
