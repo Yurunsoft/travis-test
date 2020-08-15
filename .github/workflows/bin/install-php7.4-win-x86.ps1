@@ -20,7 +20,7 @@ Expand-Archive "php.zip" "C:\php"
 
 Expand-Archive "php_dev.zip" "C:\"
 
-$env:PHP_DEV_PATH="C:\php-7.4.9-devel-vc15-x86"
+[environment]::SetEnvironmentvariable("PHP_DEV_PATH", "C:\php-7.4.9-devel-vc15-x64")
 
 (gc C:\php\php.ini-development) -replace ';extension_dir = "ext"', 'extension_dir = "C:\php\ext"' | Out-File C:\php\php.ini -encoding Utf8
 
@@ -36,7 +36,7 @@ $env:PHP_DEV_PATH="C:\php-7.4.9-devel-vc15-x86"
 
 (gc C:\php\php.ini) -replace ';openssl.cafile=', 'openssl.cafile="C:\cacert.pem"' | Out-File C:\php\php.ini -encoding Utf8
 
-$env:PATH="$env:PATH;C:\PHP"
+[environment]::SetEnvironmentvariable("PATH", [environment]::GetEnvironmentvariable("PATH") + ";C:\PHP")
 
 php -v
 php -m
