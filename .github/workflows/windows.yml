@@ -30,7 +30,7 @@ jobs:
           ctest --build-config Debug
 
       - name: install php x86
-        run: powershell .github/workflows/bin/install-php7.4-win-x86.bat
+        run: .github/workflows/bin/install-php7.4-win-x86.bat
 
       - name: build and install library with php x86
         run: |
@@ -48,7 +48,7 @@ jobs:
       - name: install php x64
         run: |
           del /F /S /Q C:\php
-          powershell .github/workflows/bin/install-php7.4-win-x64.bat
+          .github/workflows/bin/install-php7.4-win-x64.bat
 
       - name: build and install library with php x64
         run: |
