@@ -6,7 +6,7 @@ if(!extension_loaded('FFI'))
 
 function getLibExt()
 {
-    switch(PHP_OS)
+    switch(PHP_OS_FAMILY)
     {
         case 'Darwin':
             return 'dylib';
