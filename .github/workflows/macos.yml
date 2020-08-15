@@ -22,7 +22,7 @@ jobs:
         run: |
           brew install gcc@7
           brew link --force --overwrite gcc@7
-          cmake -Htest -Bbuild/test
+          cmake -Htest -Bbuild/test -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++)
 
       - name: build
         run: cmake --build build/test --config Debug -j4
