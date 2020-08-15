@@ -22,7 +22,6 @@ Expand-Archive "php_dev.zip" "C:\"
 
 $phpDevPath="C:\php-7.4.9-devel-vc15-x86"
 [environment]::SetEnvironmentvariable("PHP_DEV_PATH", $phpDevPath, "Machine")
-echo "phpDevPath:$phpDevPath"
 powershell $phpDevPath\phpize.bat
 
 (gc C:\php\php.ini-development) -replace ';extension_dir = "ext"', 'extension_dir = "C:\php\ext"' | Out-File C:\php\php.ini -encoding Utf8

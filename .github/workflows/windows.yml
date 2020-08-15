@@ -38,7 +38,6 @@ jobs:
       - name: build and install library with php x86
         run: |
           $phpDevPath=$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine"))
-          echo "phpDevPath:$phpDevPath"
           cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=Win32 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$phpDevPath\include" -DPHP_LIB_DIR="$phpDevPath\lib"
           cmake --build build --target install --config Release -j
 
@@ -49,12 +48,11 @@ jobs:
           phpunit
           cd ../
           del /S /Q /F .\build
+          del /S /Q /F C:\php
         shell: cmd
 
       - name: install php x64
-        run: |
-          rm c:\php -recurse
-          .\.github/workflows/bin/install-php7.4-win-x64.ps1
+        run: .\.github/workflows/bin/install-php7.4-win-x64.ps1
 
       - name: build and install library with php x64
         run: |
