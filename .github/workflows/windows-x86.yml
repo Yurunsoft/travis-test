@@ -1,4 +1,4 @@
-name: Windows
+name: Windows x86
 
 on:
   push:
@@ -32,42 +32,20 @@ jobs:
           del /S /Q /F .\build
         shell: cmd
 
-      - name: install php x86
+      - name: install php
         run: |
           .\.github/workflows/bin/install-php7.4-win-x86.ps1
 
-      - name: build and install library with php x86
+      - name: build and install library with php
         run: |
           $phpDevPath=$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine"))
           cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=Win32 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$phpDevPath\include" -DPHP_LIB_DIR="$phpDevPath\lib"
           cmake --build build --target install --config Release -j
 
-      - name: php x86 test
+      - name: php test
         run: |
           [environment]::SetEnvironmentvariable("PATH", $([environment]::GetEnvironmentvariable("PATH", "Machine")))
           cd phptest
           composer update
           phpunit
           cd ../
-
-      - name: clean
-        run: |
-          del /S /Q /F .\build
-          del /S /Q /F C:\php
-        shell: cmd
-
-      - name: install php x64
-        run: .\.github/workflows/bin/install-php7.4-win-x64.ps1
-
-      - name: build and install library with php x64
-        run: |
-          $phpDevPath=$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine"))
-          cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=x64 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$phpDevPath\include" -DPHP_LIB_DIR="$phpDevPath\lib"
-          cmake --build build --target install --config Release -j
-
-      - name: php x64 test
-        run: |
-          [environment]::SetEnvironmentvariable("PATH", $([environment]::GetEnvironmentvariable("PATH", "Machine")))
-          cd phptest
-          composer update
-          phpunit
