@@ -11,6 +11,14 @@ project(ChineseUtil
 set(VENDOR_DEPENDENCIES_DIR ${CMAKE_BINARY_DIR}/_deps)
 
 if(APPLE)
+  execute_process(COMMAND which gcc
+    OUTPUT_VARIABLE CMAKE_C_COMPILER
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  execute_process(COMMAND which g++
+    OUTPUT_VARIABLE DCMAKE_CXX_COMPILER
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} --unresolved-symbols=ignore-in-shared-libs")
 endif()
 

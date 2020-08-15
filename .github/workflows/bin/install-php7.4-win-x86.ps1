@@ -36,7 +36,7 @@ Expand-Archive "php_dev.zip" "C:\"
 
 (gc C:\php\php.ini) -replace ';openssl.cafile=', 'openssl.cafile="C:\cacert.pem"' | Out-File C:\php\php.ini -encoding Utf8
 
-[environment]::SetEnvironmentvariable("PATH", [environment]::GetEnvironmentvariable("PATH") + ";C:\PHP", "Machine")
+[environment]::SetEnvironmentvariable("PATH", [environment]::GetEnvironmentvariable("PATH") + ";C:\php", "Machine")
 
 php -v
 php -m
