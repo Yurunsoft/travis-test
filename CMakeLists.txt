@@ -10,6 +10,10 @@ project(ChineseUtil
 
 set(VENDOR_DEPENDENCIES_DIR ${CMAKE_BINARY_DIR}/_deps)
 
+if(APPLE)
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -unresolved-symbols=ignore-in-shared-libs")
+endif()
+
 # ---- Include guards ----
 
 if (DEFINED WITH_PHP)

@@ -33,7 +33,7 @@ jobs:
       - name: build and install library with php
         run: |
           rm -rf build
-          cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_SHARED_LINKER_FLAGS="-unresolved-symbols=ignore-in-shared-libs"
+          cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++)
           sudo cmake --build build --target install --config Release -j
 
       - name: php test
