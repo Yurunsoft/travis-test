@@ -37,7 +37,9 @@ jobs:
 
       - name: build and install library with php x86
         run: |
-          cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "User"))\include" -DPHP_LIB_DIR="$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "User"))\lib"
+          $phpDevPath=$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "User"))
+          echo $phpDevPath
+          cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DPHP_INCLUDE_DIR=$phpDevPath\include" -DPHP_LIB_DIR="$phpDevPath\lib"
           cmake --build build --target install --config Release -j
 
       - name: php x86 test
@@ -56,7 +58,8 @@ jobs:
 
       - name: build and install library with php x64
         run: |
-          cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=x64 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "User"))\include" -DPHP_LIB_DIR="$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "User"))\lib"
+          $phpDevPath=$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "User"))
+          cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=x64 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$phpDevPath\include" -DPHP_LIB_DIR="$phpDevPath\lib"
           cmake --build build --target install --config Release -j
 
       - name: php x64 test
