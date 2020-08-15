@@ -33,17 +33,18 @@ jobs:
         shell: cmd
 
       - name: install php x86
-        run: .\.github/workflows/bin/install-php7.4-win-x86.ps1
+        run: |
+          .\.github/workflows/bin/install-php7.4-win-x86.ps1
 
       - name: build and install library with php x86
         run: |
-          [environment]::SetEnvironmentvariable("PHP_DEV_PATH", $([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine")))
           $phpDevPath=$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine"))
           cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=Win32 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$phpDevPath\include" -DPHP_LIB_DIR="$phpDevPath\lib"
           cmake --build build --target install --config Release -j
 
       - name: php x86 test
         run: |
+          [environment]::SetEnvironmentvariable("PATH", $([environment]::GetEnvironmentvariable("PATH", "Machine")))
           cd phptest
           composer update
           phpunit
@@ -66,6 +67,7 @@ jobs:
 
       - name: php x64 test
         run: |
+          [environment]::SetEnvironmentvariable("PATH", $([environment]::GetEnvironmentvariable("PATH", "Machine")))
           cd phptest
           composer update
           phpunit
