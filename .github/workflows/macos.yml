@@ -28,7 +28,10 @@ jobs:
         run: cmake --build build/test --target test
 
       - name: install php
-        run: sudo .github/workflows/bin/install-php7.4-mac.sh
+        run: |
+          brew install gcc@7
+          brew link --force --overwrite gcc@7
+          sudo .github/workflows/bin/install-php7.4-mac.sh
 
       - name: build and install library with php
         run: |

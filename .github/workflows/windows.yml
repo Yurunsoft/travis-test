@@ -37,6 +37,8 @@ jobs:
 
       - name: build and install library with php x86
         run: |
+          echo $env:PHP_DEV_PATH
+          ls $env:PHP_DEV_PATH
           cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$env:PHP_DEV_PATH\include" -DPHP_LIB_DIR="$env:PHP_DEV_PATH\lib"
           cmake --build build --target install --config Release -j
 
