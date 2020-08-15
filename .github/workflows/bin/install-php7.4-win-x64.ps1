@@ -30,7 +30,7 @@ powershell $phpDevPath\phpize.bat
 
 (gc C:\php\php.ini) -replace ';extension=curl', 'extension=curl' | Out-File C:\php\php.ini -encoding Utf8
 
-(gc C:\php\php.ini) -replace ';extension=mb_string', 'extension=mb_string' | Out-File C:\php\php.ini -encoding Utf8
+(gc C:\php\php.ini) -replace ';extension=mbstring', 'extension=mbstring' | Out-File C:\php\php.ini -encoding Utf8
 
 (gc C:\php\php.ini) -replace ';extension=openssl', 'extension=openssl' | Out-File C:\php\php.ini -encoding Utf8
 
