@@ -32,7 +32,7 @@ PHP_FUNCTION(split_pinyin_array) {
 }
 
 PHP_FUNCTION(split_pinyin_string) {
-    char *text, *word_split = " ";
+    char *text, *word_split = (char *)" ";
     size_t text_len, word_split_len;
     ZEND_PARSE_PARAMETERS_START(1, 2)
     Z_PARAM_STRING(text, text_len)
@@ -71,7 +71,7 @@ PHP_FUNCTION(swoole_split_pinyin_array) {
 }
 
 PHP_FUNCTION(swoole_split_pinyin_string) {
-    char *text, *word_split = " ";
+    char *text, *word_split = (char *)" ";
     size_t text_len, word_split_len;
     ZEND_PARSE_PARAMETERS_START(1, 2)
     Z_PARAM_STRING(text, text_len)

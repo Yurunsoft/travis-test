@@ -124,7 +124,7 @@ PHP_FUNCTION(convert_to_pinyin_string) {
     ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
 
     if (word_split_len <= 0) {
-        word_split = " ";
+        word_split = (char *)" ";
     }
 
     PinyinResultString result;
@@ -176,7 +176,7 @@ PHP_FUNCTION(swoole_convert_to_pinyin_string) {
     ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
 
     if (word_split_len <= 0) {
-        word_split = " ";
+        word_split = (char *)" ";
     }
 
     PinyinResultString result;
