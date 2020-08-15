@@ -37,9 +37,8 @@ jobs:
 
       - name: build and install library with php x86
         run: |
-          cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DPHP_INCLUDE_DIR="%PHP_DEV_PATH%\include" -DPHP_LIB_DIR="%PHP_DEV_PATH%\lib"
+          cmake -H./ -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$env:PHP_DEV_PATH\include" -DPHP_LIB_DIR="$env:PHP_DEV_PATH\lib"
           cmake --build build --target install --config Release -j
-        shell: cmd
 
       - name: php x86 test
         run: |
@@ -59,9 +58,8 @@ jobs:
       - name: build and install library with php x64
         run: |
           rm .\build -recurse
-          cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=x64 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="%PHP_DEV_PATH%\include" -DPHP_LIB_DIR="%PHP_DEV_PATH%\lib"
+          cmake -H./ -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=x64 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$env:PHP_DEV_PATH\include" -DPHP_LIB_DIR="$env:PHP_DEV_PATH\lib"
           cmake --build build --target install --config Release -j
-        shell: cmd
 
       - name: php x64 test
         run: |
