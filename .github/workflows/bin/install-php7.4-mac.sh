@@ -5,10 +5,6 @@ export PATH="$(brew --prefix php)/bin:$PATH";
 
 php -v
 php -m
-php-config --version
-php-config --include-dir
-php-config --libs
-php-config --ldflags
-php-config --extension-dir
+php-config
 
 curl -o composer.phar https://getcomposer.org/composer-stable.phar && chmod +x composer.phar && sudo mv -f composer.phar /usr/local/bin/composer && composer -V;

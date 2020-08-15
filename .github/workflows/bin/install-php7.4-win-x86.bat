@@ -1,10 +1,10 @@
 @echo off
 
-vcredist_url="https://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x86.exe"
+set vcredist_url="https://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x86.exe"
 
-php_url="https://windows.php.net/downloads/releases/php-7.4.9-nts-Win32-vc15-x86.zip"
+set php_url="https://windows.php.net/downloads/releases/php-7.4.9-nts-Win32-vc15-x86.zip"
 
-php_dev_url="https://windows.php.net/downloads/releases/php-devel-pack-7.4.9-nts-Win32-vc15-x86.zip"
+set php_dev_url="https://windows.php.net/downloads/releases/php-devel-pack-7.4.9-nts-Win32-vc15-x86.zip"
 
 Invoke-Webrequest $env:vcredist_url -Outfile "vcredist.exe"
 

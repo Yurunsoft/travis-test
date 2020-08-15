@@ -8,11 +8,7 @@ apt install -y php7.4-cli php7.4-bcmath php7.4-curl php7.4-dev hp7.4-mbstring ph
 
 php -v
 php -m
-php-config --version
-php-config --include-dir
-php-config --libs
-php-config --ldflags
-php-config --extension-dir
+php-config
 
 curl -o composer.phar https://getcomposer.org/composer-stable.phar && chmod +x composer.phar && sudo mv -f composer.phar /usr/local/bin/composer && composer -V;
 
