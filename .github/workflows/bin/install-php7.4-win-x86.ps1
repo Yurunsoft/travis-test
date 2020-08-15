@@ -6,11 +6,11 @@ $php_dev_url="https://windows.php.net/downloads/releases/php-devel-pack-7.4.9-nt
 
 $cacert_pem_url="https://curl.haxx.se/ca/cacert.pem"
 
-Invoke-Webrequest $env:vcredist_url -Outfile "vcredist.exe"
+Invoke-Webrequest $vcredist_url -Outfile "vcredist.exe"
 
-Invoke-Webrequest $env:php_url -Outfile "php.zip"
+Invoke-Webrequest $php_url -Outfile "php.zip"
 
-Invoke-Webrequest $env:php_dev_url -Outfile "php_dev.zip"
+Invoke-Webrequest $php_dev_url -Outfile "php_dev.zip"
 
 Invoke-Webrequest $cacert_pem_url -Outfile "C:\cacert.pem"
 

@@ -34,7 +34,7 @@ jobs:
         run: |
           rm -rf build
           cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1
-          -DPHP_LIB_DIR="/usr/local/opt/php@7.4/lib/httpd/modules/"
+          -DPHP_LIB_DIR="$(brew --prefix)/opt/php/lib/httpd/modules/"
           sudo cmake --build build --target install --config Release -j
 
       - name: php test

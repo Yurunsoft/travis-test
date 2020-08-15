@@ -45,7 +45,7 @@ $env:PATH="$env:PATH;C:\PHP"
 php -v
 php -m
 
-php -r "copy('http://getcomposer.org/installer', 'composer-setup.php');"
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php --install-dir=C:\php
 php -r "unlink('composer-setup.php');"
 php -r "file_put_contents('C:\php\composer.bat', 'php C:\php\composer.phar %1');"
