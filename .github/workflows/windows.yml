@@ -39,7 +39,7 @@ jobs:
         run: |
           $phpDevPath=$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine"))
           echo "phpDevPath:$phpDevPath"
-          cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DPHP_INCLUDE_DIR=$phpDevPath\include" -DPHP_LIB_DIR="$phpDevPath\lib"
+          cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$phpDevPath\include" -DPHP_LIB_DIR="$phpDevPath\lib"
           cmake --build build --target install --config Release -j
 
       - name: php x86 test
