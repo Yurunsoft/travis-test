@@ -37,9 +37,9 @@ jobs:
 
       - name: build and install library with php x86
         run: |
-          echo $([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "PATH"))
-          ls $([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "PATH"))
-          cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "PATH"))\include" -DPHP_LIB_DIR="$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "PATH"))\lib"
+          echo $([environment]::GetEnvironmentvariable("PHP_DEV_PATH"))
+          ls $([environment]::GetEnvironmentvariable("PHP_DEV_PATH"))
+          cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$([environment]::GetEnvironmentvariable("PHP_DEV_PATH"))\include" -DPHP_LIB_DIR="$([environment]::GetEnvironmentvariable("PHP_DEV_PATH"))\lib"
           cmake --build build --target install --config Release -j
 
       - name: php x86 test
@@ -54,13 +54,13 @@ jobs:
       - name: install php x64
         run: |
           rm c:\php -recurse
-          rm "$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "PATH"))" -recurse
+          rm "$([environment]::GetEnvironmentvariable("PHP_DEV_PATH"))" -recurse
           .\.github/workflows/bin/install-php7.4-win-x64.ps1
 
       - name: build and install library with php x64
         run: |
           rm .\build -recurse
-          cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=x64 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "PATH"))\include" -DPHP_LIB_DIR="$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "PATH"))\lib"
+          cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=x64 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$([environment]::GetEnvironmentvariable("PHP_DEV_PATH"))\include" -DPHP_LIB_DIR="$([environment]::GetEnvironmentvariable("PHP_DEV_PATH"))\lib"
           cmake --build build --target install --config Release -j
 
       - name: php x64 test
