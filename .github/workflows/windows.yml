@@ -37,6 +37,8 @@ jobs:
 
       - name: build and install library with php x86
         run: |
+          echo $([environment]::GetEnvironmentvariable("PHP_DEV_PATH"))
+          echo $([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine"))
           composer --version
           phpunit --version
           $phpDevPath=$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine"))
