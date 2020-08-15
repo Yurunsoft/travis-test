@@ -20,7 +20,7 @@ Expand-Archive "php.zip" "C:\php"
 
 Expand-Archive "php_dev.zip" "C:\"
 
-[environment]::SetEnvironmentvariable("PHP_DEV_PATH", "C:\php-7.4.9-devel-vc15-x64", "Machine")
+[environment]::SetEnvironmentvariable("PHP_DEV_PATH", "C:\php-7.4.9-devel-vc15-x64", "User")
 
 (gc C:\php\php.ini-development) -replace ';extension_dir = "ext"', 'extension_dir = "C:\php\ext"' | Out-File C:\php\php.ini -encoding Utf8
 
@@ -36,7 +36,7 @@ Expand-Archive "php_dev.zip" "C:\"
 
 (gc C:\php\php.ini) -replace ';openssl.cafile=', 'openssl.cafile="C:\cacert.pem"' | Out-File C:\php\php.ini -encoding Utf8
 
-[environment]::SetEnvironmentvariable("PATH", [environment]::GetEnvironmentvariable("PATH") + ";C:\php", "Machine")
+[environment]::SetEnvironmentvariable("PATH", [environment]::GetEnvironmentvariable("PATH") + ";C:\php", "User")
 
 php -v
 php -m
@@ -51,9 +51,5 @@ composer -V
 Invoke-Webrequest "https://phar.phpunit.de/phpunit-9.phar" -Outfile "C:\php\phpunit.phar"
 
 php -r "file_put_contents('C:\php\phpunit.bat', 'php C:\php\phpunit.phar %1');"
-
-php C:\php\phpunit.phar --version
-
-C:\php\phpunit.bat --version
 
 phpunit --version
