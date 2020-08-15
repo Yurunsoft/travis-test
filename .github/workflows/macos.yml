@@ -33,8 +33,7 @@ jobs:
       - name: build and install library with php
         run: |
           rm -rf build
-          cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1
-          -DPHP_LIB_DIR="$(brew --prefix)/opt/php/lib/httpd/modules/"
+          cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DPHP_LIB_DIR="$(brew --prefix)/opt/php/lib/httpd/modules"
           sudo cmake --build build --target install --config Release -j
 
       - name: php test

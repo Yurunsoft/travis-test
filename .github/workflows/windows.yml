@@ -47,7 +47,8 @@ jobs:
 
       - name: install php x64
         run: |
-          del /F /S /Q C:\php
+          rm c:\php -recurse
+          rm "$env:PHP_DEV_PATH" -recurse
           .\.github/workflows/bin/install-php7.4-win-x64.ps1
 
       - name: build and install library with php x64

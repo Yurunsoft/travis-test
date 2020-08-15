@@ -22,10 +22,6 @@ Expand-Archive "php_dev.zip" "C:\"
 
 $env:PHP_DEV_PATH="C:\php-7.4.9-devel-vc15-x64"
 
-rm vcredist.exe
-rm php.zip
-rm php_dev.zip
-
 (gc C:\php\php.ini-development) -replace ';extension_dir = "ext"', 'extension_dir = "C:\php\ext"' | Out-File C:\php\php.ini -encoding Utf8
 
 (gc C:\php\php.ini) -replace ';extension=ffi', 'extension=ffi' | Out-File C:\php\php.ini -encoding Utf8
