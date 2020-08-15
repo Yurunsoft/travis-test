@@ -16,6 +16,11 @@ class PinyinTest extends TestCase
         $callable();
     }
 
+    protected function parseLine($string)
+    {
+        return str_replace("\n", PHP_EOL, $string);
+    }
+
     /**
      * @testdox pinyin-1
      *
@@ -27,7 +32,7 @@ class PinyinTest extends TestCase
         $this->call(function(){
             ob_start();
             var_dump(($this->methodPrefix . 'convert_to_pinyin_array')('恭喜發財！123', 15));
-            $this->assertEquals(<<<EXPECTED
+            $this->assertEquals($this->parseLine(<<<EXPECTED
 array(4) {
   ["pinyin"]=>
   array(1) {
@@ -120,7 +125,7 @@ array(4) {
 }
 
 EXPECTED
-        , ob_get_clean());
+    ), ob_get_clean());
         });
     }
 
@@ -135,7 +140,7 @@ EXPECTED
         $this->call(function(){
             ob_start();
             var_dump(($this->methodPrefix . 'convert_to_pinyin_array')('我的', 15));
-            $this->assertEquals(<<<EXPECTED
+            $this->assertEquals($this->parseLine(<<<EXPECTED
 array(4) {
   ["pinyin"]=>
   array(2) {
@@ -215,7 +220,7 @@ array(4) {
 }
 
 EXPECTED
-        , ob_get_clean());
+    ), ob_get_clean());
         });
     }
 
@@ -230,7 +235,7 @@ EXPECTED
         $this->call(function(){
             ob_start();
             var_dump(($this->methodPrefix . 'convert_to_pinyin_array')('恭喜發財！123', 1));
-            $this->assertEquals(<<<EXPECTED
+            $this->assertEquals($this->parseLine(<<<EXPECTED
 array(1) {
   ["pinyin"]=>
   array(1) {
@@ -257,7 +262,7 @@ array(1) {
 }
 
 EXPECTED
-        , ob_get_clean());
+    ), ob_get_clean());
         });
     }
 
@@ -272,7 +277,7 @@ EXPECTED
         $this->call(function(){
             ob_start();
             var_dump(($this->methodPrefix . 'convert_to_pinyin_array')('恭喜發財！123', 8));
-            $this->assertEquals(<<<EXPECTED
+            $this->assertEquals($this->parseLine(<<<EXPECTED
 array(1) {
   ["pinyinFirst"]=>
   array(1) {
@@ -299,7 +304,7 @@ array(1) {
 }
 
 EXPECTED
-        , ob_get_clean());
+    ), ob_get_clean());
         });
     }
 
@@ -314,7 +319,7 @@ EXPECTED
         $this->call(function(){
             ob_start();
             var_dump(($this->methodPrefix . 'convert_to_pinyin_array')('恭喜發財！123', 2));
-            $this->assertEquals(<<<EXPECTED
+            $this->assertEquals($this->parseLine(<<<EXPECTED
 array(1) {
   ["pinyinSound"]=>
   array(1) {
@@ -341,7 +346,7 @@ array(1) {
 }
 
 EXPECTED
-        , ob_get_clean());
+    ), ob_get_clean());
         });
     }
 
@@ -356,7 +361,7 @@ EXPECTED
         $this->call(function(){
             ob_start();
             var_dump(($this->methodPrefix . 'convert_to_pinyin_array')('恭喜發財！123', 4));
-            $this->assertEquals(<<<EXPECTED
+            $this->assertEquals($this->parseLine(<<<EXPECTED
 array(1) {
   ["pinyinSoundNumber"]=>
   array(1) {
@@ -383,7 +388,7 @@ array(1) {
 }
 
 EXPECTED
-        , ob_get_clean());
+    ), ob_get_clean());
         });
     }
 
@@ -398,7 +403,7 @@ EXPECTED
         $this->call(function(){
             ob_start();
             var_dump(($this->methodPrefix . 'convert_to_pinyin_string')('恭喜發財！123', 1 | 4, true, ' '));
-            $this->assertEquals(<<<EXPECTED
+            $this->assertEquals($this->parseLine(<<<EXPECTED
 array(2) {
   ["pinyin"]=>
   array(1) {
@@ -413,7 +418,7 @@ array(2) {
 }
 
 EXPECTED
-        , ob_get_clean());
+    ), ob_get_clean());
         });
     }
 
@@ -428,7 +433,7 @@ EXPECTED
         $this->call(function(){
             ob_start();
             var_dump(($this->methodPrefix . 'convert_to_pinyin_string')('恭喜發財！123', 1, true, '-'));
-            $this->assertEquals(<<<EXPECTED
+            $this->assertEquals($this->parseLine(<<<EXPECTED
 array(1) {
   ["pinyin"]=>
   array(1) {
@@ -438,7 +443,7 @@ array(1) {
 }
 
 EXPECTED
-        , ob_get_clean());
+    ), ob_get_clean());
         });
     }
 
@@ -453,7 +458,7 @@ EXPECTED
         $this->call(function(){
             ob_start();
             var_dump(($this->methodPrefix . 'convert_to_pinyin_string')('恭喜發財！123', 1, false, '-'));
-            $this->assertEquals(<<<EXPECTED
+            $this->assertEquals($this->parseLine(<<<EXPECTED
 array(1) {
   ["pinyin"]=>
   array(1) {
@@ -463,7 +468,7 @@ array(1) {
 }
 
 EXPECTED
-        , ob_get_clean());
+    ), ob_get_clean());
         });
     }
 
