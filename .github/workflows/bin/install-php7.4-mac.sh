@@ -1,7 +1,7 @@
 #!/bin/bash
 PHP_VERSION="7.4"
 brew install php@$PHP_VERSION;
-export PATH="$(brew --prefix php)/bin:$PATH";
+brew link --force --overwrite php@7.4
 
 php -v
 php -m
