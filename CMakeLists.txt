@@ -78,10 +78,6 @@ if(MSVC)
   endif()
 endif()
 
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS} -undefined dynamic_lookup")
-endif()
-
 # ---- Add dependencies via CPM ----
 # see https://github.com/TheLartians/CPM.cmake for more info
 
@@ -125,26 +121,29 @@ endif()
 # add_library(ChineseUtil INTERFACE)  
 # set_target_properties(ChineseUtil PROPERTIES INTERFACE_COMPILE_FEATURES cxx_std_17)
 
-add_library(LibChineseUtil ${headers} ${sources} ${php_headers} ${php_sources})
+if(NOT APPLE)
+  add_library(LibChineseUtil ${headers} ${sources} ${php_headers} ${php_sources})
+  set_target_properties(LibChineseUtil PROPERTIES CXX_STANDARD 17 OUTPUT_NAME "chinese_util")
+  target_compile_options(LibChineseUtil PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
+  target_link_libraries(LibChineseUtil ${PHP_LIB})
+  target_include_directories(LibChineseUtil
+    PUBLIC
+      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+      $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
+  )
+endif()
+
 add_library(ChineseUtil SHARED ${headers} ${sources} ${php_headers} ${php_sources})
 
-set_target_properties(LibChineseUtil PROPERTIES CXX_STANDARD 17 OUTPUT_NAME "chinese_util")
 set_target_properties(ChineseUtil PROPERTIES CXX_STANDARD 17 OUTPUT_NAME "chinese_util")
 
 # being a cross-platform target, we enforce standards conformance on MSVC
-target_compile_options(LibChineseUtil PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
 target_compile_options(ChineseUtil PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
 
 # Link dependencies (if required)
 # target_link_libraries(Greeter PUBLIC cxxopts)
-target_link_libraries(LibChineseUtil ${PHP_LIB})
 target_link_libraries(ChineseUtil ${PHP_LIB})
 
-target_include_directories(LibChineseUtil
-  PUBLIC
-    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
-)
 target_include_directories(ChineseUtil
   PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>

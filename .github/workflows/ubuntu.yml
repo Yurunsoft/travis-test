@@ -45,7 +45,6 @@ jobs:
           cd phptest
           composer update
           vendor/bin/phpunit
-          cd ../
 
       - name: install swoole
         run: sudo .github/workflows/bin/install-swoole4.5.sh
