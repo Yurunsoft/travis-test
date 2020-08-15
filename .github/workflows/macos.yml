@@ -33,7 +33,7 @@ jobs:
       - name: build and install library with php
         run: |
           rm -rf build
-          cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1
+          cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++)
           sudo cmake --build build --target install --config Release -j
 
       - name: php test
@@ -41,13 +41,14 @@ jobs:
           cd phptest
           composer update
           vendor/bin/phpunit
+          cd ../
 
       - name: install swoole
         run: sudo .github/workflows/bin/install-swoole4.5.sh
 
       - name: build and install library with swoole
         run: |
-          cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DWITH_SWOOLE=1
+          cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DWITH_SWOOLE=1 -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++)
           sudo cmake --build build --target install --config Release -j
 
       - name: swoole test

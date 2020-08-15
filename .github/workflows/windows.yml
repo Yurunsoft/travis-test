@@ -28,13 +28,14 @@ jobs:
         run: |
           cd build/test
           ctest --build-config Debug
+          cd ../../
+          rm .\build -recurse
 
       - name: install php x86
         run: .\.github/workflows/bin/install-php7.4-win-x86.ps1
 
       - name: build and install library with php x86
         run: |
-          del /F /S /Q .\build
           cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$env:PHP_DEV_PATH\include" -DPHP_LIB_DIR="$env:PHP_DEV_PATH\lib"
           sudo cmake --build build --target install --config Release -j
 
@@ -43,6 +44,8 @@ jobs:
           cd phptest
           composer update
           phpunit
+          cd ../
+          rm .\build -recurse
 
       - name: install php x64
         run: |
@@ -52,7 +55,7 @@ jobs:
 
       - name: build and install library with php x64
         run: |
-          del /F /S /Q .\build
+          rm .\build -recurse
           cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=x64 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$env:PHP_DEV_PATH\include"
           sudo cmake --build build --target install --config Release -j
 
