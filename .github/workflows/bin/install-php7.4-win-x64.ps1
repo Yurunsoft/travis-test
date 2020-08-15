@@ -38,7 +38,7 @@ powershell $phpDevPath\phpize.bat
 
 (gc C:\php\php.ini) -replace ';openssl.cafile=', 'openssl.cafile="C:\cacert.pem"' | Out-File C:\php\php.ini -encoding Utf8
 
-$path=[environment]::GetEnvironmentvariable("PATH") + ";C:\php"
+$path="C:\php;" + [environment]::GetEnvironmentvariable("PATH")
 [environment]::SetEnvironmentvariable("PATH", $path)
 [environment]::SetEnvironmentvariable("PATH", $path, "Machine")
 
