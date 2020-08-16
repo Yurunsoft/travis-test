@@ -29,18 +29,13 @@ jobs:
       #     phpunit
       #     cd ../
 
-      - name: test
-        run: |
-          ls env:
-          php -r "echo json_decode(file_get_contents('$env:GITHUB_EVENT_PATH'), true)['release']['id'] ?? '';"
-          echo https://uploads.github.com/repos/$env:GITHUB_REPOSITORY/releases/$env:RELEASE_ID/assets
       - name: Upload Release Asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: https://uploads.github.com/repos/$env:GITHUB_REPOSITORY/releases/$env:RELEASE_ID/assets # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          upload_url: https://uploads.github.com/repos/$env:GITHUB_REPOSITORY/releases/$(php -r "echo json_decode(file_get_contents('$env:GITHUB_EVENT_PATH'), true)['release']['id'] ?? '';")/assets # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           # asset_path: build/Release/chinese_util.dll
           # asset_name: chinese_util-x86.dll
           asset_path: CMakeLists.txt
