@@ -32,6 +32,7 @@ jobs:
       - name: test
         run: |
           ls env:
+          php -r "echo json_decode(file_get_contents('$env:GITHUB_EVENT_PATH'))['release']['id'] ?? '';"
           echo https://uploads.github.com/repos/$env:GITHUB_REPOSITORY/releases/$env:RELEASE_ID/assets
       - name: Upload Release Asset
         id: upload-release-asset 
