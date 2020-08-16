@@ -53,7 +53,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(php -r "echo json_decode(file_get_contents('$GITHUB_EVENT_PATH'), true)['release']['id'] ?? '';")/assets?name=\$name
+          upload_url: https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(php -r "echo json_decode(file_get_contents('$GITHUB_EVENT_PATH'), true)['release']['id'] ?? '';")/assets?name=CMakeLists.txt
           asset_path: ./CMakeLists.txt
           asset_name: CMakeLists.txt
           asset_content_type: application/octet-stream
