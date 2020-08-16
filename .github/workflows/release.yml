@@ -11,24 +11,28 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: install php
-        run: |
-          .\.github/workflows/bin/install-php7.4-win-x86.ps1
+      # - name: install php
+      #   run: |
+      #     .\.github/workflows/bin/install-php7.4-win-x86.ps1
 
-      - name: build and install library with php
-        run: |
-          $phpDevPath=$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine"))
-          cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=Win32 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$phpDevPath\include" -DPHP_LIB_DIR="$phpDevPath\lib"
-          cmake --build build --target install --config Release -j
+      # - name: build and install library with php
+      #   run: |
+      #     $phpDevPath=$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine"))
+      #     cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=Win32 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$phpDevPath\include" -DPHP_LIB_DIR="$phpDevPath\lib"
+      #     cmake --build build --target install --config Release -j
 
-      - name: php test
-        run: |
-          [environment]::SetEnvironmentvariable("PATH", $([environment]::GetEnvironmentvariable("PATH", "Machine")))
-          cd phptest
-          composer update
-          phpunit
-          cd ../
+      # - name: php test
+      #   run: |
+      #     [environment]::SetEnvironmentvariable("PATH", $([environment]::GetEnvironmentvariable("PATH", "Machine")))
+      #     cd phptest
+      #     composer update
+      #     phpunit
+      #     cd ../
 
+      - name: test
+        run: |
+          echo $env
+          echo https://uploads.github.com/repos/$env:GITHUB_REPOSITORY/releases/$env:RELEASE_ID/assets
       - name: Upload Release Asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
@@ -36,6 +40,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: https://uploads.github.com/repos/$env:GITHUB_REPOSITORY/releases/$env:RELEASE_ID/assets # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: build/Release/chinese_util.dll
-          asset_name: chinese_util-x86.dll
+          # asset_path: build/Release/chinese_util.dll
+          # asset_name: chinese_util-x86.dll
+          asset_path: CMakeLists.txt
+          asset_name: CMakeLists.txt
           asset_content_type: application/x-msdownload
