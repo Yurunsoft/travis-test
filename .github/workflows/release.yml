@@ -43,8 +43,9 @@ jobs:
       #     asset_content_type: application/octet-stream
 
       - name: php test
-        run: echo https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(php -r "echo json_decode(file_get_contents('$GITHUB_EVENT_PATH'), true)['release']['id'] ?? '';")/assets
-
+        run: |
+          echo https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(php -r "echo json_decode(file_get_contents('$GITHUB_EVENT_PATH'), true)['release']['id'] ?? '';")/assets
+          echo $(jq --raw-output '.release.id' $GITHUB_EVENT_PATH)
 
       - name: Upload Release Asset
         id: upload-release-asset 
