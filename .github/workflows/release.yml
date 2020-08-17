@@ -11,59 +11,62 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      # - name: install php
-      #   run: |
-      #     .\.github/workflows/bin/install-php7.4-win-x86.ps1
+      - name: install php
+        run: |
+          .\.github/workflows/bin/install-php7.4-win-x86.ps1
 
-      # - name: build and install library with php
-      #   run: |
-      #     $phpDevPath=$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine"))
-      #     cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=Win32 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$phpDevPath\include" -DPHP_LIB_DIR="$phpDevPath\lib"
-      #     cmake --build build --target install --config Release -j
-
-      # - name: php test
-      #   run: |
-      #     [environment]::SetEnvironmentvariable("PATH", $([environment]::GetEnvironmentvariable("PATH", "Machine")))
-      #     cd phptest
-      #     composer update
-      #     phpunit
-      #     cd ../
-
-      # - name: Upload Release Asset
-      #   id: upload-release-asset 
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: https://uploads.github.com/repos/$env:GITHUB_REPOSITORY/releases/$(php -r "echo json_decode(file_get_contents('$env:GITHUB_EVENT_PATH'), true)['release']['id'] ?? '';")/assets
-      #     # asset_path: build/Release/chinese_util.dll
-      #     # asset_name: chinese_util-x86.dll
-      #     asset_path: .\CMakeLists.txt
-      #     asset_name: CMakeLists.txt
-      #     asset_content_type: application/octet-stream
+      - name: build and install library with php
+        run: |
+          $phpDevPath=$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine"))
+          cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=Win32 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$phpDevPath\include" -DPHP_LIB_DIR="$phpDevPath\lib"
+          cmake --build build --target install --config Release -j
 
       - name: php test
         run: |
-          echo https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(php -r "echo json_decode(file_get_contents('$GITHUB_EVENT_PATH'), true)['release']['id'] ?? '';")/assets
-          echo $(jq --raw-output '.release.id' $GITHUB_EVENT_PATH)
+          [environment]::SetEnvironmentvariable("PATH", $([environment]::GetEnvironmentvariable("PATH", "Machine")))
+          cd phptest
+          composer update
+          phpunit
+          cd ../
 
-      # - name: Upload Release Asset
-      #   id: upload-release-asset 
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(php -r "echo json_decode(file_get_contents('$GITHUB_EVENT_PATH'), true)['release']['id'] ?? '';")/assets{?name,label}
-      #     asset_path: /etc/issue
-      #     asset_name: 1.txt
-      #     asset_content_type: application/octet-stream
-
-      - name: Deploy Windows release
+      - name: Deploy Windows x86 release
         uses: WebFreak001/upload-asset@v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
-          OS: windows # just a variable we use in the name pattern
         with:
-          file: ./CMakeLists.txt # path to archive to upload
+          file: build/Release/chinese_util.dll # path to archive to upload
           mime: application/octet-stream # required by GitHub API
-          name: CMakeLists.txt # name pattern to upload the release as
+          name: chinese_util-php7.4-x86.dll # name pattern to upload the release as
+
+  build-windows-x65:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: install php
+        run: |
+          .\.github/workflows/bin/install-php7.4-win-x65.ps1
+
+      - name: build and install library with php
+        run: |
+          $phpDevPath=$([environment]::GetEnvironmentvariable("PHP_DEV_PATH", "Machine"))
+          cmake -H"." -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR_PLATFORM=Win32 -DWITH_PHP=1 -DPHP_INCLUDE_DIR="$phpDevPath\include" -DPHP_LIB_DIR="$phpDevPath\lib"
+          cmake --build build --target install --config Release -j
+
+      - name: php test
+        run: |
+          [environment]::SetEnvironmentvariable("PATH", $([environment]::GetEnvironmentvariable("PATH", "Machine")))
+          cd phptest
+          composer update
+          phpunit
+          cd ../
+
+      - name: Deploy Windows x64 release
+        uses: WebFreak001/upload-asset@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
+        with:
+          file: build/Release/chinese_util.dll # path to archive to upload
+          mime: application/octet-stream # required by GitHub API
+          name: chinese_util-php7.4-x64.dll # name pattern to upload the release as
