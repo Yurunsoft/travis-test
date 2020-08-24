@@ -36,13 +36,31 @@ class Process
     protected $messages = [];
 
     /**
+     * @var \Kafka\ConsumerConfig
+     */
+    protected $config;
+
+    /**
+     * @var \Kafka\Consumer\Assignment
+     */
+    protected $assignment;
+
+    /**
+     * @var \Kafka\Broker
+     */
+    protected $broker;
+
+    /**
      * @var State
      */
     private $state;
 
-    public function __construct(?callable $consumer = null)
+    public function __construct(ConsumerConfig $config, ?callable $consumer = null)
     {
+        $this->config = $config;
         $this->consumer = $consumer;
+        $this->broker = new Broker;
+        $this->assignment = new Assignment($this->broker);
     }
 
     public function init(): void
@@ -56,7 +74,7 @@ class Process
             $this->processRequest($data, $fd);
         });
 
-        $this->state = State::getInstance();
+        $this->state = new State($config);
 
         if ($this->logger) {
             $this->state->setLogger($this->logger);
@@ -815,16 +833,16 @@ class Process
 
     private function getBroker(): Broker
     {
-        return Broker::getInstance();
+        return $this->broker;
     }
 
     private function getConfig(): ConsumerConfig
     {
-        return ConsumerConfig::getInstance();
+        return $this->config;
     }
 
     private function getAssignment(): Assignment
     {
-        return Assignment::getInstance();
+        return $this->assignment;
     }
 }

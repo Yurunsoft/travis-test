@@ -4,15 +4,17 @@ declare(strict_types=1);
 namespace Kafka\Producer;
 
 use Amp\Loop;
-use Kafka\ProducerConfig;
-use Kafka\SingletonTrait;
-use function array_keys;
 use function is_array;
+use Kafka\LoggerTrait;
 use function microtime;
+use function array_keys;
+use Kafka\ProducerConfig;
+use Psr\Log\LoggerAwareTrait;
 
 class State
 {
-    use SingletonTrait;
+    use LoggerAwareTrait;
+    use LoggerTrait;
 
     public const REQUEST_METADATA = 1;
     public const REQUEST_PRODUCE  = 2;
@@ -36,6 +38,16 @@ class State
         self::REQUEST_METADATA => [],
         self::REQUEST_PRODUCE => [],
     ];
+
+    /**
+     * @var \Kafka\ProducerConfig
+     */
+    protected $config;
+
+    public function __construct(ProducerConfig $config)
+    {
+        $this->config = $config;
+    }
 
     public function init(): void
     {
@@ -239,6 +251,6 @@ class State
 
     private function getConfig(): ProducerConfig
     {
-        return ProducerConfig::getInstance();
+        return $this->config;
     }
 }

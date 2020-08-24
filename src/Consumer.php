@@ -23,8 +23,14 @@ class Consumer
      */
     private $process;
 
-    public function __construct(?StopStrategy $stopStrategy = null)
+    /**
+     * @var \Kafka\ConsumerConfig
+     */
+    protected $config;
+
+    public function __construct(ConsumerConfig $config, ?StopStrategy $stopStrategy = null)
     {
+        $this->config = $config;
         $this->stopStrategy = $stopStrategy;
     }
 
@@ -60,7 +66,7 @@ class Consumer
      */
     protected function createProcess(?callable $consumer): Process
     {
-        $process = new Process($consumer);
+        $process = new Process($this->config, $consumer);
 
         if ($this->logger) {
             $process->setLogger($this->logger);

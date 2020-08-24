@@ -3,20 +3,23 @@ declare(strict_types=1);
 
 namespace Kafka;
 
-use Kafka\Sasl\Gssapi;
-use Kafka\Sasl\Plain;
-use Kafka\Sasl\Scram;
-use function array_keys;
+use function strpos;
 use function explode;
-use function in_array;
-use function serialize;
 use function shuffle;
 use function sprintf;
-use function strpos;
+use Kafka\Sasl\Plain;
+use Kafka\Sasl\Scram;
+use function in_array;
+use Kafka\LoggerTrait;
+use Kafka\Sasl\Gssapi;
+use function serialize;
+use function array_keys;
+use Psr\Log\LoggerAwareTrait;
 
 class Broker
 {
-    use SingletonTrait;
+    use LoggerAwareTrait;
+    use LoggerTrait;
 
     /**
      * @var int

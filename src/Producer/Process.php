@@ -46,6 +46,16 @@ class Process
     protected $error;
 
     /**
+     * @var \Kafka\ProducerConfig
+     */
+    protected $config;
+
+    /**
+     * @var \Kafka\Broker
+     */
+    protected $broker;
+
+    /**
      * @var State
      */
     private $state;
@@ -53,10 +63,12 @@ class Process
     /** @var RecordValidator */
     private $recordValidator;
 
-    public function __construct(?callable $producer = null, ?RecordValidator $recordValidator = null)
+    public function __construct(ProducerConfig $config, ?callable $producer = null, ?RecordValidator $recordValidator = null)
     {
+        $this->config = $config;
         $this->producer        = $producer;
         $this->recordValidator = $recordValidator ?? new RecordValidator();
+        $this->broker = new Broker;
     }
 
     public function init(): void
@@ -72,7 +84,7 @@ class Process
             }
         );
 
-        $this->state = State::getInstance();
+        $this->state = new State($config);
 
         if ($this->logger) {
             $this->state->setLogger($this->logger);
@@ -138,7 +150,7 @@ class Process
     {
         $this->debug('Start sync metadata request');
 
-        $brokerList = ProducerConfig::getInstance()->getMetadataBrokerList();
+        $brokerList = $this->config->getMetadataBrokerList();
         $brokerHost = [];
 
         foreach (explode(',', $brokerList) as $key => $val) {
@@ -353,11 +365,11 @@ class Process
 
     private function getConfig(): ProducerConfig
     {
-        return ProducerConfig::getInstance();
+        return $this->config;
     }
 
     private function getBroker(): Broker
     {
-        return Broker::getInstance();
+        return $this->broker;
     }
 }

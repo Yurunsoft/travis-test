@@ -4,14 +4,16 @@ declare(strict_types=1);
 namespace Kafka\Consumer;
 
 use Amp\Loop;
-use Kafka\ConsumerConfig;
-use Kafka\SingletonTrait;
-use function array_keys;
+use Kafka\LoggerTrait;
 use function microtime;
+use function array_keys;
+use Kafka\ConsumerConfig;
+use Psr\Log\LoggerAwareTrait;
 
 class State
 {
-    use SingletonTrait;
+    use LoggerAwareTrait;
+    use LoggerTrait;
 
     public const REQUEST_METADATA      = 1;
     public const REQUEST_GETGROUP      = 2;
@@ -52,6 +54,16 @@ class State
      */
     private $requests = self::CLEAN_REQUEST_STATE;
 
+    /**
+     * @var \Kafka\ConsumerConfig
+     */
+    protected $config;
+
+    public function __construct(ConsumerConfig $config)
+    {
+        $this->config = $config;
+    }
+
     public function init(): void
     {
         $this->callStatus = [
@@ -67,7 +79,7 @@ class State
         ];
 
         /** @var ConsumerConfig $config */
-        $config = ConsumerConfig::getInstance();
+        $config = $this->config;
 
         foreach ($this->requests as $request => $option) {
             if ($request !== self::REQUEST_METADATA) {

@@ -4,12 +4,14 @@ declare(strict_types=1);
 namespace Kafka\Consumer;
 
 use Kafka\Broker;
-use Kafka\SingletonTrait;
 use function count;
+use Kafka\LoggerTrait;
+use Psr\Log\LoggerAwareTrait;
 
 class Assignment
 {
-    use SingletonTrait;
+    use LoggerAwareTrait;
+    use LoggerTrait;
 
     /**
      * @var string
@@ -61,6 +63,16 @@ class Assignment
      */
     private $preCommitOffsets = [];
 
+    /**
+     * @var \Kafka\Broker
+     */
+    protected $broker;
+
+    public function __construct(Broker $broker)
+    {
+        $this->broker = $broker;
+    }
+
     public function setMemberId(string $memberId): void
     {
         $this->memberId = $memberId;
@@ -95,7 +107,7 @@ class Assignment
     public function assign(array $result): void
     {
         /** @var Broker $broker */
-        $broker = Broker::getInstance();
+        $broker = $this->broker;
         $topics = $broker->getTopics();
 
         $memberCount = count($result);

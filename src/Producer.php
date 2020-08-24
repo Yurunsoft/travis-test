@@ -4,10 +4,11 @@ declare(strict_types=1);
 namespace Kafka;
 
 use Amp\Loop;
-use Kafka\Producer\Process;
-use Kafka\Producer\SyncProcess;
-use Psr\Log\LoggerAwareTrait;
 use function is_array;
+use Kafka\ProducerConfig;
+use Kafka\Producer\Process;
+use Psr\Log\LoggerAwareTrait;
+use Kafka\Producer\SyncProcess;
 
 class Producer
 {
@@ -19,9 +20,15 @@ class Producer
      */
     private $process;
 
-    public function __construct(?callable $producer = null)
+    /**
+     * @var \Kafka\ProducerConfig
+     */
+    protected $config;
+
+    public function __construct(ProducerConfig $config, ?callable $producer = null)
     {
-        $this->process = $producer === null ? new SyncProcess() : new Process($producer);
+        $this->config = $config;
+        $this->process = $producer === null ? new SyncProcess($config) : new Process($config, $producer);
     }
 
     /**
