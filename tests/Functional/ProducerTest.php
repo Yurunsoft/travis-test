@@ -8,6 +8,7 @@ use Kafka\Consumer\StopStrategy\Callback;
 use Kafka\ConsumerConfig;
 use Kafka\ProducerConfig;
 use Kafka\Protocol\Protocol;
+use KafkaTest\TestUtil;
 use PHPUnit\Framework\TestCase;
 use const STR_PAD_LEFT;
 use function getenv;
@@ -58,7 +59,7 @@ abstract class ProducerTest extends TestCase
     protected function configureProducer(): void
     {
         /** @var ProducerConfig $config */
-        $config = ProducerConfig::getInstance();
+        $config = TestUtil::getProducerConfig();
         $config->setMetadataBrokerList($this->brokers);
         $config->setBrokerVersion($this->version);
 
@@ -80,6 +81,7 @@ abstract class ProducerTest extends TestCase
         $executionEnd     = new \DateTimeImmutable('+1 minute');
 
         $consumer = new Consumer(
+            TestUtil::getConsumerConfig(),
             new Callback(
                 function () use (&$consumedMessages, $executionEnd): bool {
                     return $consumedMessages >= self::MESSAGES_TO_SEND || new \DateTimeImmutable() > $executionEnd;
@@ -116,7 +118,7 @@ abstract class ProducerTest extends TestCase
     private function configureConsumer(): void
     {
         /** @var ConsumerConfig $config */
-        $config = ConsumerConfig::getInstance();
+        $config = TestUtil::getConsumerConfig();
         $config->setMetadataBrokerList($this->brokers);
         $config->setBrokerVersion($this->version);
         $config->setGroupId('kafka-php-tests');

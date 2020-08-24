@@ -5,6 +5,7 @@ namespace KafkaTest\Base;
 
 use Kafka\ConsumerConfig;
 use Kafka\Exception\Config;
+use KafkaTest\TestUtil;
 use PHPUnit\Framework\TestCase;
 
 final class ConsumerConfigTest extends TestCase
@@ -19,7 +20,7 @@ final class ConsumerConfigTest extends TestCase
      */
     public function configureInstance(): void
     {
-        $this->config = ConsumerConfig::getInstance();
+        $this->config = TestUtil::getConsumerConfig();
     }
 
     /**
@@ -27,7 +28,7 @@ final class ConsumerConfigTest extends TestCase
      */
     public function cleanUpInstance(): void
     {
-        ConsumerConfig::getInstance()->clear();
+        $this->config->clear();
     }
 
     public function testSetGroupId(): void

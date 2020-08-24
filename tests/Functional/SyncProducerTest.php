@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace KafkaTest\Functional;
 
 use Kafka\Producer;
+use KafkaTest\TestUtil;
+use Kafka\ProducerConfig;
 
 final class SyncProducerTest extends ProducerTest
 {
@@ -15,8 +17,7 @@ final class SyncProducerTest extends ProducerTest
     public function sendSyncMessages(): void
     {
         $this->configureProducer();
-
-        $producer = new Producer();
+        $producer = new Producer(TestUtil::getProducerConfig());
         $messages = $this->createMessages();
 
         foreach ($messages as $message) {

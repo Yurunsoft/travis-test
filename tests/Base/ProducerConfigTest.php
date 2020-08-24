@@ -6,6 +6,7 @@ namespace KafkaTest\Base;
 use Kafka\Exception\Config;
 use Kafka\ProducerConfig;
 use Kafka\Protocol\Produce;
+use KafkaTest\TestUtil;
 use PHPUnit\Framework\TestCase;
 
 final class ProducerConfigTest extends TestCase
@@ -20,7 +21,7 @@ final class ProducerConfigTest extends TestCase
      */
     public function configureInstance(): void
     {
-        $this->config = ProducerConfig::getInstance();
+        $this->config = TestUtil::getProducerConfig();
     }
 
     /**
@@ -28,7 +29,7 @@ final class ProducerConfigTest extends TestCase
      */
     public function cleanUpInstance(): void
     {
-        ProducerConfig::getInstance()->clear();
+        $this->config->clear();
     }
 
     public function testSetRequestTimeout(): void

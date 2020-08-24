@@ -6,6 +6,7 @@ namespace KafkaTest\Functional\Ticket;
 use Kafka\Exception\InvalidRecordInSet;
 use Kafka\Producer;
 use Kafka\ProducerConfig;
+use KafkaTest\TestUtil;
 use PHPUnit\Framework\TestCase;
 use function getenv;
 
@@ -22,7 +23,7 @@ final class GH181Test extends TestCase
             );
         }
 
-        $config = ProducerConfig::getInstance();
+        $config = TestUtil::getProducerConfig();
         $config->setMetadataBrokerList($brokers);
         $config->setBrokerVersion($version);
 
@@ -39,7 +40,7 @@ final class GH181Test extends TestCase
     {
         $this->expectException(InvalidRecordInSet::class);
 
-        $syncProcess = new Producer\SyncProcess(new Producer\RecordValidator());
+        $syncProcess = new Producer\SyncProcess(TestUtil::getProducerConfig(), new Producer\RecordValidator());
 
         $syncProcess->send([$recordSet]);
     }
