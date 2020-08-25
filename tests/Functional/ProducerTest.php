@@ -44,9 +44,9 @@ abstract class ProducerTest extends TestCase
      */
     public function prepareEnvironment(): void
     {
-        $this->version  = getenv('KAFKA_VERSION') ?: '1.0.0';
-        $this->brokers  = getenv('KAFKA_BROKERS') ?: '127.0.0.1:9092';
-        $this->topic    = getenv('KAFKA_TOPIC') ?: 'test';
+        $this->version  = getenv('KAFKA_VERSION');
+        $this->brokers  = getenv('KAFKA_BROKERS');
+        $this->topic    = getenv('KAFKA_TOPIC');
         $this->compress = getenv('KAFKA_COMPRESS') === '1';
 
         if (! $this->version || ! $this->brokers || ! $this->topic) {

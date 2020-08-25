@@ -3,7 +3,6 @@ namespace KafkaTest;
 
 use Kafka\ConsumerConfig;
 use Kafka\ProducerConfig;
-use Kafka\Protocol\Protocol;
 
 abstract class TestUtil
 {
@@ -19,7 +18,7 @@ abstract class TestUtil
 
     public static function getProducerConfig(): ProducerConfig
     {
-        if(static::$producerConfig)
+        if(null !== static::$producerConfig)
         {
             return static::$producerConfig;
         }
@@ -28,7 +27,7 @@ abstract class TestUtil
 
     public static function getConsumerConfig(): ConsumerConfig
     {
-        if(static::$consumerConfig)
+        if(null !== static::$consumerConfig)
         {
             return static::$consumerConfig;
         }
