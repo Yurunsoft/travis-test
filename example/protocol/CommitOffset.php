@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require '../../vendor/autoload.php';
+require dirname(__DIR__, 2) . '/vendor/autoload.php';
 
 use Kafka\Protocol;
 use Kafka\Socket;

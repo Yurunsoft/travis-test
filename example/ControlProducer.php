@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require '../vendor/autoload.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
 date_default_timezone_set('PRC');
 
 use Amp\Loop;
@@ -15,7 +15,7 @@ $logger = new Logger('my_logger');
 // Now add some handlers
 $logger->pushHandler(new StdoutHandler());
 
-$config = ProducerConfig::getInstance();
+$config = new ProducerConfig;
 $config->setMetadataRefreshIntervalMs(1000);
 $config->setMetadataBrokerList('127.0.0.1:9092');
 $config->setBrokerVersion('1.0.0');
@@ -28,7 +28,7 @@ class Message
     /**
      * @var string[]
      */
-    private $message;
+    private $message = [];
 
     /**
      * @return string[]
@@ -64,7 +64,7 @@ $producer = new Producer(function () use ($message) {
     $message->setMessage([]);
     return $tmp;
 });
-$producer->setLogger($logger);
+// $producer->setLogger($logger);
 $producer->success(function ($result): void {
     var_dump($result);
 });

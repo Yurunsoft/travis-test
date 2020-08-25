@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require '../vendor/autoload.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
 date_default_timezone_set('PRC');
 
 use Kafka\Config;
@@ -15,7 +15,7 @@ $logger = new Logger('my_logger');
 // Now add some handlers
 $logger->pushHandler(new StdoutHandler());
 
-$config = ProducerConfig::getInstance();
+$config = new ProducerConfig;
 $config->setMetadataRefreshIntervalMs(10000);
 $config->setMetadataBrokerList('127.0.0.1:9093');
 $config->setBrokerVersion('1.0.0');
@@ -37,7 +37,7 @@ $config->setSslLocalPk('/home/vagrant/code/kafka-php/ca-key');
 $config->setSslPassphrase('123456');
 $config->setSslPeerName('nmred');
 
-$producer = new Producer(function () {
+$producer = new Producer($config, function () {
     return [
         [
             'topic' => 'test',
@@ -46,7 +46,7 @@ $producer = new Producer(function () {
         ],
     ];
 });
-$producer->setLogger($logger);
+// $producer->setLogger($logger);
 $producer->success(function ($result): void {
     var_dump($result);
 });
