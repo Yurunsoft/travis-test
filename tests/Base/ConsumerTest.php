@@ -25,11 +25,8 @@ final class ConsumerTest extends TestCase
                                ->disableOriginalClone()
                                ->disableArgumentCloning()
                                ->disallowMockingUnknownTypes()
-                               ->setConstructorArgs([$stopStrategy])
+                               ->setConstructorArgs([TestUtil::getConsumerConfig(), $stopStrategy])
                                ->setMethods(['createProcess', 'error'])
-                               ->setConstructorArgs([
-                                   TestUtil::getConsumerConfig(),
-                               ])
                                ->getMock();
     }
 
