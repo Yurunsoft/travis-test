@@ -5,6 +5,7 @@ namespace KafkaTest\Base;
 
 use Amp\Loop;
 use Kafka\Consumer;
+use KafkaTest\TestUtil;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -26,6 +27,9 @@ final class ConsumerTest extends TestCase
                                ->disallowMockingUnknownTypes()
                                ->setConstructorArgs([$stopStrategy])
                                ->setMethods(['createProcess', 'error'])
+                               ->setConstructorArgs([
+                                   TestUtil::getConsumerConfig(),
+                               ])
                                ->getMock();
     }
 

@@ -14,8 +14,8 @@ final class GH181Test extends TestCase
 {
     public function setUp(): void
     {
-        $version = getenv('KAFKA_VERSION');
-        $brokers = getenv('KAFKA_BROKERS');
+        $version = getenv('KAFKA_VERSION') ?: '1.0.0';
+        $brokers = getenv('KAFKA_BROKERS') ?: '127.0.0.1:9092';
 
         if (! $version || ! $brokers) {
             self::markTestSkipped(

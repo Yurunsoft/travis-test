@@ -50,7 +50,7 @@ class ConsumerConfig extends Config
      */
     public function getGroupId(): string
     {
-        $groupId = $this->options['groupId'] ?? null;
+        $groupId = $this->options['groupId'] ?? '';
 
         if ($groupId === false || $groupId === '') {
             throw new Exception\Config('Get group id value is invalid, must set it not empty string');
@@ -116,7 +116,7 @@ class ConsumerConfig extends Config
      */
     public function getTopics(): array
     {
-        $topics = $this->options['topics'] ?? null;
+        $topics = $this->options['topics'] ?? '';
 
         if (empty($topics)) {
             throw new Exception\Config('Get consumer topics value is invalid, must set it not empty');

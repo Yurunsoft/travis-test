@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace KafkaTest\Base\Consumer;
 
 use Kafka\Consumer\State;
+use KafkaTest\TestUtil;
 use PHPUnit\Framework\TestCase;
 
 final class StateTest extends TestCase
@@ -13,7 +14,7 @@ final class StateTest extends TestCase
      */
     public function stopShouldNotBreakWhenNoWatchersExist(): void
     {
-        $state = State::getInstance();
+        $state = new State(TestUtil::getConsumerConfig());
         $state->init();
         $state->stop();
 

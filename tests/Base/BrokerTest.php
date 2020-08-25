@@ -12,12 +12,12 @@ class BrokerTest extends TestCase
 {
     public function tearDown(): void
     {
-        Broker::getInstance()->clear();
+        (new Broker)->clear();
     }
 
     public function testGroupBrokerId(): void
     {
-        $broker = Broker::getInstance();
+        $broker = new Broker;
         $broker->setGroupBrokerId(1);
 
         $this->assertSame($broker->getGroupBrokerId(), 1);
@@ -148,6 +148,6 @@ class BrokerTest extends TestCase
 
     private function getBroker(): Broker
     {
-        return Broker::getInstance();
+        return new Broker;
     }
 }
