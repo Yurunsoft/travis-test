@@ -38,3 +38,8 @@ services:
     build: .
     volumes:
        - .:/opt/kafka-php
+
+  test-runner-swoole:
+    build: .
+    volumes:
+       - .:/opt/kafka-php
