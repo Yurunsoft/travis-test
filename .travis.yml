@@ -75,7 +75,7 @@ jobs:
         - docker-compose down
         - docker-compose up -d kafka-$KAFKA_VERSION
         - docker-compose exec kafka-$KAFKA_VERSION /opt/kafka/bin/kafka-topics.sh --zookeeper zookeeper:2181 --create --partitions 3 --replication-factor 1 --topic test-swoole
-        # - docker-compose exec kafka-$KAFKA_VERSION /opt/kafka/bin/kafka-topics.sh --zookeeper zookeeper:2181 --create --partitions 3 --replication-factor 1 --topic test
+        - docker-compose run -e KAFKA_BROKERS=kafka-$KAFKA_VERSION:9092 -e KAFKA_VERSION -e KAFKA_TOPIC=test-swoole -e KAFKA_COMPRESS test-runner
         - docker-compose run --entrypoint "./swoole-phpunit --testsuite functional" -e KAFKA_BROKERS=kafka-$KAFKA_VERSION:9092 -e KAFKA_VERSION -e KAFKA_TOPIC=test-swoole -e KAFKA_COMPRESS test-runner
       after_script:
         - docker-compose down
