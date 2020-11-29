@@ -6,6 +6,7 @@ os: linux
 jobs:
   include:
   - php: '8.0'
+    language: php
   # - php: '7.1'
   #   language: php
   #   env: SWOOLE_VERSION="v4.5.2"
